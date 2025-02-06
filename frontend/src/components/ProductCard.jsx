@@ -54,7 +54,11 @@ const ProductCard = () => {
             </div>
 
             <p className="text-3xl lg:text-xl font-semibold mt-2 text-[#7F3C28]">
-              RD${totalPriceDOP.toFixed(2)}
+              RD$&nbsp;
+              {totalPriceDOP.toLocaleString("es-DO", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </p>
 
             <PayPalButton
