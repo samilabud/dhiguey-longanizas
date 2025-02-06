@@ -1,34 +1,15 @@
-import logo from "../assets/logo.png"; // Suppose you put the pig logo in src/assets
+import logo from "../assets/logo.png";
 
 const Header = () => {
   return (
-    <header
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        backgroundColor: "#7F3C28",
-        padding: "1rem 2rem",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <img
-          src={logo}
-          alt="Logo"
-          style={{ height: "50px", marginRight: "1rem" }}
-        />
-        <span
-          style={{
-            fontFamily: "'Lobster', cursive",
-            color: "#FFFFFF",
-            fontSize: "1.8rem",
-          }}
-        >
+    <header className="flex items-center justify-between bg-[#7F3C28] px-6 md:px-10 py-4">
+      {/* Logo & Brand Name */}
+      <div className="flex items-center">
+        <img src={logo} alt="Logo" className="h-12 md:h-14 mr-3" />
+        <span className="text-white font-lobster text-3xl lg:text-3xl">
           D&apos;Higüey Longanizas y Más
         </span>
       </div>
-
-      {/* Future nav items can go here */}
     </header>
   );
 };

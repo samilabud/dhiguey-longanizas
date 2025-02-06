@@ -2,38 +2,42 @@ import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer
-      style={{
-        backgroundColor: "#7F3C28",
-        color: "#ffffff",
-        padding: "1rem",
-        textAlign: "center",
-      }}
-    >
-      <p style={{ margin: 0 }}>D&apos;Higüey Longanizas y Más</p>
-      <p style={{ margin: 0 }}>Del campo a tu mesa</p>
+    <footer className="bg-[#7F3C28] text-white text-center p-4 text-2xl lg:text-xl">
+      <p className="m-0">D&apos;Higüey Longanizas y Más</p>
+      <p className="m-0">Del campo a tu mesa</p>
 
-      <div
-        style={{
-          marginTop: "0.5rem",
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-        }}
-      >
+      {/* Social Media Icons */}
+      <div className="mt-2 flex justify-center gap-4">
         <a
           href="https://www.instagram.com/dhigueylonganizasymas"
-          style={{ color: "#ffffff" }}
+          className="text-white hover:text-gray-300 transition"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaInstagram size={24} />
         </a>
-        <a href="https://wa.me/8496535551" style={{ color: "#ffffff" }}>
+        <a
+          href="https://wa.me/8496535551"
+          className="text-white hover:text-gray-300 transition"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FaWhatsapp size={24} />
         </a>
       </div>
-      <p style={{ marginTop: "0.5rem" }}>Tel: +1 (849) 653-5551</p>
+
+      {/* Contact Info */}
+      <p className="mt-2 text-2xl lg:text-xl">
+        Tel:{" "}
+        <a
+          href="https://wa.me/8496535551"
+          className="text-white hover:text-gray-300 transition"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          +1 (849) 653-5551
+        </a>
+      </p>
     </footer>
   );
 };

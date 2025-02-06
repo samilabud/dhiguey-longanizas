@@ -4,40 +4,24 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div
-      style={{ fontFamily: "'Open Sans', sans-serif", background: "#FFFFFF" }}
-    >
+    <div className="bg-white min-h-screen flex flex-col">
       <Header />
-      {/* Hero Section */}
-      <section
-        style={{
-          textAlign: "center",
-          padding: "2rem",
-          backgroundColor: "#FFFFFF",
-          color: "#7F3C28",
-        }}
-      >
-        <h1 style={{ fontFamily: "'Lobster', cursive", fontSize: "3rem" }}>
-          D&apos;Higüey Longanizas y Más
-        </h1>
-        <p style={{ fontSize: "1.2rem" }}>
-          Calidad y sabor 100% artesanal - Del campo a tu mesa
-        </p>
-      </section>
 
-      {/* Product Section */}
-      <section
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "2rem",
-          padding: "2rem",
-        }}
-      >
-        <ProductCard />
-      </section>
+      {/* Main Content: Flex-1 makes it expand to fit the screen */}
+      <main className="flex-1 flex flex-col">
+        {/* Hero Section */}
+        <section className="text-center p-6 md:p-12 bg-white text-[#7F3C28] text-6xl lg:text-3xl">
+          <h1 className="font-lobster">D&apos;Higüey Longanizas y Más</h1>
+          <p className="mt-2 text-3xl lg:text-xl">
+            Calidad y sabor 100% artesanal - Del campo a tu mesa
+          </p>
+        </section>
+
+        {/* Product Section */}
+        <section className="flex flex-wrap justify-center items-center gap-8 p-6 flex-1">
+          <ProductCard />
+        </section>
+      </main>
 
       <Footer />
     </div>
