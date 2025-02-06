@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 // eslint-disable-next-line react/prop-types
 const PayPalButton = ({ price, description }) => {
@@ -13,7 +14,7 @@ const PayPalButton = ({ price, description }) => {
     try {
       // Request order creation from backend
       const { data } = await axios.post(
-        "http://localhost:5000/api/paypal/create-payment",
+        `${BACKEND_URL}/api/paypal/create-payment`,
         {
           price,
           description,
