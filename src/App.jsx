@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Header from "./components/Header";
+import ProductCard from "./components/ProductCard";
+import Footer from "./components/Footer";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+    <div
+      style={{ fontFamily: "'Open Sans', sans-serif", background: "#FFFFFF" }}
+    >
+      <Header />
+      {/* Hero Section */}
+      <section
+        style={{
+          textAlign: "center",
+          padding: "2rem",
+          backgroundColor: "#FFFFFF",
+          color: "#7F3C28",
+        }}
+      >
+        <h1 style={{ fontFamily: "'Lobster', cursive", fontSize: "3rem" }}>
+          D&apos;Higüey Longanizas y Más
+        </h1>
+        <p style={{ fontSize: "1.2rem" }}>
+          Calidad y sabor 100% artesanal - Del campo a tu mesa
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      </section>
+
+      {/* Product Section */}
+      <section
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "2rem",
+          padding: "2rem",
+        }}
+      >
+        <ProductCard />
+      </section>
+
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;
