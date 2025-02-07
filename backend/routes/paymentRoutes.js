@@ -12,6 +12,7 @@ const PAYPAL_API =
     : "https://api-m.sandbox.paypal.com"; // 🛠️ Sandbox API
 const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
+const BASE_URL = process.env.BASE_URL;
 
 // Generate PayPal Access Token
 const generateAccessToken = async () => {
@@ -48,6 +49,11 @@ router.post("/create-payment", async (req, res) => {
         purchase_units: [
           { amount: { currency_code: "USD", value: price }, description },
         ],
+        application_context: {
+          return_url: `${BASE_URL}/success`, // ✅ Redirect here after payment success
+          cancel_url: `${BASE_URL}/cancel`, // ❌ Redirect here if user cancels
+          user_action: "PAY_NOW", // Forces immediate payment (optional)
+        },
       },
       {
         headers: {
@@ -69,6 +75,7 @@ router.post("/create-payment", async (req, res) => {
 // Capture Payment (On Success)
 router.post("/capture-payment/:orderID", async (req, res) => {
   try {
+    console.log({ orderID: req.params.orderID });
     const accessToken = await generateAccessToken();
     const { orderID } = req.params;
 
@@ -86,6 +93,23 @@ router.post("/capture-payment/:orderID", async (req, res) => {
     res.json({ message: "Payment successful", data });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Node.js/Express: Check PayPal order status
+router.get("/check-payment", async (req, res) => {
+  try {
+    // Replace with actual order verification logic
+    const isPaid = true; // Check from database or PayPal API
+
+    if (isPaid) {
+      res.json({ success: true, message: "Payment successful!" });
+    } else {
+      res.json({ success: false, message: "Payment not completed." });
+    }
+  } catch (err) {
+    console.error("Error checking payment status:", err);
+    res.status(500).json({ success: false, error: "Internal server error." });
   }
 });
 
