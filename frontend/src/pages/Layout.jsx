@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-// eslint-disable-next-line react/prop-types
 function Layout({ children }) {
   return (
     <div className="bg-white min-h-screen flex flex-col">

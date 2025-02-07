@@ -1,5 +1,4 @@
 import { useState } from "react";
-// eslint-disable-next-line no-unused-vars
 import PayPalButton from "./PayPalButton";
 
 const ProductCard = () => {

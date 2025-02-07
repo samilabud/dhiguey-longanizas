@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-// eslint-disable-next-line react/prop-types
 const PayPalButton = ({ price, description }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
