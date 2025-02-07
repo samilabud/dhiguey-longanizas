@@ -7,7 +7,7 @@ const ProductCard = () => {
     name: "Longaniza Artesanal",
     description: "Deliciosa longaniza hecha con ingredientes 100% naturales.",
     priceDOP: 300.0,
-    priceUSD: 0.1,
+    priceUSD: 5,
     image: "/images/sausage_pkg.png",
   };
 
