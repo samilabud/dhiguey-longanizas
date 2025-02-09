@@ -1,27 +1,41 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import PayPalButton from "../components/PayPalButton"; // <-- Import your PayPalButton
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart } = useContext(CartContext);
 
-  // Group products by ID and sum their quantities
+  // 1) Group products by ID and sum their quantities
   const groupedCart = cart.reduce((acc, item) => {
     if (!acc[item.id]) {
       acc[item.id] = { ...item, quantity: 0 };
     }
-    acc[item.id].quantity += item.quantity || 1; // If no quantity exists, assume 1
+    acc[item.id].quantity += item.quantity || 1; // If no quantity, assume 1
     return acc;
   }, {});
 
-  // Convert object to array for rendering
+  // 2) Convert object to array for rendering
   const groupedCartArray = Object.values(groupedCart);
 
-  // Calculate total quantity and total price
+  // 3) Calculate total DOP or USD price (choose one or both)
+  // If you have priceUSD in your data, sum those:
+  const totalPriceUSD = groupedCartArray.reduce(
+    (acc, item) => acc + item.priceUSD * item.quantity,
+    0
+  );
+
+  // 4) Build a textual description of the cart for PayPal
+  // Example: "Longaniza Artesanal x2, Tocino de Cerdo x1"
+  const cartDescription = groupedCartArray
+    .map((item) => `${item.name} x${item.quantity}`)
+    .join(", ");
+
+  // 5) Also compute totalQuantity and totalPriceDOP for your UI
   const totalQuantity = groupedCartArray.reduce(
     (acc, item) => acc + item.quantity,
     0
   );
-  const totalPrice = groupedCartArray.reduce(
+  const totalPriceDOP = groupedCartArray.reduce(
     (acc, item) => acc + item.priceDOP * item.quantity,
     0
   );
@@ -66,14 +80,25 @@ const Cart = () => {
             </tbody>
           </table>
 
-          {/* Display total quantity and price */}
+          {/* Display totals in your UI */}
           <div className="flex justify-between mt-4">
             <span className="font-bold">Cantidad Total:</span>
             <span className="font-bold">{totalQuantity}</span>
           </div>
           <div className="flex justify-between mt-1">
-            <span className="font-bold">Total a Pagar:</span>
-            <span className="font-bold text-[#7F3C28]">RD$ {totalPrice}</span>
+            <span className="font-bold">Total a Pagar (RD$):</span>
+            <span className="font-bold text-[#7F3C28]">
+              RD$ {totalPriceDOP}
+            </span>
+          </div>
+
+          {/* PayPal Button - pass USD price and cart description */}
+          <div className="mt-4">
+            {/* If you rely on priceUSD in your data: */}
+            <PayPalButton
+              price={totalPriceUSD.toFixed(2)} // e.g. "10.00"
+              description={cartDescription}
+            />
           </div>
 
           {/* Clear entire cart */}
