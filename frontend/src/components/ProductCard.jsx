@@ -1,15 +1,9 @@
 import { useState } from "react";
 import PayPalButton from "./PayPalButton";
+import products from "../data/products";
 
 const ProductCard = () => {
-  const product = {
-    id: 1,
-    name: "Longaniza Artesanal",
-    description: "Deliciosa longaniza hecha con ingredientes 100% naturales.",
-    priceDOP: 300.0,
-    priceUSD: 5,
-    image: "/images/sausage_pkg.png",
-  };
+  const product = products[0]; // First product Longaniza Artesanal
 
   const [quantity, setQuantity] = useState(1);
 
@@ -25,7 +19,7 @@ const ProductCard = () => {
           <img
             src={product.image}
             alt={product.name}
-            className="w-full md:w-1/2 h-auto rounded-xl"
+            className="w-full md:w-1/2 h-auto rounded-xl transform transition duration-300 ease-in-out hover:scale-105"
           />
 
           {/* Product Details */}

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Layout from "./Layout";
 import { BACKEND_URL } from "../config";
 
 const Success = () => {
@@ -31,16 +30,12 @@ const Success = () => {
   }, [orderID]);
 
   return (
-    <Layout>
-      <div className="flex flex-col items-center">
-        <h1 className="text-green-600 text-center text-2xl mt-6">
-          🎉 ¡Pago exitoso!
-        </h1>
-        <h2 className="text-green-600 text-center text-2xl mt-6">
-          {syncStatus}
-        </h2>
-      </div>
-    </Layout>
+    <div className="flex flex-col items-center">
+      <h1 className="text-green-600 text-center text-2xl mt-6">
+        🎉 ¡Pago exitoso!
+      </h1>
+      <h2 className="text-green-600 text-center text-2xl mt-6">{syncStatus}</h2>
+    </div>
   );
 };
 
