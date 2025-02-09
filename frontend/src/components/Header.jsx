@@ -41,24 +41,24 @@ const Header = () => {
           >
             Productos
           </Link>
-          <Link
+          {/* <Link
             to="/login-register"
             className="text-white hover:text-gray-300 transition"
           >
             Mi Cuenta
-          </Link>
+          </Link> */}
           <Link
             to="/cart"
             className="text-white hover:text-gray-300 transition"
           >
             Carrito
           </Link>
-          <Link
+          {/* <Link
             to="/orders"
             className="text-white hover:text-gray-300 transition"
           >
             Ordenes
-          </Link>
+          </Link> */}
         </nav>
       </div>
 

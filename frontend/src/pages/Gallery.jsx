@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CartContext } from "../context/CartContext";
 import products from "../data/products";
 
 const MAX_LENGTH = 131;
@@ -19,6 +20,7 @@ const Gallery = () => {
 };
 
 const ProductCard = ({ product }) => {
+  const { addToCart } = useContext(CartContext);
   // Local state to handle whether description is expanded
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -31,6 +33,11 @@ const ProductCard = ({ product }) => {
     product.description.length > MAX_LENGTH
       ? product.description.substring(0, MAX_LENGTH) + "..."
       : product.description;
+
+  // Handle add to cart
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
 
   return (
     <div className="bg-white rounded shadow overflow-hidden hover:shadow-md transition">
@@ -57,7 +64,10 @@ const ProductCard = ({ product }) => {
         </p>
 
         {product.available ? (
-          <button className="mt-2 bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition">
+          <button
+            onClick={handleAddToCart}
+            className="mt-2 bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition"
+          >
             Agregar al carrito
           </button>
         ) : (
