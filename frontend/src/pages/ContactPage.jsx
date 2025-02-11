@@ -1,4 +1,4 @@
-import { FaInstagram, FaWhatsapp, FaPhone } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaPhone, FaMailBulk } from "react-icons/fa";
 
 const ContactPage = () => {
   return (
@@ -20,6 +20,12 @@ const ContactPage = () => {
         <p className="text-gray-700 text-lg">Del campo a tu mesa</p>
 
         <div className="flex justify-center mt-4 space-x-6">
+          <a
+            href="mailto:dhigueylonganizas@gmail.com"
+            className="text-[#7F3C28] hover:text-gray-600 transition"
+          >
+            <FaMailBulk size={32} />
+          </a>
           <a
             href="https://www.instagram.com/dhigueylonganizasymas"
             className="text-[#7F3C28] hover:text-gray-600 transition"
