@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import { CartProvider } from "./context/CartProvider";
 
@@ -36,10 +37,11 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/success" element={<Success />} />
                   <Route path="/cancel" element={<Cancel />} />
-                  <Route path="/gallery" element={<Gallery />} />
+                  <Route path="/products" element={<Gallery />} />
                   <Route path="/login-register" element={<LoginRegister />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/orders" element={<Orders />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </section>
             </main>

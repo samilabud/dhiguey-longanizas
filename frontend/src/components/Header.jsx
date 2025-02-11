@@ -36,7 +36,7 @@ const Header = () => {
             Inicio
           </Link>
           <Link
-            to="/gallery"
+            to="/products"
             className="text-white hover:text-gray-300 transition"
           >
             Productos
