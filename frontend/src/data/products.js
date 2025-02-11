@@ -8,7 +8,7 @@ const products = [
     priceUSD: 6,
     image: "/images/sausage_pkg.png",
     available: true,
-    sellingBy: "el paquete de tres",
+    sellingBy: "el paquete (3)",
   },
 
   {

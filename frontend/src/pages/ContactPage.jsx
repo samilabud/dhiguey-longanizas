@@ -1,12 +1,14 @@
 import { FaInstagram, FaWhatsapp, FaPhone, FaMailBulk } from "react-icons/fa";
+import { useMediaQuery } from "react-responsive";
 
 const ContactPage = () => {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   return (
     <div className="bg-white min-h-screen flex flex-col items-center p-6">
-      <h1 className="text-[#7F3C28] text-3xl md:text-4xl font-bold mb-4">
+      <h1 className="text-[#7F3C28] text-5xl lg:text-3xl font-bold mb-4">
         Contáctanos
       </h1>
-      <p className="text-gray-700 text-lg md:text-xl">
+      <p className="text-gray-700 text-4xl lg:text-xl">
         ¡Estamos aquí para servirte! Contáctanos a través de nuestras redes.
         Nuestro servicio de delivery opera desde Santo Domingo Este, llevamos
         calidad y sabor directamente a tu mesa.
@@ -14,17 +16,19 @@ const ContactPage = () => {
 
       {/* Contact Information */}
       <div className="mt-6 text-center">
-        <h2 className="text-2xl font-semibold text-[#7F3C28]">
+        <h2 className="text-4xl lg:text-2xl font-semibold text-[#7F3C28]">
           D&apos;Higüey Longanizas y Más
         </h2>
-        <p className="text-gray-700 text-lg">Del campo a tu mesa</p>
+        <p className="text-gray-700 text-4xl lg:text-lg lg:mt-0 mt-1">
+          Del campo a tu mesa
+        </p>
 
         <div className="flex justify-center mt-4 space-x-6">
           <a
             href="mailto:dhigueylonganizas@gmail.com"
             className="text-[#7F3C28] hover:text-gray-600 transition"
           >
-            <FaMailBulk size={32} />
+            <FaMailBulk size={isTabletOrMobile ? 64 : 32} />
           </a>
           <a
             href="https://www.instagram.com/dhigueylonganizasymas"
@@ -32,7 +36,7 @@ const ContactPage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaInstagram size={32} />
+            <FaInstagram size={isTabletOrMobile ? 64 : 32} />
           </a>
           <a
             href="https://wa.me/8496535551"
@@ -40,17 +44,17 @@ const ContactPage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaWhatsapp size={32} />
+            <FaWhatsapp size={isTabletOrMobile ? 64 : 32} />
           </a>
           <a
             href="tel:+18496535551"
             className="text-[#7F3C28] hover:text-gray-600 transition"
           >
-            <FaPhone size={32} />
+            <FaPhone size={isTabletOrMobile ? 64 : 32} />
           </a>
         </div>
 
-        <p className="mt-3 text-xl">
+        <p className="mt-3 text-4xl lg:text-xl">
           Teléfono:{" "}
           <a
             href="tel:+18496535551"
@@ -63,7 +67,7 @@ const ContactPage = () => {
 
       {/* Google Map Section */}
       <div className="mt-6 w-full max-w-4xl">
-        <h2 className="text-2xl font-semibold text-[#7F3C28] text-center mb-4">
+        <h2 className="text-4xl lg:text-2xl font-semibold text-[#7F3C28] text-center mb-4">
           Nuestra Ubicación
         </h2>
         <div className="w-full h-64 md:h-96">

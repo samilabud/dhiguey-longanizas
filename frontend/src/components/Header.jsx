@@ -12,7 +12,7 @@ const HeaderTitle = () => {
         alt="Logo"
         className="h-40 lg:h-16 drop-shadow-lg filter brightness-110"
       />
-      <span className="text-white font-lobster text-4xl lg:text-2xl drop-shadow-md">
+      <span className="text-white font-lobster text-5xl lg:text-2xl drop-shadow-md">
         D&apos;Higüey Longanizas y Más
       </span>
     </Link>
@@ -60,7 +60,7 @@ const Header = () => {
         {/* Mobile Menu Button */}
         {isTabletOrMobile && (
           <button
-            className="text-white text-2xl focus:outline-none z-50"
+            className="text-white text-5xl focus:outline-none z-50"
             onClick={toggleMenu}
             aria-label="Toggle Menu"
           >
@@ -75,7 +75,7 @@ const Header = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-50`}
       >
-        <div className="p-6 flex flex-col space-y-6 text-3xl">
+        <div className="p-6 flex flex-col space-y-8 text-4xl">
           <div>
             <img
               src={logo}
@@ -110,7 +110,7 @@ const Header = () => {
             className="text-white hover:text-gray-300 transition"
             onClick={toggleMenu}
           >
-            Contáctanos
+            Contacto
           </Link>
         </div>
       </div>
