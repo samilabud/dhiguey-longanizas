@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PayPalButton from "./PayPalButton";
 import products from "../data/products";
+import { Link } from "react-router-dom";
 
 const QuickBuy = () => {
   const product = products[0]; // First product Longaniza Artesanal
@@ -12,8 +13,11 @@ const QuickBuy = () => {
   const totalPriceUSD = product.priceUSD * quantity;
 
   return (
-    <div className="flex items-center justify-center bg-gray-100 p-4 text-2xl lg:text-xl">
+    <div className="flex items-center justify-center p-4 text-2xl lg:text-xl">
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6 md:p-10">
+        <h2 className="text-2xl font-bold mb-6 text-center text-[#7F3C28]">
+          🔥 ¡Auténtica Longaniza Artesanal Dominicana! 🇩🇴
+        </h2>
         <div className="flex flex-col md:flex-row items-center">
           {/* Product Image */}
           <img
@@ -24,9 +28,9 @@ const QuickBuy = () => {
 
           {/* Product Details */}
           <div className="mt-4 md:mt-0 md:ml-6 flex flex-col text-center md:text-left">
-            <h2 className="text-4xl lg:text-xl font-bold text-[#7F3C28] font-lobster">
+            {/* <h2 className="text-4xl lg:text-xl font-bold text-[#7F3C28] font-lobster">
               {product.name}
-            </h2>
+            </h2> */}
             <p className="text-gray-700 mt-2">{product.description}</p>
 
             <div className="flex justify-between md:justify-start mt-4">
@@ -61,6 +65,14 @@ const QuickBuy = () => {
                   description={`${product.name} x${quantity}`}
                 />
               </div>
+            </div>
+            <div className="mt-4">
+              <Link
+                to="/products"
+                className="text-[#7F3C28] hover:text-[#4C150B] transition text-sm md:text-base"
+              >
+                Ver todos los productos
+              </Link>
             </div>
           </div>
         </div>

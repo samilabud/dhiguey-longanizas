@@ -4,7 +4,9 @@ function Home() {
   return (
     <div>
       <section className="text-center p-6 md:p-12 bg-white text-[#7F3C28] text-6xl lg:text-3xl">
-        <h1 className="font-lobster">D&apos;Higüey Longanizas y Más</h1>
+        <h1 className="font-lobster text-3xl font-bold">
+          D&apos;Higüey Longanizas y Más
+        </h1>
         <p className="mt-2 text-3xl lg:text-xl">
           Calidad y sabor 100% artesanal - Del campo a tu mesa
         </p>

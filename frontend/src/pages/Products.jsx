@@ -6,8 +6,8 @@ const MAX_LENGTH = 131;
 
 const Products = () => {
   return (
-    <div className=" bg-gray-100 p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">
+    <div className="p-6">
+      <h2 className="text-3xl font-bold mb-6 text-center text-[#7F3C28]">
         Nuestra Galería de Productos
       </h2>
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
