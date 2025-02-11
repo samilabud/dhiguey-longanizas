@@ -1,4 +1,4 @@
-import ProductCard from "../components/ProductCard";
+import QuickBuy from "../components/QuickBuy";
 
 function Home() {
   return (
@@ -9,7 +9,7 @@ function Home() {
           Calidad y sabor 100% artesanal - Del campo a tu mesa
         </p>
       </section>
-      <ProductCard />
+      <QuickBuy />
     </div>
   );
 }

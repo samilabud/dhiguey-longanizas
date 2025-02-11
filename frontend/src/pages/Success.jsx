@@ -30,7 +30,7 @@ const Success = () => {
   }, [orderID]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-24">
       <h1 className="text-green-600 text-center text-2xl mt-6">
         🎉 ¡Pago exitoso!
       </h1>

@@ -6,7 +6,7 @@ const MAX_LENGTH = 131;
 
 const Products = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className=" bg-gray-100 p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">
         Nuestra Galería de Productos
       </h2>

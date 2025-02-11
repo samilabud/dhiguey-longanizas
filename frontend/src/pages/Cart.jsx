@@ -49,11 +49,13 @@ const Cart = () => {
     });
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold text-center mb-6">Tu Carrito</h2>
+    <div className="bg-gray-100 p-10 mt-24">
+      <h2 className="text-4xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+        Tu Carrito
+      </h2>
 
       {groupedCartArray.length === 0 ? (
-        <div className="flex flex-col items-center justify-center text-gray-500">
+        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-3xl lg:text-xl">
           <p className="mb-4">No hay productos en el carrito</p>
         </div>
       ) : (
