@@ -48,6 +48,12 @@ const Header = () => {
             >
               Carrito
             </Link>
+            <Link
+              to="/contact"
+              className="text-white hover:text-gray-300 transition"
+            >
+              Contáctanos
+            </Link>
           </nav>
         )}
 
@@ -98,6 +104,13 @@ const Header = () => {
             onClick={toggleMenu}
           >
             Carrito
+          </Link>
+          <Link
+            to="/contact"
+            className="text-white hover:text-gray-300 transition"
+            onClick={toggleMenu}
+          >
+            Contáctanos
           </Link>
         </div>
       </div>

@@ -15,6 +15,7 @@ import LoginRegister from "./pages/LoginRegister";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import ContactPage from "./pages/ContactPage";
 
 // Components
 import Header from "./components/Header";
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/login-register" element={<LoginRegister />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/orders" element={<Orders />} />
+                    <Route path="/contact" element={<ContactPage />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </section>
