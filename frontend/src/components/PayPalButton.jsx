@@ -35,7 +35,7 @@ const PayPalButton = ({ price, description }) => {
       {error && <p className="text-red-500">{error}</p>}
       <button
         onClick={handlePayment}
-        className="bg-[#7F3C28] text-white px-6 py-2 rounded-md hover:bg-[#4C150B] transition cursor-pointer"
+        className="bg-[#7F3C28] text-white px-6 py-2 rounded-md hover:bg-[#4C150B] transition cursor-pointer text-2xl lg:text-xl"
         disabled={loading}
       >
         {loading ? "Procesando..." : "Pagar con PayPal"}

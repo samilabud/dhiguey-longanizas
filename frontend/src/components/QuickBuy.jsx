@@ -13,9 +13,9 @@ const QuickBuy = () => {
   const totalPriceUSD = product.priceUSD * quantity;
 
   return (
-    <div className="flex items-center justify-center p-4 text-2xl lg:text-xl">
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6 md:p-10">
-        <h2 className="text-2xl font-bold mb-6 text-center text-[#7F3C28]">
+    <div className="flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl lg:max-w-3xl bg-white shadow-lg rounded-xl p-6 md:p-10">
+        <h2 className="text-4xl lg:text-2xl font-bold mb-6 text-center text-[#7F3C28] whitespace-nowrap">
           🔥 ¡Auténtica Longaniza Artesanal Dominicana! 🇩🇴
         </h2>
         <div className="flex flex-col md:flex-row items-center">
@@ -23,7 +23,7 @@ const QuickBuy = () => {
           <img
             src={product.image}
             alt={product.name}
-            className="w-full md:w-1/2 h-auto rounded-xl transform transition duration-300 ease-in-out hover:scale-105"
+            className="w-sm h-auto rounded-xl transform transition duration-300 ease-in-out hover:scale-105"
           />
 
           {/* Product Details */}
@@ -31,11 +31,13 @@ const QuickBuy = () => {
             {/* <h2 className="text-4xl lg:text-xl font-bold text-[#7F3C28] font-lobster">
               {product.name}
             </h2> */}
-            <p className="text-gray-700 mt-2">{product.description}</p>
+            <p className="text-gray-700 mt-2 text-3xl lg:text-xl">
+              {product.description}
+            </p>
 
             <div className="flex justify-between md:justify-start mt-4">
               <div>
-                <label className="mr-2 text-lg md:text-xl font-semibold">
+                <label className="mr-2 lg:text-lg text-3xl font-semibold">
                   Cantidad:
                 </label>
                 <select
@@ -59,7 +61,7 @@ const QuickBuy = () => {
                 </p>
               </div>
 
-              <div className="w-1/2 -mt-4 ml-4">
+              <div className="w-auto -mt-4 ml-4">
                 <PayPalButton
                   price={totalPriceUSD}
                   description={`${product.name} x${quantity}`}
@@ -69,7 +71,7 @@ const QuickBuy = () => {
             <div className="mt-4">
               <Link
                 to="/products"
-                className="text-[#7F3C28] hover:text-[#4C150B] transition text-sm md:text-base"
+                className="text-[#7F3C28] hover:text-[#4C150B] transition text-3xl lg:text-xl"
               >
                 Ver todos los productos
               </Link>
