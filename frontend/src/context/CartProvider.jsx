@@ -31,6 +31,13 @@ export function CartProvider({ children }) {
   const clearCart = () => {
     setCart([]);
   };
+  const updateQuantity = (id, quantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity: Math.max(quantity, 1) } : item
+      )
+    );
+  };
 
   return (
     <CartContext.Provider
@@ -39,6 +46,7 @@ export function CartProvider({ children }) {
         addToCart,
         removeFromCart,
         clearCart,
+        updateQuantity,
       }}
     >
       {children}

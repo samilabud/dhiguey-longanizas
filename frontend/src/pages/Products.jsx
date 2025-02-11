@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import products from "../data/products";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 const MAX_LENGTH = 90;
 
@@ -44,6 +45,14 @@ const ProductCard = ({ product }) => {
     setQuantity(value > 0 ? value : 1);
   };
 
+  const increaseQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
   return (
     <div className="bg-white rounded shadow overflow-hidden hover:shadow-md transition flex lg:block justify-center items-center lg:justify-normal">
       <img
@@ -72,6 +81,9 @@ const ProductCard = ({ product }) => {
 
         {product.available ? (
           <div className="mt-3 flex items-center gap-2">
+            <button onClick={decreaseQuantity} className="text-4xl lg:text-xl">
+              <FaMinus />
+            </button>
             <input
               type="number"
               value={quantity}
@@ -79,9 +91,12 @@ const ProductCard = ({ product }) => {
               min="1"
               className="w-16 border border-gray-300 rounded px-2 py-1 text-center text-4xl lg:text-xl"
             />
+            <button onClick={increaseQuantity} className="text-4xl lg:text-xl">
+              <FaPlus />
+            </button>
             <button
               onClick={handleAddToCart}
-              className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-4xl lg:text-xl"
+              className="bg-[#7F3C28] ml-4 text-white lg:px-1 px-4 py-2 rounded hover:bg-[#4C150B] transition text-4xl lg:text-xl"
             >
               Agregar al carrito
             </button>
