@@ -34,6 +34,13 @@ const CartSidebar = () => {
     0
   );
 
+  // Format prices with commas
+  const formatPrice = (price) =>
+    price.toLocaleString("es-DO", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
   return (
     <div
       className="fixed top-20 right-0 w-72 bg-white shadow-lg h-fit p-4 border rounded-lg"
@@ -54,8 +61,8 @@ const CartSidebar = () => {
           <div>
             <span className="font-medium">{item.name}</span>
             <p className="text-sm text-gray-500">
-              {item.quantity} x RD$ {item.priceDOP} = RD${" "}
-              {item.priceDOP * item.quantity}
+              {item.quantity} x RD$ {formatPrice(item.priceDOP)} = RD${" "}
+              {formatPrice(item.priceDOP * item.quantity)}
             </p>
           </div>
           <button
@@ -70,13 +77,13 @@ const CartSidebar = () => {
       {/* Total Quantity and Price */}
       <div className="border-t mt-3 pt-2 text-sm font-semibold">
         <p>Cantidad Total: {totalQuantity}</p>
-        <p className="text-[#7F3C28]">Total: RD$ {totalPrice}</p>
+        <p className="text-[#7F3C28]">Total: RD$ {formatPrice(totalPrice)}</p>
       </div>
 
       {/* Link to Cart Page */}
       <Link to="/cart">
         <h6 className="text-xs font-bold mt-3 underline text-blue-500 hover:text-blue-700 cursor-pointer">
-          Revisar Carrito
+          Realizar la compra
         </h6>
       </Link>
     </div>

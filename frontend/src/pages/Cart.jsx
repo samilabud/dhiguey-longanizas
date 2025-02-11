@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import PayPalButton from "../components/PayPalButton"; // <-- Import your PayPalButton
+import PayPalButton from "../components/PayPalButton";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart } = useContext(CartContext);
@@ -40,6 +41,13 @@ const Cart = () => {
     0
   );
 
+  // Format prices with commas
+  const formatPrice = (price) =>
+    price.toLocaleString("es-DO", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h2 className="text-2xl font-bold text-center mb-6">Tu Carrito</h2>
@@ -65,8 +73,10 @@ const Cart = () => {
                 <tr key={index} className="border-b">
                   <td className="p-2 font-semibold">{item.name}</td>
                   <td className="p-2">{item.quantity}</td>
-                  <td className="p-2">RD$ {item.priceDOP}</td>
-                  <td className="p-2">RD$ {item.priceDOP * item.quantity}</td>
+                  <td className="p-2">RD$ {formatPrice(item.priceDOP)}</td>
+                  <td className="p-2">
+                    RD$ {formatPrice(item.priceDOP * item.quantity)}
+                  </td>
                   <td className="p-2 text-center">
                     <button
                       onClick={() => removeFromCart(item.id)}
@@ -88,7 +98,7 @@ const Cart = () => {
           <div className="flex justify-between mt-1">
             <span className="font-bold">Total a Pagar (RD$):</span>
             <span className="font-bold text-[#7F3C28]">
-              RD$ {totalPriceDOP}
+              RD$ {formatPrice(totalPriceDOP)}
             </span>
           </div>
 
@@ -96,19 +106,24 @@ const Cart = () => {
           <div className="mt-4">
             {/* If you rely on priceUSD in your data: */}
             <PayPalButton
-              price={totalPriceUSD.toFixed(2)} // e.g. "10.00"
+              price={formatPrice(totalPriceUSD)} // e.g. "10,000.00"
               description={cartDescription}
             />
           </div>
 
           {/* Clear entire cart */}
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex justify-between">
             <button
               onClick={clearCart}
               className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition"
             >
               Vaciar Carrito
             </button>
+            <Link to="/products">
+              <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white">
+                Seguir Comprando
+              </button>
+            </Link>
           </div>
         </div>
       )}

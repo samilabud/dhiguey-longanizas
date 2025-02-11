@@ -8,7 +8,7 @@ const products = [
     priceUSD: 6,
     image: "/images/sausage_pkg.png",
     available: true,
-    sellingBy: "Unidad",
+    sellingBy: "el paquete de tres",
   },
 
   {
@@ -16,22 +16,22 @@ const products = [
     name: "Tocino de Cerdo",
     description:
       "Jugoso y sabroso tocino de cerdo, perfecto para disfrutar en desayunos, parrilladas o como complemento en tus recetas favoritas. Elaborado con cortes seleccionados, ofrece un equilibrio ideal entre carne y grasa para un sabor inigualable.",
-    priceDOP: 240.0,
-    priceUSD: 4,
+    priceDOP: 300.0,
+    priceUSD: 5,
     image: "/images/bacon_unpackage.png",
     available: true,
-    sellingBy: "Libra",
+    sellingBy: "la libra",
   },
   {
     id: 3,
     name: "Queso de Higüey",
     description:
       "Auténtico Queso hoja, famoso por su textura suave y fibrosa. Su sabor delicado y ligeramente salado lo hace perfecto para disfrutar solo, derretido en mofongos, tostones o acompañado de tu comida favorita. Elaborado artesanalmente para ofrecer la mejor calidad y frescura.",
-    priceDOP: 300.0,
-    priceUSD: 5,
+    priceDOP: 360.0,
+    priceUSD: 6,
     image: "/images/higueyano_cheese.png",
     available: false,
-    sellingBy: "Libra",
+    sellingBy: "la libra",
   },
 ];
 

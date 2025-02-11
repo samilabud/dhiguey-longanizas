@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import LoginRegister from "./pages/LoginRegister";
-import Gallery from "./pages/Gallery";
+import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 
@@ -37,7 +37,7 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/success" element={<Success />} />
                   <Route path="/cancel" element={<Cancel />} />
-                  <Route path="/products" element={<Gallery />} />
+                  <Route path="/products" element={<Products />} />
                   <Route path="/login-register" element={<LoginRegister />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/orders" element={<Orders />} />

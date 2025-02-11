@@ -4,7 +4,7 @@ import products from "../data/products";
 
 const MAX_LENGTH = 131;
 
-const Gallery = () => {
+const Products = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">
@@ -21,10 +21,9 @@ const Gallery = () => {
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
-  // Local state to handle whether description is expanded
   const [isExpanded, setIsExpanded] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
-  // Toggle function
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
   };
@@ -34,9 +33,15 @@ const ProductCard = ({ product }) => {
       ? product.description.substring(0, MAX_LENGTH) + "..."
       : product.description;
 
-  // Handle add to cart
   const handleAddToCart = () => {
-    addToCart(product);
+    if (quantity > 0) {
+      addToCart({ ...product, quantity });
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setQuantity(value > 0 ? value : 1);
   };
 
   return (
@@ -60,16 +65,25 @@ const ProductCard = ({ product }) => {
           )}
         </p>
         <p className="text-[#7F3C28] font-bold">
-          {product.priceDOP} {product.sellingBy}
+          RD$ {product.priceDOP} {product.sellingBy}
         </p>
 
         {product.available ? (
-          <button
-            onClick={handleAddToCart}
-            className="mt-2 bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition"
-          >
-            Agregar al carrito
-          </button>
+          <div className="mt-3 flex items-center gap-2">
+            <input
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+              min="1"
+              className="w-16 border border-gray-300 rounded px-2 py-1 text-center"
+            />
+            <button
+              onClick={handleAddToCart}
+              className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition"
+            >
+              Agregar al carrito
+            </button>
+          </div>
         ) : (
           <p className="mt-2 text-red-500">No disponible</p>
         )}
@@ -78,4 +92,4 @@ const ProductCard = ({ product }) => {
   );
 };
 
-export default Gallery;
+export default Products;
