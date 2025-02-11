@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 const ContactPage = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center p-6">
+    <div className="bg-white min-h-screen flex flex-col items-center p-6 lg:gap-1 gap-10">
       <h1 className="text-[#7F3C28] text-5xl lg:text-3xl font-bold mb-4">
         Contáctanos
       </h1>

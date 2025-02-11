@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@keyframes color-change {
+  from {
+    color: #7f3c28;
+  }
+  to {
+    color: #e3570c;
+  }
+}

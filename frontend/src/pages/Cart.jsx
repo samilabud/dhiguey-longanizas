@@ -50,19 +50,19 @@ const Cart = () => {
 
   return (
     <div className="bg-gray-100 p-10 mt-24">
-      <h2 className="text-4xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+      <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
         Tu Carrito
       </h2>
 
       {groupedCartArray.length === 0 ? (
-        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-3xl lg:text-xl">
+        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
           <p className="mb-4">No hay productos en el carrito</p>
         </div>
       ) : (
-        <div className="max-w-3xl mx-auto bg-white rounded shadow p-4">
+        <div className="w-4xl lg:max-w-3xl mx-auto bg-white rounded shadow p-4">
           <table className="w-full">
             <thead>
-              <tr className="border-b">
+              <tr className="border-b text-2xl lg:text-xl">
                 <th className="text-left p-2">Producto</th>
                 <th className="text-left p-2">Cantidad</th>
                 <th className="text-left p-2">Precio Unitario</th>
@@ -72,7 +72,7 @@ const Cart = () => {
             </thead>
             <tbody>
               {groupedCartArray.map((item, index) => (
-                <tr key={index} className="border-b">
+                <tr key={index} className="border-b text-2xl lg:text-xl">
                   <td className="p-2 font-semibold">{item.name}</td>
                   <td className="p-2">{item.quantity}</td>
                   <td className="p-2">RD$ {formatPrice(item.priceDOP)}</td>
@@ -93,11 +93,11 @@ const Cart = () => {
           </table>
 
           {/* Display totals in your UI */}
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-4 text-3xl lg:text-xl">
             <span className="font-bold">Cantidad Total:</span>
             <span className="font-bold">{totalQuantity}</span>
           </div>
-          <div className="flex justify-between mt-1">
+          <div className="flex justify-between mt-1 text-3xl lg:text-xl">
             <span className="font-bold">Total a Pagar (RD$):</span>
             <span className="font-bold text-[#7F3C28]">
               RD$ {formatPrice(totalPriceDOP)}
@@ -106,26 +106,27 @@ const Cart = () => {
 
           {/* PayPal Button - pass USD price and cart description */}
           <div className="mt-4">
-            {/* If you rely on priceUSD in your data: */}
-            <PayPalButton
-              price={formatPrice(totalPriceUSD)} // e.g. "10,000.00"
-              description={cartDescription}
-            />
+            <Link to="/products">
+              <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg">
+                Seguir Comprando
+              </button>
+            </Link>
           </div>
 
           {/* Clear entire cart */}
           <div className="mt-6 flex justify-between">
             <button
               onClick={clearCart}
-              className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition"
+              className="bg-white border h-1/2 border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg"
             >
               Vaciar Carrito
             </button>
-            <Link to="/products">
-              <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white">
-                Seguir Comprando
-              </button>
-            </Link>
+
+            {/* If you rely on priceUSD in your data: */}
+            <PayPalButton
+              price={formatPrice(totalPriceUSD)}
+              description={cartDescription}
+            />
           </div>
         </div>
       )}
