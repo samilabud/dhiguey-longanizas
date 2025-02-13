@@ -1,13 +1,32 @@
 import { useState } from "react";
-import PayPalButton from "./PayPalButton";
-import products from "../data/products";
 import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../config";
+import useCachedFetch from "../hooks/useCachedFetch";
+import LoadingIndicator from "./LoadingIndicator";
+import PayPalButton from "./PayPalButton";
 
 const QuickBuy = () => {
-  const product = products[0]; // First product Longaniza Artesanal
+  const {
+    data: products,
+    loading,
+    error,
+  } = useCachedFetch("productsCache", `${BACKEND_URL}/api/products`);
 
   const [quantity, setQuantity] = useState(1);
 
+  if (loading) {
+    return <LoadingIndicator />;
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-center text-red-500">
+        Error al cargar productos: {error}
+      </div>
+    );
+  }
+
+  const product = products[0]; // First product Longaniza Artesanal
   // Calculate total price
   const totalPriceDOP = product.priceDOP * quantity;
   const totalPriceUSD = product.priceUSD * quantity;

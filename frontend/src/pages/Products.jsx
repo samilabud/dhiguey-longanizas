@@ -1,11 +1,52 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
-import products from "../data/products";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import LoadingIndicator from "../components/LoadingIndicator";
+import useCachedFetch from "../hooks/useCachedFetch";
 
 const MAX_LENGTH = 90;
 
 const Products = () => {
+  const {
+    data: products,
+    loading,
+    error,
+  } = useCachedFetch("productsCache", `${BACKEND_URL}/api/products`);
+
+  if (loading) {
+    return <LoadingIndicator />;
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-center text-red-500">
+        Error al cargar productos: {error}
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="p-6 text-center flex flex-col items-center">
+        <span>Cargando productos...</span>
+        <img
+          className="mx-auto"
+          src="/images/loading-indicator.gif"
+          alt="Cargando..."
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-center text-red-500">
+        Error al cargar productos: {error}
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
       <h2 className="text-5xl lg:text-3xl font-bold mb-6 text-center text-[#7F3C28]">
