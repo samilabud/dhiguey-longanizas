@@ -5,9 +5,12 @@ import { Link } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 const shippingOptions = [
-  { label: "Santo Domingo Este", costDOP: 200, costUSD: 3.5 },
   { label: "Distrito Nacional", costDOP: 300, costUSD: 5 },
+  { label: "Santo Domingo Este", costDOP: 200, costUSD: 3.5 },
+  { label: "Santo Domingo Norte", costDOP: 300, costUSD: 5 },
+  { label: "Santo Domingo Oeste", costDOP: 340, costUSD: 5.7 },
   { label: "Interior del País", costDOP: 380, costUSD: 6.3 },
+  { label: "Resto del País", costDOP: 440, costUSD: 7.3 },
 ];
 
 const Cart = () => {
@@ -132,7 +135,7 @@ const Cart = () => {
           <div className="flex items-center mt-4 text-3xl lg:text-xl">
             <span className="mr-4 font-bold">Método de Envío:</span>
             <select
-              className="border rounded p-2 text-base"
+              className="border rounded p-2 text-4xl lg:text-base"
               value={selectedShippingIndex}
               onChange={(e) => setSelectedShippingIndex(e.target.value)}
             >

@@ -68,13 +68,17 @@ const Header = () => {
         } transition-transform duration-300 ease-in-out z-50`}
       >
         <div className="p-6 flex flex-col space-y-8 text-4xl">
-          <div>
+          <Link
+            to="/"
+            className="flex items-center space-x-3"
+            onClick={toggleMenu}
+          >
             <img
               src={logo}
               alt="Logo"
               className="h-40 lg:h-16 drop-shadow-lg filter brightness-110"
             />
-          </div>
+          </Link>
 
           <NavLink to="/" className={getNavLinkClass} onClick={toggleMenu}>
             Inicio
