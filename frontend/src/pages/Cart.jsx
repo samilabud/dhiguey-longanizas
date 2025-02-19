@@ -10,7 +10,7 @@ const shippingOptions = [
   { label: "Santo Domingo Norte", costDOP: 300, costUSD: 5 },
   { label: "Santo Domingo Oeste", costDOP: 340, costUSD: 5.7 },
   { label: "Interior del País", costDOP: 380, costUSD: 6.3 },
-  { label: "Resto del País", costDOP: 440, costUSD: 7.3 },
+  { label: "Resto de Santo Domingo", costDOP: 440, costUSD: 7.3 },
 ];
 
 const Cart = () => {
@@ -133,15 +133,15 @@ const Cart = () => {
             <span className="font-bold">{totalQuantity}</span>
           </div>
           <div className="flex items-center mt-4 text-3xl lg:text-xl">
-            <span className="mr-4 font-bold">Método de Envío:</span>
+            <span className="mr-4 font-bold">Zona de Envío:</span>
             <select
-              className="border rounded p-2 text-4xl lg:text-base"
+              className="border rounded p-2 text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28]"
               value={selectedShippingIndex}
               onChange={(e) => setSelectedShippingIndex(e.target.value)}
             >
               {shippingOptions.map((option, idx) => (
                 <option key={idx} value={idx}>
-                  {option.label} - RD${formatPrice(option.costDOP)}
+                  {option.label}
                 </option>
               ))}
             </select>
