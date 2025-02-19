@@ -81,7 +81,7 @@ const Cart = () => {
           </Link>
         </div>
       ) : (
-        <div className="w-4xl lg:max-w-3xl mx-auto bg-white rounded shadow p-4">
+        <div className="w-4xl lg:max-w-3xl mx-auto bg-white rounded shadow p-4 flex flex-col lg:gap-1 gap-4">
           <table className="w-full">
             <thead>
               <tr className="border-b text-2xl lg:text-xl">
@@ -132,10 +132,10 @@ const Cart = () => {
             <span className="font-bold">Cantidad Total:</span>
             <span className="font-bold">{totalQuantity}</span>
           </div>
-          <div className="flex items-center mt-4 text-3xl lg:text-xl">
+          <div className="flex justify-between mt-4 text-3xl lg:text-xl">
             <span className="mr-4 font-bold">Zona de Envío:</span>
             <select
-              className="border rounded p-2 text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28]"
+              className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2"
               value={selectedShippingIndex}
               onChange={(e) => setSelectedShippingIndex(e.target.value)}
             >
@@ -162,21 +162,20 @@ const Cart = () => {
             </span>
           </div>
 
-          <div className="mt-4">
-            <Link to="/products">
-              <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg">
-                Seguir Comprando
+          <div className="mt-6 flex justify-between items-end">
+            <div className="mt-4 flex flex-col gap-4 items-start justify-start">
+              <Link to="/products">
+                <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg">
+                  Seguir Comprando
+                </button>
+              </Link>{" "}
+              <button
+                onClick={clearCart}
+                className="bg-white border h-1/2 border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg"
+              >
+                Vaciar Carrito
               </button>
-            </Link>
-          </div>
-
-          <div className="mt-6 flex justify-between">
-            <button
-              onClick={clearCart}
-              className="bg-white border h-1/2 border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg"
-            >
-              Vaciar Carrito
-            </button>
+            </div>
 
             <PayPalButton
               price={formatPrice(totalWithShippingUSD)}
