@@ -41,6 +41,7 @@ const generateAccessToken = async () => {
 router.post("/create-payment", async (req, res) => {
   try {
     const { price, description } = req.body;
+    console.log({ price, description });
     const accessToken = await generateAccessToken();
     const { data } = await axios.post(
       `${PAYPAL_API}/v2/checkout/orders`,
