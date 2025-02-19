@@ -1,8 +1,14 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import PayPalButton from "../components/PayPalButton";
 import { Link } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa";
+
+const shippingOptions = [
+  { label: "Santo Domingo Este", costDOP: 200, costUSD: 3.5 },
+  { label: "Distrito Nacional", costDOP: 300, costUSD: 5 },
+  { label: "Interior del País", costDOP: 380, costUSD: 6.3 },
+];
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } =
@@ -33,15 +39,27 @@ const Cart = () => {
     0
   );
 
-  const cartDescription = groupedCartArray
-    .map((item) => `${item.name} x${item.quantity}`)
-    .join(", ");
-
   const formatPrice = (price) =>
     price.toLocaleString("es-DO", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+
+  //Shipping cost
+  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
+  const selectedShippingOption = shippingOptions[selectedShippingIndex];
+  const shippingCostDOP = selectedShippingOption.costDOP;
+  const shippingCostUSD = selectedShippingOption.costUSD;
+  // Total with shipping
+  const totalWithShippingDOP = totalPriceDOP + shippingCostDOP;
+  const totalWithShippingUSD = totalPriceUSD + shippingCostUSD;
+
+  const cartDescription = [
+    ...groupedCartArray.map((item) => `${item.name} x${item.quantity}`),
+    `Envío: ${selectedShippingOption.label} (RD$ ${formatPrice(
+      shippingCostDOP
+    )})`,
+  ].join(", ");
 
   return (
     <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
@@ -111,10 +129,33 @@ const Cart = () => {
             <span className="font-bold">Cantidad Total:</span>
             <span className="font-bold">{totalQuantity}</span>
           </div>
+          <div className="flex items-center mt-4 text-3xl lg:text-xl">
+            <span className="mr-4 font-bold">Método de Envío:</span>
+            <select
+              className="border rounded p-2 text-base"
+              value={selectedShippingIndex}
+              onChange={(e) => setSelectedShippingIndex(e.target.value)}
+            >
+              {shippingOptions.map((option, idx) => (
+                <option key={idx} value={idx}>
+                  {option.label} - RD${formatPrice(option.costDOP)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex justify-between mt-4 text-3xl lg:text-xl">
+            <span className="font-bold">Subtotal (RD$):</span>
+            <span>RD$ {formatPrice(totalPriceDOP)}</span>
+          </div>
+          <div className="flex justify-between mt-1 text-3xl lg:text-xl">
+            <span>Costo de Envío (RD$):</span>
+            <span>RD$ {formatPrice(shippingCostDOP)}</span>
+          </div>
           <div className="flex justify-between mt-1 text-3xl lg:text-xl">
             <span className="font-bold">Total a Pagar (RD$):</span>
             <span className="font-bold text-[#7F3C28]">
-              RD$ {formatPrice(totalPriceDOP)}
+              RD$ {formatPrice(totalWithShippingDOP)}
             </span>
           </div>
 
@@ -135,7 +176,7 @@ const Cart = () => {
             </button>
 
             <PayPalButton
-              price={formatPrice(totalPriceUSD)}
+              price={formatPrice(totalWithShippingUSD)}
               description={cartDescription}
             />
           </div>
