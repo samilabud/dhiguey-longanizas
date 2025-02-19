@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { getNavLinkClass } from "../common/helper";
 
 const HeaderTitle = () => {
   return (
@@ -33,27 +34,18 @@ const Header = () => {
         {/* Desktop Menu (hidden on mobile) */}
         {!isTabletOrMobile && (
           <nav className="flex space-x-6">
-            <Link to="/" className="text-white hover:text-gray-300 transition">
+            <NavLink to="/" className={getNavLinkClass}>
               Inicio
-            </Link>
-            <Link
-              to="/products"
-              className="text-white hover:text-gray-300 transition"
-            >
+            </NavLink>
+            <NavLink to="/products" className={getNavLinkClass}>
               Productos
-            </Link>
-            <Link
-              to="/cart"
-              className="text-white hover:text-gray-300 transition"
-            >
+            </NavLink>
+            <NavLink to="/cart" className={getNavLinkClass}>
               Carrito
-            </Link>
-            <Link
-              to="/contact"
-              className="text-white hover:text-gray-300 transition"
-            >
+            </NavLink>
+            <NavLink to="/contact" className={getNavLinkClass}>
               Contáctanos
-            </Link>
+            </NavLink>
           </nav>
         )}
 
@@ -84,34 +76,26 @@ const Header = () => {
             />
           </div>
 
-          <Link
-            to="/"
-            className="text-white hover:text-gray-300 transition"
-            onClick={toggleMenu}
-          >
+          <NavLink to="/" className={getNavLinkClass} onClick={toggleMenu}>
             Inicio
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/products"
-            className="text-white hover:text-gray-300 transition"
+            className={getNavLinkClass}
             onClick={toggleMenu}
           >
             Productos
-          </Link>
-          <Link
-            to="/cart"
-            className="text-white hover:text-gray-300 transition"
-            onClick={toggleMenu}
-          >
+          </NavLink>
+          <NavLink to="/cart" className={getNavLinkClass} onClick={toggleMenu}>
             Carrito
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/contact"
-            className="text-white hover:text-gray-300 transition"
+            className={getNavLinkClass}
             onClick={toggleMenu}
           >
             Contacto
-          </Link>
+          </NavLink>
         </div>
       </div>
     </header>
