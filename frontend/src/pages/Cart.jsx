@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import { CartContext } from "../context/CartContext";
-import PayPalButton from "../components/PayPalButton";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaPlus, FaMinus } from "react-icons/fa";
-import useCachedFetch from "../hooks/useCachedFetch";
-import { BACKEND_URL } from "../config";
 import LoadingIndicator from "../components/LoadingIndicator";
+import PayPalButton from "../components/PayPalButton";
+import { BACKEND_URL } from "../config";
+import { CartContext } from "../context/CartContext";
+import useCachedFetch from "../hooks/useCachedFetch";
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } =
