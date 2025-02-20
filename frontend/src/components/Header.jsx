@@ -114,6 +114,14 @@ const Header = () => {
           >
             Contacto
           </NavLink>
+          <NavLink to="/login-register" className={getNavLinkClass}>
+            Mi Cuenta
+          </NavLink>
+          {role === "admin" && (
+            <NavLink to="/product-management" className={getNavLinkClass}>
+              Gestiona Productos
+            </NavLink>
+          )}
         </div>
       </div>
     </header>
