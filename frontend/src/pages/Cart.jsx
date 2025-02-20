@@ -3,19 +3,21 @@ import { CartContext } from "../context/CartContext";
 import PayPalButton from "../components/PayPalButton";
 import { Link } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa";
-
-const shippingOptions = [
-  { label: "Distrito Nacional", costDOP: 300, costUSD: 5 },
-  { label: "Santo Domingo Este", costDOP: 200, costUSD: 3.5 },
-  { label: "Santo Domingo Norte", costDOP: 300, costUSD: 5 },
-  { label: "Santo Domingo Oeste", costDOP: 340, costUSD: 5.7 },
-  { label: "Interior del País", costDOP: 380, costUSD: 6.3 },
-  { label: "Resto de Santo Domingo", costDOP: 440, costUSD: 7.3 },
-];
+import useCachedFetch from "../hooks/useCachedFetch";
+import { BACKEND_URL } from "../config";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } =
     useContext(CartContext);
+  const {
+    data: shippingOptions,
+    loading: loadingShippingOptions,
+    error: errorShippingOptions,
+  } = useCachedFetch(
+    "shippingOptionsCache",
+    `${BACKEND_URL}/api/products/shipping_options`
+  );
 
   // Group products by ID and sum their quantities
   const groupedCart = cart.reduce((acc, item) => {
@@ -42,17 +44,30 @@ const Cart = () => {
     0
   );
 
+  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
+
   const formatPrice = (price) =>
     price.toLocaleString("es-DO", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
 
+  console.log({ loadingShippingOptions });
+
+  if (loadingShippingOptions)
+    return (
+      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+          Tu Carrito
+        </h2>
+        <LoadingIndicator />
+      </div>
+    );
+
   //Shipping cost
-  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
   const selectedShippingOption = shippingOptions[selectedShippingIndex];
-  const shippingCostDOP = selectedShippingOption.costDOP;
-  const shippingCostUSD = selectedShippingOption.costUSD;
+  const shippingCostDOP = selectedShippingOption.cost_dop;
+  const shippingCostUSD = selectedShippingOption.cost_usd;
   // Total with shipping
   const totalWithShippingDOP = totalprice_dop + shippingCostDOP;
   const totalWithShippingUSD = totalprice_usd + shippingCostUSD;
@@ -63,6 +78,19 @@ const Cart = () => {
       shippingCostDOP
     )})`,
   ].join(", ");
+
+  if (errorShippingOptions)
+    return (
+      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+          Tu Carrito
+        </h2>
+        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
+          <p className="mb-4">Error al cargar opciones de envio</p>
+          <p>{errorShippingOptions}</p>
+        </div>
+      </div>
+    );
 
   return (
     <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
