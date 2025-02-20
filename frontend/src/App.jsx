@@ -16,13 +16,21 @@ import LoginRegister from "./pages/LoginRegister";
 import Orders from "./pages/Orders";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
+import ProductManagement from "./pages/ProductManagement";
+import AddProduct from "./pages/AddProduct";
 
 // Components
 import CartSidebar from "./components/CartSidebar";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import LoadingIndicator from "./components/LoadingIndicator";
+import useUserRole from "./hooks/useUserRole";
 
 function App() {
+  const { role, loading } = useUserRole();
+  if (loading) {
+    return <LoadingIndicator />;
+  }
   return (
     <Router>
       <CartProvider>
@@ -44,6 +52,15 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/orders" element={<Orders />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    {role === "admin" && (
+                      <>
+                        <Route
+                          path="/product-management"
+                          element={<ProductManagement />}
+                        />
+                        <Route path="/add-product" element={<AddProduct />} />
+                      </>
+                    )}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </section>
