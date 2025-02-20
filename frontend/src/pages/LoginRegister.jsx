@@ -14,6 +14,7 @@ const LoginRegister = () => {
       setUser(storedUser);
     }
   }, []);
+
   useEffect(() => {
     // Check if user is already logged in
     if (user) return;
@@ -27,7 +28,6 @@ const LoginRegister = () => {
     };
     fetchUser();
   }, [user]);
-
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -51,7 +51,7 @@ const LoginRegister = () => {
             </h2>
             <img
               src={user.user_metadata.avatar_url}
-              alt="User Profile"
+              alt="User Profile Picture"
               className="w-20 h-20 rounded-full mx-auto mb-3"
             />
             <button

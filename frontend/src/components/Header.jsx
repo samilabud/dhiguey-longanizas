@@ -4,6 +4,8 @@ import { useMediaQuery } from "react-responsive";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { getNavLinkClass } from "../common/helper";
+import useUserRole from "../hooks/useUserRole";
+import LoadingIndicator from "./LoadingIndicator";
 
 const HeaderTitle = () => {
   return (
@@ -23,9 +25,13 @@ const HeaderTitle = () => {
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const { role, loading } = useUserRole();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  if (loading) {
+    return <LoadingIndicator />;
+  }
   return (
     <header className="bg-[#7F3C28] px-6 md:px-10 py-4">
       <div className="flex items-center justify-between">
@@ -46,6 +52,14 @@ const Header = () => {
             <NavLink to="/contact" className={getNavLinkClass}>
               Contáctanos
             </NavLink>
+            <NavLink to="/login-register" className={getNavLinkClass}>
+              Mi Cuenta
+            </NavLink>
+            {role === "admin" && (
+              <NavLink to="/product-management" className={getNavLinkClass}>
+                Gestiona Productos
+              </NavLink>
+            )}
           </nav>
         )}
 
