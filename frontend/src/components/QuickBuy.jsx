@@ -35,7 +35,7 @@ const QuickBuy = () => {
 
   const product = products[0]; // First product Longaniza Artesanal
   // Calculate total price
-  const totalPriceDOP = product.priceDOP * quantity;
+  const totalprice_dop = product.price_dop * quantity;
 
   return (
     <div className="flex items-center justify-center p-4">
@@ -79,7 +79,7 @@ const QuickBuy = () => {
 
                 <p className="text-3xl lg:text-xl font-semibold mt-2 text-[#7F3C28]">
                   RD$&nbsp;
-                  {totalPriceDOP.toLocaleString("es-DO", {
+                  {totalprice_dop.toLocaleString("es-DO", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}

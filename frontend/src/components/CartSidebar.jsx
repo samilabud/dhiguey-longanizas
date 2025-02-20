@@ -31,7 +31,7 @@ const CartSidebar = () => {
     0
   );
   const totalPrice = groupedCartArray.reduce(
-    (acc, item) => acc + item.priceDOP * item.quantity,
+    (acc, item) => acc + item.price_dop * item.quantity,
     0
   );
 
@@ -77,8 +77,8 @@ const CartSidebar = () => {
               <div>
                 <span className="font-medium">{item.name}</span>
                 <p className="text-xl lg:text-sm text-gray-900">
-                  {item.quantity} x RD$ {formatPrice(item.priceDOP)} = RD${" "}
-                  {formatPrice(item.priceDOP * item.quantity)}
+                  {item.quantity} x RD$ {formatPrice(item.price_dop)} = RD${" "}
+                  {formatPrice(item.price_dop * item.quantity)}
                 </p>
               </div>
               <button

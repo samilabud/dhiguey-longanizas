@@ -29,12 +29,12 @@ const Cart = () => {
   const groupedCartArray = Object.values(groupedCart);
 
   // Calculate total prices
-  const totalPriceUSD = groupedCartArray.reduce(
-    (acc, item) => acc + item.priceUSD * item.quantity,
+  const totalprice_usd = groupedCartArray.reduce(
+    (acc, item) => acc + item.price_usd * item.quantity,
     0
   );
-  const totalPriceDOP = groupedCartArray.reduce(
-    (acc, item) => acc + item.priceDOP * item.quantity,
+  const totalprice_dop = groupedCartArray.reduce(
+    (acc, item) => acc + item.price_dop * item.quantity,
     0
   );
   const totalQuantity = groupedCartArray.reduce(
@@ -54,8 +54,8 @@ const Cart = () => {
   const shippingCostDOP = selectedShippingOption.costDOP;
   const shippingCostUSD = selectedShippingOption.costUSD;
   // Total with shipping
-  const totalWithShippingDOP = totalPriceDOP + shippingCostDOP;
-  const totalWithShippingUSD = totalPriceUSD + shippingCostUSD;
+  const totalWithShippingDOP = totalprice_dop + shippingCostDOP;
+  const totalWithShippingUSD = totalprice_usd + shippingCostUSD;
 
   const cartDescription = [
     ...groupedCartArray.map((item) => `${item.name} x${item.quantity}`),
@@ -111,9 +111,9 @@ const Cart = () => {
                       <FaPlus />
                     </button>
                   </td>
-                  <td className="p-2">RD$ {formatPrice(item.priceDOP)}</td>
+                  <td className="p-2">RD$ {formatPrice(item.price_dop)}</td>
                   <td className="p-2">
-                    RD$ {formatPrice(item.priceDOP * item.quantity)}
+                    RD$ {formatPrice(item.price_dop * item.quantity)}
                   </td>
                   <td className="p-2 text-center">
                     <button
@@ -149,7 +149,7 @@ const Cart = () => {
 
           <div className="flex justify-between mt-4 text-3xl lg:text-xl">
             <span className="font-bold">Subtotal (RD$):</span>
-            <span>RD$ {formatPrice(totalPriceDOP)}</span>
+            <span>RD$ {formatPrice(totalprice_dop)}</span>
           </div>
           <div className="flex justify-between mt-1 text-3xl lg:text-xl">
             <span>Costo de Envío (RD$):</span>
