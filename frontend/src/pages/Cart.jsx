@@ -52,8 +52,6 @@ const Cart = () => {
       maximumFractionDigits: 2,
     });
 
-  console.log({ loadingShippingOptions });
-
   if (loadingShippingOptions)
     return (
       <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
