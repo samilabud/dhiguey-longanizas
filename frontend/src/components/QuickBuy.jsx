@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import useCachedFetch from "../hooks/useCachedFetch";
 import LoadingIndicator from "./LoadingIndicator";
-import PayPalButton from "./PayPalButton";
 
 const QuickBuy = () => {
   const {
@@ -13,6 +13,13 @@ const QuickBuy = () => {
   } = useCachedFetch("productsCache", `${BACKEND_URL}/api/products`);
 
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart } = useContext(CartContext);
+  const handleAddToCart = () => {
+    if (quantity > 0) {
+      addToCart({ ...product, quantity });
+    }
+  };
 
   if (loading) {
     return <LoadingIndicator />;
@@ -29,7 +36,6 @@ const QuickBuy = () => {
   const product = products[0]; // First product Longaniza Artesanal
   // Calculate total price
   const totalPriceDOP = product.priceDOP * quantity;
-  const totalPriceUSD = product.priceUSD * quantity;
 
   return (
     <div className="flex items-center justify-center p-4">
@@ -80,11 +86,14 @@ const QuickBuy = () => {
                 </p>
               </div>
 
-              <div className="w-auto -mt-4 ml-4">
-                <PayPalButton
-                  price={totalPriceUSD}
-                  description={`${product.name} x${quantity}`}
-                />
+              <div className="w-auto mt-4 ml-4">
+                <button
+                  onClick={handleAddToCart}
+                  // className="bg-[#7F3C28] ml-4 text-white lg:px-1 px-4 py-2 rounded hover:bg-[#4C150B] transition text-4xl lg:text-xl"
+                  className="bg-[#7F3C28] text-white px-6 py-2 rounded-md hover:bg-[#4C150B] transition cursor-pointer text-2xl lg:text-xl"
+                >
+                  Agregar al carrito
+                </button>
               </div>
             </div>
             <div className="mt-4">

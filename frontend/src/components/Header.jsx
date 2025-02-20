@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { getNavLinkClass } from "../common/helper";
 
 const HeaderTitle = () => {
   return (
@@ -33,27 +34,18 @@ const Header = () => {
         {/* Desktop Menu (hidden on mobile) */}
         {!isTabletOrMobile && (
           <nav className="flex space-x-6">
-            <Link to="/" className="text-white hover:text-gray-300 transition">
+            <NavLink to="/" className={getNavLinkClass}>
               Inicio
-            </Link>
-            <Link
-              to="/products"
-              className="text-white hover:text-gray-300 transition"
-            >
+            </NavLink>
+            <NavLink to="/products" className={getNavLinkClass}>
               Productos
-            </Link>
-            <Link
-              to="/cart"
-              className="text-white hover:text-gray-300 transition"
-            >
+            </NavLink>
+            <NavLink to="/cart" className={getNavLinkClass}>
               Carrito
-            </Link>
-            <Link
-              to="/contact"
-              className="text-white hover:text-gray-300 transition"
-            >
+            </NavLink>
+            <NavLink to="/contact" className={getNavLinkClass}>
               Contáctanos
-            </Link>
+            </NavLink>
           </nav>
         )}
 
@@ -76,42 +68,38 @@ const Header = () => {
         } transition-transform duration-300 ease-in-out z-50`}
       >
         <div className="p-6 flex flex-col space-y-8 text-4xl">
-          <div>
+          <Link
+            to="/"
+            className="flex items-center space-x-3"
+            onClick={toggleMenu}
+          >
             <img
               src={logo}
               alt="Logo"
               className="h-40 lg:h-16 drop-shadow-lg filter brightness-110"
             />
-          </div>
-
-          <Link
-            to="/"
-            className="text-white hover:text-gray-300 transition"
-            onClick={toggleMenu}
-          >
-            Inicio
           </Link>
-          <Link
+
+          <NavLink to="/" className={getNavLinkClass} onClick={toggleMenu}>
+            Inicio
+          </NavLink>
+          <NavLink
             to="/products"
-            className="text-white hover:text-gray-300 transition"
+            className={getNavLinkClass}
             onClick={toggleMenu}
           >
             Productos
-          </Link>
-          <Link
-            to="/cart"
-            className="text-white hover:text-gray-300 transition"
-            onClick={toggleMenu}
-          >
+          </NavLink>
+          <NavLink to="/cart" className={getNavLinkClass} onClick={toggleMenu}>
             Carrito
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/contact"
-            className="text-white hover:text-gray-300 transition"
+            className={getNavLinkClass}
             onClick={toggleMenu}
           >
             Contacto
-          </Link>
+          </NavLink>
         </div>
       </div>
     </header>
