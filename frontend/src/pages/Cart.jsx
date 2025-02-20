@@ -1,21 +1,23 @@
 import { useContext, useState } from "react";
-import { CartContext } from "../context/CartContext";
-import PayPalButton from "../components/PayPalButton";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaPlus, FaMinus } from "react-icons/fa";
-
-const shippingOptions = [
-  { label: "Distrito Nacional", costDOP: 300, costUSD: 5 },
-  { label: "Santo Domingo Este", costDOP: 200, costUSD: 3.5 },
-  { label: "Santo Domingo Norte", costDOP: 300, costUSD: 5 },
-  { label: "Santo Domingo Oeste", costDOP: 340, costUSD: 5.7 },
-  { label: "Interior del País", costDOP: 380, costUSD: 6.3 },
-  { label: "Resto de Santo Domingo", costDOP: 440, costUSD: 7.3 },
-];
+import LoadingIndicator from "../components/LoadingIndicator";
+import PayPalButton from "../components/PayPalButton";
+import { BACKEND_URL } from "../config";
+import { CartContext } from "../context/CartContext";
+import useCachedFetch from "../hooks/useCachedFetch";
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } =
     useContext(CartContext);
+  const {
+    data: shippingOptions,
+    loading: loadingShippingOptions,
+    error: errorShippingOptions,
+  } = useCachedFetch(
+    "shippingOptionsCache",
+    `${BACKEND_URL}/api/products/shipping_options`
+  );
 
   // Group products by ID and sum their quantities
   const groupedCart = cart.reduce((acc, item) => {
@@ -29,12 +31,12 @@ const Cart = () => {
   const groupedCartArray = Object.values(groupedCart);
 
   // Calculate total prices
-  const totalPriceUSD = groupedCartArray.reduce(
-    (acc, item) => acc + item.priceUSD * item.quantity,
+  const totalprice_usd = groupedCartArray.reduce(
+    (acc, item) => acc + item.price_usd * item.quantity,
     0
   );
-  const totalPriceDOP = groupedCartArray.reduce(
-    (acc, item) => acc + item.priceDOP * item.quantity,
+  const totalprice_dop = groupedCartArray.reduce(
+    (acc, item) => acc + item.price_dop * item.quantity,
     0
   );
   const totalQuantity = groupedCartArray.reduce(
@@ -42,20 +44,31 @@ const Cart = () => {
     0
   );
 
+  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
+
   const formatPrice = (price) =>
     price.toLocaleString("es-DO", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
 
+  if (loadingShippingOptions)
+    return (
+      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+          Tu Carrito
+        </h2>
+        <LoadingIndicator />
+      </div>
+    );
+
   //Shipping cost
-  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
   const selectedShippingOption = shippingOptions[selectedShippingIndex];
-  const shippingCostDOP = selectedShippingOption.costDOP;
-  const shippingCostUSD = selectedShippingOption.costUSD;
+  const shippingCostDOP = selectedShippingOption.cost_dop;
+  const shippingCostUSD = selectedShippingOption.cost_usd;
   // Total with shipping
-  const totalWithShippingDOP = totalPriceDOP + shippingCostDOP;
-  const totalWithShippingUSD = totalPriceUSD + shippingCostUSD;
+  const totalWithShippingDOP = totalprice_dop + shippingCostDOP;
+  const totalWithShippingUSD = totalprice_usd + shippingCostUSD;
 
   const cartDescription = [
     ...groupedCartArray.map((item) => `${item.name} x${item.quantity}`),
@@ -63,6 +76,19 @@ const Cart = () => {
       shippingCostDOP
     )})`,
   ].join(", ");
+
+  if (errorShippingOptions)
+    return (
+      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+          Tu Carrito
+        </h2>
+        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
+          <p className="mb-4">Error al cargar opciones de envio</p>
+          <p>{errorShippingOptions}</p>
+        </div>
+      </div>
+    );
 
   return (
     <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
@@ -111,9 +137,9 @@ const Cart = () => {
                       <FaPlus />
                     </button>
                   </td>
-                  <td className="p-2">RD$ {formatPrice(item.priceDOP)}</td>
+                  <td className="p-2">RD$ {formatPrice(item.price_dop)}</td>
                   <td className="p-2">
-                    RD$ {formatPrice(item.priceDOP * item.quantity)}
+                    RD$ {formatPrice(item.price_dop * item.quantity)}
                   </td>
                   <td className="p-2 text-center">
                     <button
@@ -149,7 +175,7 @@ const Cart = () => {
 
           <div className="flex justify-between mt-4 text-3xl lg:text-xl">
             <span className="font-bold">Subtotal (RD$):</span>
-            <span>RD$ {formatPrice(totalPriceDOP)}</span>
+            <span>RD$ {formatPrice(totalprice_dop)}</span>
           </div>
           <div className="flex justify-between mt-1 text-3xl lg:text-xl">
             <span>Costo de Envío (RD$):</span>

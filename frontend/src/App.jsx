@@ -1,26 +1,26 @@
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 import { CartProvider } from "./context/CartProvider";
 
 // Pages
-import Home from "./pages/Home";
-import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
-import LoginRegister from "./pages/LoginRegister";
-import Products from "./pages/Products";
 import Cart from "./pages/Cart";
-import Orders from "./pages/Orders";
 import ContactPage from "./pages/ContactPage";
+import Home from "./pages/Home";
+import LoginRegister from "./pages/LoginRegister";
+import Orders from "./pages/Orders";
+import Products from "./pages/Products";
+import Success from "./pages/Success";
 
 // Components
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import CartSidebar from "./components/CartSidebar";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
   return (

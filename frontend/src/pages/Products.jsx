@@ -117,7 +117,7 @@ const ProductCard = ({ product }) => {
           )}
         </p>
         <p className="text-[#7F3C28] font-bold text-4xl lg:text-xl mt-2 lg:mt-0">
-          RD$ {product.priceDOP} {product.sellingBy}
+          RD$ {product.price_dop} {product.selling_by}
         </p>
 
         {product.available ? (
