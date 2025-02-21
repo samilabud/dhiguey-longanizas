@@ -1,16 +1,24 @@
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "../config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { getUserFromLocalStorage } from "../common/utils";
 
 const ProductManagement = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const storedUser = getUserFromLocalStorage();
+    if (!storedUser) {
+      navigate("/login-register");
+    }
+
     fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetch all products

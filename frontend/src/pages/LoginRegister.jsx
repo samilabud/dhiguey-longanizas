@@ -3,7 +3,7 @@ import { supabase } from "../common/supabaseClient";
 import {
   getUserFromLocalStorage,
   saveUserToLocalStorage,
-} from "../common/account";
+} from "../common/utils";
 
 const LoginRegister = () => {
   const [user, setUser] = useState(null);

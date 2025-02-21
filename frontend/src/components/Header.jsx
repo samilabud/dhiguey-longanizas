@@ -3,7 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { getNavLinkClass } from "../common/helper";
+import { getNavLinkClass } from "../common/utils";
 import useUserRole from "../hooks/useUserRole";
 
 const HeaderTitle = () => {
@@ -116,7 +116,7 @@ const Header = () => {
           >
             Mi Cuenta
           </NavLink>
-          {role === "admin" && (
+          {loading === false && role === "admin" && (
             <NavLink
               to="/product-management"
               className={getNavLinkClass}
