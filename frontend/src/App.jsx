@@ -23,14 +23,10 @@ import AddProduct from "./pages/AddProduct";
 import CartSidebar from "./components/CartSidebar";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import LoadingIndicator from "./components/LoadingIndicator";
 import useUserRole from "./hooks/useUserRole";
 
 function App() {
   const { role, loading } = useUserRole();
-  if (loading) {
-    return <LoadingIndicator />;
-  }
   return (
     <Router>
       <CartProvider>
@@ -52,7 +48,7 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/orders" element={<Orders />} />
                     <Route path="/contact" element={<ContactPage />} />
-                    {role === "admin" && (
+                    {loading === false && role === "admin" && (
                       <>
                         <Route
                           path="/product-management"
