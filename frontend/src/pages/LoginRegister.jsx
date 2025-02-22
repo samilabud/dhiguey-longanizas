@@ -1,45 +1,7 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../common/supabaseClient";
-import {
-  getUserFromLocalStorage,
-  saveUserToLocalStorage,
-} from "../common/utils";
+import { useUser } from "../context/UserContext";
 
 const LoginRegister = () => {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    // Get user data from localStorage on component mount
-    const storedUser = getUserFromLocalStorage();
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Check if user is already logged in
-    if (user) return;
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (data?.user) {
-        setUser(data.user);
-        saveUserToLocalStorage(data.user);
-      }
-      if (error) console.error("Fetch user error:", error.message);
-    };
-    fetchUser();
-  }, [user]);
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    localStorage.removeItem("googleUser");
-  };
-
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) console.error("Google Sign-In Error:", error.message);
-  };
+  const { user, handleLogin, handleSignOut } = useUser();
 
   return (
     <div className="bg-white rounded shadow overflow-hidden hover:shadow-md transition flex lg:block justify-center items-center lg:justify-normal">
@@ -47,7 +9,7 @@ const LoginRegister = () => {
         {user ? (
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">
-              Bienvenido, {user.user_metadata.full_name} 👋
+              Hola, {user.user_metadata.full_name} 👋
             </h2>
             <img
               src={user.user_metadata.avatar_url}
@@ -74,6 +36,10 @@ const LoginRegister = () => {
                 Iniciar sesión con Google
               </button>
             </div>
+            <p className="mt-6 text-center text-gray-600">
+              Necesitamos que inicies sesión para poder enviarte la factura y
+              mostrarte el historial de tus pedidos.
+            </p>
           </>
         )}
       </div>

@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { getNavLinkClass } from "../common/utils";
-import useUserRole from "../hooks/useUserRole";
+import { useUser } from "../context/UserContext";
 
 const HeaderTitle = () => {
   return (
@@ -23,8 +23,8 @@ const HeaderTitle = () => {
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { role, loading } = useUser();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const { role, loading } = useUserRole();
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
