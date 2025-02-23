@@ -6,10 +6,12 @@ import PayPalButton from "../components/PayPalButton";
 import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
 import useCachedFetch from "../hooks/useCachedFetch";
+import { useUser } from "../context/UserContext";
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } =
     useContext(CartContext);
+  const { user, loading: loadingUser, error } = useUser();
   const {
     data: shippingOptions,
     loading: loadingShippingOptions,
@@ -52,7 +54,20 @@ const Cart = () => {
       maximumFractionDigits: 2,
     });
 
-  if (loadingShippingOptions)
+  if (error && error !== "Auth session missing!") {
+    return (
+      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+          Tu Carrito
+        </h2>
+        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
+          <p className="mb-4">Error al cargar el carrito</p>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+  if (loadingShippingOptions || loadingUser) {
     return (
       <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
         <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
@@ -61,6 +76,7 @@ const Cart = () => {
         <LoadingIndicator />
       </div>
     );
+  }
 
   //Shipping cost
   const selectedShippingOption = shippingOptions[selectedShippingIndex];
@@ -202,11 +218,18 @@ const Cart = () => {
                 Vaciar Carrito
               </button>
             </div>
-
-            <PayPalButton
-              price={formatPrice(totalWithShippingUSD)}
-              description={cartDescription}
-            />
+            {user ? (
+              <PayPalButton
+                price={formatPrice(totalWithShippingUSD)}
+                description={cartDescription}
+              />
+            ) : (
+              <Link to="/login-register">
+                <button className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-2xl lg:text-lg">
+                  Iniciar Sesión para Comprar
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       )}

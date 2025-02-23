@@ -77,6 +77,7 @@ export const UserProvider = ({ children }) => {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setRole("user");
     localStorage.removeItem("googleUser");
   };
 
