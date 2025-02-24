@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import axios from "axios";
+import sendInvoice from "../utils/sendInvoice.js";
+import { supabase } from "../supabaseClient.js";
 
 dotenv.config();
 
@@ -14,6 +16,58 @@ const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
 const BASE_URL = process.env.BASE_URL;
 
+const confirmPayment = async (orderID) => {
+  const { error: supabaseError, data } = await supabase
+    .from("invoices")
+    .select("*")
+    .eq("order_id", orderID);
+  console.log({ orderID });
+
+  if (supabaseError) {
+    console.log({ supabaseError });
+    throw new Error(supabaseError.message);
+  }
+
+  const invoiceNumber = data[0].invoice_num;
+  const orderCreationDate = data[0].generation_date;
+  const customerName = data[0].client_name;
+  const customerPhone = data[0].client_phone;
+  const clientEmail = data[0].client_email;
+  const totalDOP = data[0].total_dop;
+  const products = data[0].products.map((product) => JSON.parse(product));
+  console.log({
+    invoiceNumber,
+    orderCreationDate,
+    customerName,
+    customerPhone,
+    clientEmail,
+  });
+
+  if (!orderID || !invoiceNumber || !clientEmail || !totalDOP || !products) {
+    console.log("Invalid invoice data");
+    throw new Error("Invalid invoice data");
+  }
+
+  const { error: updateError } = await supabase
+    .from("invoices")
+    .update({ status: "paid" })
+    .eq("order_id", orderID);
+
+  if (updateError) {
+    console.log({ updateError });
+    throw new Error(updateError.message);
+  }
+  console.log("Sending invoice email...");
+  await sendInvoice({
+    invoiceNumber,
+    issueDate: orderCreationDate,
+    customerName,
+    customerPhone,
+    clientEmail,
+    totalAmount: totalDOP,
+    products,
+  });
+};
 // Generate PayPal Access Token
 const generateAccessToken = async () => {
   try {
@@ -40,20 +94,52 @@ const generateAccessToken = async () => {
 // Create Payment Order
 router.post("/create-payment", async (req, res) => {
   try {
-    const { price, description } = req.body;
-    console.log({ price, description });
+    const {
+      totalDOP,
+      totalUSD,
+      description,
+      customerName,
+      customerPhone,
+      clientEmail,
+      products,
+    } = req.body;
     const accessToken = await generateAccessToken();
+
+    const items = products.map((product) => ({
+      name: product.name,
+      unit_amount: {
+        currency_code: "USD",
+        value: product.price.toFixed(2),
+      },
+      quantity: product.quantity.toString(),
+    }));
+
+    const purchase_units = [
+      {
+        amount: {
+          currency_code: "USD",
+          value: totalUSD.toFixed(2),
+          breakdown: {
+            item_total: {
+              currency_code: "USD",
+              value: totalUSD.toFixed(2),
+            },
+          },
+        },
+        items,
+        description,
+      },
+    ];
+
     const { data } = await axios.post(
       `${PAYPAL_API}/v2/checkout/orders`,
       {
         intent: "CAPTURE",
-        purchase_units: [
-          { amount: { currency_code: "USD", value: price }, description },
-        ],
+        purchase_units,
         application_context: {
-          return_url: `${BASE_URL}/success`, // ✅ Redirect here after payment success
-          cancel_url: `${BASE_URL}/cancel`, // ❌ Redirect here if user cancels
-          user_action: "PAY_NOW", // Forces immediate payment (optional)
+          return_url: `${BASE_URL}/success`,
+          cancel_url: `${BASE_URL}/cancel`,
+          user_action: "PAY_NOW",
         },
       },
       {
@@ -63,12 +149,48 @@ router.post("/create-payment", async (req, res) => {
         },
       }
     );
+    const currentTimestamp = Date.now();
+    const invoiceNumber = `DHLM-${currentTimestamp}`;
+    const orderCreationDate = new Date(currentTimestamp)
+      .toISOString()
+      .split("T")[0];
+
+    // Store in Supabase
+    const { error: supabaseError } = await supabase.from("invoices").insert([
+      {
+        invoice_num: invoiceNumber,
+        generation_date: new Date(currentTimestamp).toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }
+        ),
+        order_id: data.id,
+        client_name: customerName,
+        client_phone: customerPhone,
+        details: description,
+        total_dop: totalDOP,
+        total_usd: totalUSD,
+        client_email: clientEmail,
+        generated_by: "paypal",
+        status: "pending",
+        products,
+      },
+    ]);
+
+    if (supabaseError) {
+      console.log({ supabaseError });
+      throw new Error(supabaseError.message);
+    }
 
     res.json({
       orderID: data.id,
       link: data.links.find((l) => l.rel === "approve").href,
     });
   } catch (error) {
+    console.log({ error });
     res.status(500).json({ error: error.message });
   }
 });
@@ -76,10 +198,9 @@ router.post("/create-payment", async (req, res) => {
 // Capture Payment (On Success)
 router.post("/capture-payment/:orderID", async (req, res) => {
   try {
-    console.log({ orderID: req.params.orderID });
     const accessToken = await generateAccessToken();
     const { orderID } = req.params;
-
+    confirmPayment(orderID);
     const { data } = await axios.post(
       `${PAYPAL_API}/v2/checkout/orders/${orderID}/capture`,
       {},
@@ -100,9 +221,18 @@ router.post("/capture-payment/:orderID", async (req, res) => {
 // Node.js/Express: Check PayPal order status
 router.get("/check-payment", async (req, res) => {
   try {
-    // Replace with actual order verification logic
-    const isPaid = true; // Check from database or PayPal API
+    const { orderID } = req.params;
+    const { error: supabaseError } = await supabase
+      .from("invoices")
+      .select("*")
+      .eq("order_id", orderID);
 
+    if (supabaseError) {
+      console.log({ supabaseError });
+      throw new Error(supabaseError.message);
+    }
+
+    const isPaid = supabaseError.data[0].status === "paid";
     if (isPaid) {
       res.json({ success: true, message: "Payment successful!" });
     } else {

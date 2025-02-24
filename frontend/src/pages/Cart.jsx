@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -20,6 +20,16 @@ const Cart = () => {
     "shippingOptionsCache",
     `${BACKEND_URL}/api/products/shipping_options`
   );
+
+  // State for phone number input
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  // When user data is available, set the phone number from user metadata if present
+  useEffect(() => {
+    if (user && user.user_metadata.phone) {
+      setPhoneNumber(user.user_metadata.phone);
+    }
+  }, [user]);
 
   // Group products by ID and sum their quantities
   const groupedCart = cart.reduce((acc, item) => {
@@ -78,7 +88,7 @@ const Cart = () => {
     );
   }
 
-  //Shipping cost
+  // Shipping cost
   const selectedShippingOption = shippingOptions[selectedShippingIndex];
   const shippingCostDOP = selectedShippingOption.cost_dop;
   const shippingCostUSD = selectedShippingOption.cost_usd;
@@ -92,6 +102,18 @@ const Cart = () => {
       shippingCostDOP
     )})`,
   ].join(", ");
+  const products = groupedCartArray.map((item) => ({
+    name: item.name,
+    quantity: item.quantity,
+    price: item.price_usd,
+    price_dop: shippingCostDOP,
+  }));
+  products.push({
+    name: "Envío",
+    quantity: 1,
+    price: shippingCostUSD,
+    price_dop: shippingCostDOP,
+  });
 
   if (errorShippingOptions)
     return (
@@ -100,7 +122,7 @@ const Cart = () => {
           Tu Carrito
         </h2>
         <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
-          <p className="mb-4">Error al cargar opciones de envio</p>
+          <p className="mb-4">Error al cargar opciones de envío</p>
           <p>{errorShippingOptions}</p>
         </div>
       </div>
@@ -210,7 +232,7 @@ const Cart = () => {
                 <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg">
                   Seguir Comprando
                 </button>
-              </Link>{" "}
+              </Link>
               <button
                 onClick={clearCart}
                 className="bg-white border h-1/2 border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg"
@@ -218,18 +240,48 @@ const Cart = () => {
                 Vaciar Carrito
               </button>
             </div>
-            {user ? (
-              <PayPalButton
-                price={formatPrice(totalWithShippingUSD)}
-                description={cartDescription}
+            {/* Phone Number Input Field */}
+            <div className="mt-4">
+              <label
+                htmlFor="telefono"
+                className="block text-2xl lg:text-lg mb-2 text-[#7F3C28]"
+              >
+                Número de Teléfono:
+              </label>
+              <input
+                id="telefono"
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Only update if value contains only digits
+                  if (/^\d*$/.test(value)) {
+                    setPhoneNumber(value);
+                  }
+                }}
+                placeholder="Su número de contacto"
+                className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2 mb-2"
+                inputMode="numeric"
+                pattern="[0-9]*"
               />
-            ) : (
-              <Link to="/login-register">
-                <button className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-2xl lg:text-lg">
-                  Iniciar Sesión para Comprar
-                </button>
-              </Link>
-            )}
+              {user ? (
+                <PayPalButton
+                  totalDOP={totalWithShippingDOP}
+                  totalUSD={totalWithShippingUSD}
+                  description={cartDescription}
+                  customerName={user.user_metadata.full_name}
+                  customerPhone={phoneNumber}
+                  clientEmail={user.email}
+                  products={products}
+                />
+              ) : (
+                <Link to="/login-register">
+                  <button className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-2xl lg:text-lg">
+                    Iniciar Sesión para Comprar
+                  </button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}

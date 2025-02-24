@@ -24,12 +24,14 @@ import CartSidebar from "./components/CartSidebar";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { UserProvider, useUser } from "./context/UserContext";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <Router>
       <UserProvider>
         <CartProvider>
+          <ToastContainer />
           <div className="relative min-h-screen flex flex-col">
             <div className="relative z-10 flex flex-col min-h-screen">
               {/* Header visible on all pages */}

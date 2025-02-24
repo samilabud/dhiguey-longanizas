@@ -14,17 +14,22 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendInvoiceEmail = async (recipientEmail, invoiceURL) => {
+export const sendInvoiceEmail = async (
+  customerName,
+  recipientEmail,
+  invoiceURL
+) => {
   const mailOptions = {
     from: `"D'Higüey Longanizas y Más" <${process.env.SMTP_USER}>`,
     to: recipientEmail,
-    subject: "Your Invoice from D'Higüey Longanizas y Más",
+    bcc: process.env.SMTP_USER,
+    subject: "Su Factura de D'Higüey Longanizas y Más",
     html: `
-      <p>Dear Customer,</p>
-      <p>Thank you for your purchase! You can download your invoice from the link below:</p>
-      <a href="${invoiceURL}">Download Invoice</a>
-      <p>Best regards,<br/>D'Higüey Longanizas y Más</p>
-    `,
+          <p>Estimado(a) ${customerName},</p>
+          <p>¡Gracias por su compra! Puede descargar su factura desde el siguiente enlace:</p>
+          <a href="${invoiceURL}">Descargar Factura</a>
+          <p>Atentamente,<br/>D'Higüey Longanizas y Más</p>
+        `,
   };
 
   try {

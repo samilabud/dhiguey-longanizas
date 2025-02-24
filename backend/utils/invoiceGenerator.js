@@ -1,60 +1,65 @@
 // utils/invoiceGenerator.js
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import puppeteer from "puppeteer";
+import fs from "fs";
+import path from "path";
 import { supabase } from "../supabaseClient.js";
 
 export const generateInvoicePDF = async (invoiceData) => {
-  const pdfDoc = await PDFDocument.create();
-  const page = pdfDoc.addPage([600, 400]);
-  const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
 
-  page.drawText("Invoice", {
-    x: 50,
-    y: 350,
-    size: 24,
-    font,
-    color: rgb(0, 0, 0),
+  const templatePath = path.join(process.cwd(), "templates", "invoice.html");
+  let htmlTemplate = fs.readFileSync(templatePath, "utf8");
+  htmlTemplate = htmlTemplate
+    .replace("{{invoiceNumber}}", invoiceData?.invoiceNumber || "-")
+    .replace("{{issueDate}}", invoiceData?.issueDate || "-")
+    .replace("{{customerName}}", invoiceData?.customerName || "-")
+    .replace("{{customerPhone}}", invoiceData?.customerPhone || "-")
+    .replace(
+      "{{productsTable}}",
+      invoiceData?.productsTable || "<tr><td>-</td><td>-</td><td>-</td></tr>"
+    )
+    .replace("{{totalAmount}}", invoiceData?.totalAmount?.toFixed(2) || "-");
+
+  //Render the HTML content in Puppeteer
+  await page.setContent(htmlTemplate, { waitUntil: "networkidle0" });
+
+  //Generate the PDF
+  const pdfBuffer = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: { top: "20px", bottom: "20px" },
   });
 
-  page.drawText(`Customer: ${invoiceData.customerName}`, {
-    x: 50,
-    y: 300,
-    size: 18,
-    font,
-  });
+  await browser.close();
 
-  page.drawText(`Amount: $${invoiceData.amount}`, {
-    x: 50,
-    y: 270,
-    size: 18,
-    font,
-  });
-
-  page.drawText(`Date: ${new Date().toLocaleDateString()}`, {
-    x: 50,
-    y: 240,
-    size: 18,
-    font,
-  });
-
-  const pdfBytes = await pdfDoc.save();
-  //   uploadFileToStorage(pdfBytes, "invoice.pdf");
-  //   return pdfBytes;
   // Upload PDF to Supabase Storage
   const { data, error } = await supabase.storage
     .from("invoices")
-    .upload(`invoice_${Date.now()}.pdf`, pdfBytes, {
-      contentType: "application/pdf",
-    });
+    .upload(
+      `dhiguey-longanizas-factura-${invoiceData.invoiceNumber}.pdf`,
+      pdfBuffer,
+      {
+        contentType: "application/pdf",
+        upsert: true, // Overwrite existing file
+      }
+    );
 
-  if (error) throw new Error("Error uploading invoice: " + error.message);
-  if (data) {
-    console.log(data);
-    return data.Key;
+  if (error) {
+    throw new Error("Error uploading invoice: " + error.message);
   }
 
-  //   // Get public URL of the uploaded file
-  //   const { publicURL } = supabase.storage
-  //     .from("invoices")
-  //     .getPublicUrl(data.path);
-  //   return publicURL;
+  if (data) {
+    console.log("Invoice uploaded successfully:", data);
+    const { data: urlData, error: urlError } = supabase.storage
+      .from("invoices")
+      .getPublicUrl(data.path);
+
+    if (urlError) {
+      throw new Error("Error getting public URL: " + urlError.message);
+    }
+
+    const publicUrl = urlData.publicUrl;
+    return publicUrl;
+  }
 };
