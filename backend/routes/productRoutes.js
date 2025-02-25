@@ -12,7 +12,8 @@ router.get("/", async (req, res) => {
   try {
     const { data: products, error } = await supabase
       .from("products")
-      .select("*");
+      .select("*")
+      .order("id");
 
     if (error) {
       return res.status(500).json({ error: error.message });

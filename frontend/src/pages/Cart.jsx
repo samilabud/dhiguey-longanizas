@@ -9,6 +9,7 @@ import useCachedFetch from "../hooks/useCachedFetch";
 import { useUser } from "../context/UserContext";
 
 const Cart = () => {
+  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
   const { cart, removeFromCart, clearCart, updateQuantity } =
     useContext(CartContext);
   const {
@@ -17,6 +18,7 @@ const Cart = () => {
     error,
     phoneNumber: userPhoneNumber,
   } = useUser();
+  const [phoneNumber, setPhoneNumber] = useState(userPhoneNumber);
   const {
     data: shippingOptions,
     loading: loadingShippingOptions,
@@ -26,15 +28,12 @@ const Cart = () => {
     `${BACKEND_URL}/api/products/shipping_options`
   );
 
-  // State for phone number input
-  const [phoneNumber, setPhoneNumber] = useState(userPhoneNumber);
-
-  // When user data is available, set the phone number from user metadata if present
   useEffect(() => {
-    if (user && user.user_metadata.phone) {
-      setPhoneNumber(user.user_metadata.phone);
+    const savedIndex = localStorage.getItem("selectedShippingIndex");
+    if (savedIndex !== null) {
+      setSelectedShippingIndex(Number(savedIndex));
     }
-  }, [user]);
+  }, []);
 
   // Group products by ID and sum their quantities
   const groupedCart = cart.reduce((acc, item) => {
@@ -60,8 +59,6 @@ const Cart = () => {
     (acc, item) => acc + item.quantity,
     0
   );
-
-  const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
 
   const formatPrice = (price) =>
     price.toLocaleString("es-DO", {
@@ -206,7 +203,11 @@ const Cart = () => {
             <select
               className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2"
               value={selectedShippingIndex}
-              onChange={(e) => setSelectedShippingIndex(e.target.value)}
+              onChange={(e) => {
+                const newIndex = Number(e.target.value);
+                setSelectedShippingIndex(newIndex);
+                localStorage.setItem("selectedShippingIndex", newIndex);
+              }}
             >
               {shippingOptions.map((option, idx) => (
                 <option key={idx} value={idx}>
