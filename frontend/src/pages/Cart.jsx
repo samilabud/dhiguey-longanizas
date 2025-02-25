@@ -247,38 +247,41 @@ const Cart = () => {
             </div>
             {/* Phone Number Input Field */}
             <div className="mt-4 flex flex-col">
-              <label
-                htmlFor="telefono"
-                className="block text-2xl lg:text-lg mb-2 text-[#7F3C28]"
-              >
-                Número de Teléfono:
-              </label>
-              <input
-                id="telefono"
-                type="tel"
-                value={phoneNumber}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // Only update if value contains only digits
-                  if (/^\d*$/.test(value)) {
-                    setPhoneNumber(value);
-                  }
-                }}
-                placeholder="Su número de contacto"
-                className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2 mb-2"
-                inputMode="numeric"
-                pattern="[0-9]*"
-              />
               {user ? (
-                <PayPalButton
-                  totalDOP={totalWithShippingDOP}
-                  totalUSD={totalWithShippingUSD}
-                  description={cartDescription}
-                  customerName={user.user_metadata.full_name}
-                  customerPhone={phoneNumber}
-                  clientEmail={user.email}
-                  products={products}
-                />
+                <>
+                  <label
+                    htmlFor="telefono"
+                    className="block text-2xl lg:text-lg mb-2 text-[#7F3C28]"
+                  >
+                    Número de Teléfono:
+                  </label>
+                  <input
+                    id="telefono"
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Only update if value contains only digits
+                      if (/^\d*$/.test(value)) {
+                        setPhoneNumber(value);
+                      }
+                    }}
+                    placeholder="Su número de contacto"
+                    className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2 mb-2"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                  />
+
+                  <PayPalButton
+                    totalDOP={totalWithShippingDOP}
+                    totalUSD={totalWithShippingUSD}
+                    description={cartDescription}
+                    customerName={user.user_metadata.full_name}
+                    customerPhone={phoneNumber}
+                    clientEmail={user.email}
+                    products={products}
+                  />
+                </>
               ) : (
                 <Link to="/login-register">
                   <button className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-2xl lg:text-lg">
