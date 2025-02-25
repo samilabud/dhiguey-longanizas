@@ -111,7 +111,7 @@ const Cart = () => {
     name: item.name,
     quantity: item.quantity,
     price: item.price_usd,
-    price_dop: shippingCostDOP,
+    price_dop: item.price_dop,
   }));
   products.push({
     name: "Envío",

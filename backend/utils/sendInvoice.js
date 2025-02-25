@@ -20,6 +20,7 @@ const sendInvoice = async ({
         </tr>`
     )
     .join("");
+
   const invoiceData = {
     invoiceNumber,
     issueDate,

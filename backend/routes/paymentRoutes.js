@@ -32,7 +32,7 @@ const confirmPayment = async (orderID) => {
   const customerPhone = data[0].client_phone;
   const clientEmail = data[0].client_email;
   const totalDOP = data[0].total_dop;
-  const products = data[0].products.map((product) => JSON.parse(product));
+  const products = JSON.parse(data[0].products);
 
   if (!orderID || !invoiceNumber || !clientEmail || !totalDOP || !products) {
     throw new Error("Invalid invoice data");
@@ -163,7 +163,7 @@ router.post("/create-payment", async (req, res) => {
         client_email: clientEmail,
         generated_by: "paypal",
         status: "pending",
-        products,
+        products: JSON.stringify(products),
       },
     ]);
 
