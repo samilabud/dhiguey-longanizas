@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { supabase } from "../supabaseClient.js";
 import sendInvoice from "../utils/sendInvoice.js";
+import { convertDateToSpanishFormat } from "../utils/conversions.js";
 
 dotenv.config();
 
@@ -27,7 +28,7 @@ const confirmPayment = async (orderID) => {
   }
 
   const invoiceNumber = data[0].invoice_num;
-  const orderCreationDate = data[0].generation_date;
+  const orderCreationDate = convertDateToSpanishFormat(data[0].generation_date);
   const customerName = data[0].client_name;
   const customerPhone = data[0].client_phone;
   const clientEmail = data[0].client_email;
@@ -196,7 +197,6 @@ router.post("/capture-payment/:orderID", async (req, res) => {
   try {
     const accessToken = await generateAccessToken();
     const { orderID } = req.params;
-    confirmPayment(orderID);
     const { data } = await axios.post(
       `${PAYPAL_API}/v2/checkout/orders/${orderID}/capture`,
       {},
@@ -207,7 +207,7 @@ router.post("/capture-payment/:orderID", async (req, res) => {
         },
       }
     );
-
+    confirmPayment(orderID);
     res.json({ message: "Payment successful", data });
   } catch (error) {
     res.status(500).json({ error: error.message });
