@@ -11,7 +11,12 @@ import { useUser } from "../context/UserContext";
 const Cart = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } =
     useContext(CartContext);
-  const { user, loading: loadingUser, error } = useUser();
+  const {
+    user,
+    loading: loadingUser,
+    error,
+    phoneNumber: userPhoneNumber,
+  } = useUser();
   const {
     data: shippingOptions,
     loading: loadingShippingOptions,
@@ -22,7 +27,7 @@ const Cart = () => {
   );
 
   // State for phone number input
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(userPhoneNumber);
 
   // When user data is available, set the phone number from user metadata if present
   useEffect(() => {

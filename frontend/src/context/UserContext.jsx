@@ -15,6 +15,7 @@ export const useUser = () => useContext(UserContext);
 // Provider component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
   const [error, setError] = useState(null);
@@ -41,7 +42,7 @@ export const UserProvider = ({ children }) => {
         // Fetch the user's role from the profiles table
         const { data: profile, error: profileError } = await supabase
           .from("profiles")
-          .select("role")
+          .select("role, phone")
           .eq("email", data.user.email)
           .single();
 
@@ -49,6 +50,7 @@ export const UserProvider = ({ children }) => {
           setError("Failed to fetch user role.");
         } else {
           setRole(profile.role);
+          setPhoneNumber(profile.phone);
         }
       }
       if (error) {
@@ -83,7 +85,15 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, loading, handleLogin, handleSignOut, role, error }}
+      value={{
+        user,
+        loading,
+        handleLogin,
+        handleSignOut,
+        role,
+        error,
+        phoneNumber,
+      }}
     >
       {children}
     </UserContext.Provider>

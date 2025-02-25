@@ -1,8 +1,8 @@
-import express from "express";
-import dotenv from "dotenv";
 import axios from "axios";
-import sendInvoice from "../utils/sendInvoice.js";
+import dotenv from "dotenv";
+import express from "express";
 import { supabase } from "../supabaseClient.js";
+import sendInvoice from "../utils/sendInvoice.js";
 
 dotenv.config();
 
@@ -21,10 +21,8 @@ const confirmPayment = async (orderID) => {
     .from("invoices")
     .select("*")
     .eq("order_id", orderID);
-  console.log({ orderID });
 
   if (supabaseError) {
-    console.log({ supabaseError });
     throw new Error(supabaseError.message);
   }
 
@@ -35,16 +33,8 @@ const confirmPayment = async (orderID) => {
   const clientEmail = data[0].client_email;
   const totalDOP = data[0].total_dop;
   const products = data[0].products.map((product) => JSON.parse(product));
-  console.log({
-    invoiceNumber,
-    orderCreationDate,
-    customerName,
-    customerPhone,
-    clientEmail,
-  });
 
   if (!orderID || !invoiceNumber || !clientEmail || !totalDOP || !products) {
-    console.log("Invalid invoice data");
     throw new Error("Invalid invoice data");
   }
 
@@ -57,7 +47,7 @@ const confirmPayment = async (orderID) => {
     console.log({ updateError });
     throw new Error(updateError.message);
   }
-  console.log("Sending invoice email...");
+
   await sendInvoice({
     invoiceNumber,
     issueDate: orderCreationDate,
@@ -151,9 +141,6 @@ router.post("/create-payment", async (req, res) => {
     );
     const currentTimestamp = Date.now();
     const invoiceNumber = `DHLM-${currentTimestamp}`;
-    const orderCreationDate = new Date(currentTimestamp)
-      .toISOString()
-      .split("T")[0];
 
     // Store in Supabase
     const { error: supabaseError } = await supabase.from("invoices").insert([
@@ -183,6 +170,15 @@ router.post("/create-payment", async (req, res) => {
     if (supabaseError) {
       console.log({ supabaseError });
       throw new Error(supabaseError.message);
+    }
+
+    // Update profiles in Supabase
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ phone: customerPhone })
+      .eq("email", clientEmail);
+    if (updateError) {
+      console.error("Error updating profile:", updateError);
     }
 
     res.json({
