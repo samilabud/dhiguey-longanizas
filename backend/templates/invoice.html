@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>D'Higüey Longanizas y Más - Factura</title>
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            color: #4A2E24;
+            /* Dark brown for text */
+            background-color: #FAF3ED;
+            /* Light beige background */
+            padding: 20px;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 2px solid #7F3C28;
+            /* Match footer */
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .header-left img {
+            width: 120px;
+            margin-bottom: 10px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .header-right h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #7F3C28;
+        }
+
+        .invoice-info {
+            margin-bottom: 10px;
+        }
+
+        .invoice-info p {
+            margin: 2px 0;
+        }
+
+        /* Billing Information */
+        .billing-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .billing-section .column {
+            width: 48%;
+        }
+
+        .billing-section h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #7F3C28;
+        }
+
+        .billing-section p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        /* Table for products/services */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #7F3C28;
+        }
+
+        .products-table thead {
+            background-color: #7F3C28;
+            color: #fff;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 10px;
+            border: 1px solid #7F3C28;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .products-table tbody tr:nth-child(even) {
+            background-color: #F5E6D8;
+            /* Light brown shade */
+        }
+
+        /* Totals section */
+        .totals {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 14px;
+            color: #7F3C28;
+        }
+
+        .totals p strong {
+            font-size: 16px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            max-width: 800px;
+            background-color: #7F3C28;
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            padding: 16px;
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+
+        .footer-title,
+        .footer-subtitle,
+        .contact-info {
+            margin-top: 2px;
+        }
+
+        /* Social icons */
+        .social-icons {
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .icon {
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            color: #F5E6D8;
+            /* Light beige */
+        }
+
+        /* Contact link */
+        .contact-link {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #F5E6D8;
+        }
+
+        .footer-thanks {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="invoice-container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <img src="https://dhiguey-longanizas.com/images/extracted_round_logo.png"
+                    alt="D'Higüey Longanizas y Más - Logo" />
+            </div>
+            <div class="header-right">
+                <h1>FACTURA</h1>
+                <div class="invoice-info">
+                    <p>Número de factura: <strong>{{invoiceNumber}}</strong></p>
+                    <p>Fecha de emisión: <strong>{{issueDate}}</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Billing Information -->
+        <div class="billing-section">
+            <div class="column">
+                <h3>Factura para</h3>
+                <p>Nombre: {{customerName}}</p>
+                <p>Teléfono: {{customerPhone}}</p>
+            </div>
+            <div class="column">
+                <h3>Factura por</h3>
+                <p>Nombre: D'Higüey Longanizas y Más</p>
+                <p>Teléfono: +1 (849) 653-5551</p>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody> {{productsTable}} </tbody>
+        </table>
+
+        <!-- Totals -->
+        <div class="totals">
+            <p><strong>Total: RD${{totalAmount}}</strong></p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-thanks">¡Gracias por tu compra!</p>
+            <p class="footer-title">D'Higüey Longanizas y Más</p>
+            <p class="footer-subtitle">Del campo a tu mesa</p>
+
+            <!-- Social Icons -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/dhigueylonganizasymas" class="social-link" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="fa-brands fa-instagram icon"></i>
+                </a>
+                <a href="https://wa.me/8496535551" class="social-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp icon"></i>
+                </a>
+            </div>
+
+            <!-- Contact Info -->
+            <p class="contact-info">
+                Tel:
+                <a href="https://wa.me/8496535551" class="contact-link" target="_blank" rel="noopener noreferrer">
+                    +1 (849) 653-5551
+                </a>
+            </p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

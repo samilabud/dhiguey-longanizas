@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { getNavLinkClass } from "../common/utils";
-import useUserRole from "../hooks/useUserRole";
+import { useUser } from "../context/UserContext";
 
 const HeaderTitle = () => {
   return (
@@ -23,9 +23,17 @@ const HeaderTitle = () => {
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false); // Dropdown state
+  const { role, loading, user, handleSignOut } = useUser();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const { role, loading } = useUserRole();
+  const navigate = useNavigate();
+
   const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleAccountMenu = () => setAccountMenuOpen(!accountMenuOpen);
+  const handleLogout = async () => {
+    await handleSignOut();
+    navigate("/login-register");
+  };
 
   return (
     <header className="bg-[#7F3C28] px-6 md:px-10 py-4">
@@ -34,7 +42,7 @@ const Header = () => {
 
         {/* Desktop Menu (hidden on mobile) */}
         {!isTabletOrMobile && (
-          <nav className="flex space-x-6">
+          <nav className="flex space-x-6 relative">
             <NavLink to="/" className={getNavLinkClass}>
               Inicio
             </NavLink>
@@ -47,14 +55,43 @@ const Header = () => {
             <NavLink to="/contact" className={getNavLinkClass}>
               Contáctanos
             </NavLink>
-            <NavLink to="/login-register" className={getNavLinkClass}>
-              Mi Cuenta
-            </NavLink>
+
             {loading === false && role === "admin" && (
               <NavLink to="/product-management" className={getNavLinkClass}>
                 Gestiona Productos
               </NavLink>
             )}
+
+            {/* Expandable Mi Cuenta Dropdown */}
+            <div className="relative">
+              <button
+                onClick={toggleAccountMenu}
+                className="flex items-center space-x-2 text-white hover:underline focus:outline-none"
+              >
+                {loading === false && user
+                  ? `Hola, ${user.user_metadata.full_name}`
+                  : "Mi Cuenta"}
+                {user && <FaChevronDown className="ml-1" />}
+              </button>
+
+              {accountMenuOpen && user && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+                  <NavLink
+                    to="/login-register"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    onClick={() => setAccountMenuOpen(false)}
+                  >
+                    Ver mis órdenes
+                  </NavLink>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Salir
+                  </button>
+                </div>
+              )}
+            </div>
           </nav>
         )}
 
@@ -109,13 +146,7 @@ const Header = () => {
           >
             Contacto
           </NavLink>
-          <NavLink
-            to="/login-register"
-            className={getNavLinkClass}
-            onClick={toggleMenu}
-          >
-            Mi Cuenta
-          </NavLink>
+
           {loading === false && role === "admin" && (
             <NavLink
               to="/product-management"
@@ -124,6 +155,45 @@ const Header = () => {
             >
               Gestiona Productos
             </NavLink>
+          )}
+
+          {/* Expandable Account Menu for Mobile */}
+          {user && (
+            <div className="flex flex-col">
+              <span className="text-white mb-2">
+                {user.user_metadata.full_name}
+              </span>
+              <button
+                onClick={toggleAccountMenu}
+                className="flex items-center justify-between text-white hover:underline focus:outline-none"
+              >
+                Cuenta
+                <FaChevronDown />
+              </button>
+              {accountMenuOpen && (
+                <div className="flex flex-col space-y-2 pl-4">
+                  <NavLink
+                    to="/login-register"
+                    className={getNavLinkClass}
+                    onClick={() => {
+                      toggleMenu();
+                      setAccountMenuOpen(false);
+                    }}
+                  >
+                    Ver mis órdenes
+                  </NavLink>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      toggleMenu();
+                    }}
+                    className="text-left text-white hover:underline"
+                  >
+                    Salir
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

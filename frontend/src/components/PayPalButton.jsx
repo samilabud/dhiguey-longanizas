@@ -1,12 +1,25 @@
 import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { toast } from "react-toastify";
 
-const PayPalButton = ({ price, description }) => {
+const PayPalButton = ({
+  totalDOP,
+  totalUSD,
+  description,
+  customerName,
+  customerPhone,
+  clientEmail,
+  products,
+}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handlePayment = async () => {
+    if (!customerPhone.trim()) {
+      toast.warning("Por favor, ingrese su número de teléfono");
+      return;
+    }
     setLoading(true);
     setError(null);
 
@@ -15,8 +28,13 @@ const PayPalButton = ({ price, description }) => {
       const { data } = await axios.post(
         `${BACKEND_URL}/api/paypal/create-payment`,
         {
-          price,
+          totalDOP,
+          totalUSD,
           description,
+          customerName,
+          customerPhone,
+          clientEmail,
+          products,
         }
       );
 

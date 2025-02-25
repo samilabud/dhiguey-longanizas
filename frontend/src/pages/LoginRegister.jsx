@@ -1,53 +1,18 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../common/supabaseClient";
-import {
-  getUserFromLocalStorage,
-  saveUserToLocalStorage,
-} from "../common/utils";
+import { useUser } from "../context/UserContext";
+import { FaGoogle } from "react-icons/fa";
+import { useMediaQuery } from "react-responsive";
 
 const LoginRegister = () => {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    // Get user data from localStorage on component mount
-    const storedUser = getUserFromLocalStorage();
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Check if user is already logged in
-    if (user) return;
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (data?.user) {
-        setUser(data.user);
-        saveUserToLocalStorage(data.user);
-      }
-      if (error) console.error("Fetch user error:", error.message);
-    };
-    fetchUser();
-  }, [user]);
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    localStorage.removeItem("googleUser");
-  };
-
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) console.error("Google Sign-In Error:", error.message);
-  };
+  const { user, handleLogin, handleSignOut } = useUser();
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   return (
-    <div className="bg-white rounded shadow overflow-hidden hover:shadow-md transition flex lg:block justify-center items-center lg:justify-normal">
-      <div className="w-full max-w-md bg-white rounded shadow p-6">
+    <div className="bg-white rounded shadow overflow-hidden hover:shadow-md transition flex lg:block justify-center items-center lg:justify-normal ">
+      <div className="w-full max-w-lg lg:max-w-md bg-white rounded shadow p-6 flex flex-col gap-4">
         {user ? (
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">
-              Bienvenido, {user.user_metadata.full_name} 👋
+              Hola, {user.user_metadata.full_name} 👋
             </h2>
             <img
               src={user.user_metadata.avatar_url}
@@ -63,17 +28,22 @@ const LoginRegister = () => {
           </div>
         ) : (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-center text-[#7F3C28]">
+            <h2 className="text-4xl lg:text-2xl font-bold mb-4 text-center text-[#7F3C28]">
               Iniciar Sesión / Registrarse
             </h2>
             <div className="text-center">
               <button
                 onClick={handleLogin}
-                className="bg-[#7F3C28] text-white px-6 rounded-md hover:bg-[#4C150B] transition cursor-pointer text-4xl lg:text-xl h-28 lg:h-18"
+                className="bg-[#7F3C28] text-white px-6 rounded-md hover:bg-[#4C150B] transition cursor-pointer text-3xl lg:text-xl h-28 lg:h-18 inline-flex items-center justify-center"
               >
-                Iniciar sesión con Google
+                <FaGoogle size={isTabletOrMobile ? 48 : 24} />
+                <span className="ml-3 lg:ml-2">Iniciar sesión con Google</span>
               </button>
             </div>
+            <p className="mt-6 text-center text-gray-600 text-3xl lg:text-lg">
+              Necesitamos que inicies sesión para poder enviarte la factura y
+              mostrarte el historial de tus pedidos.
+            </p>
           </>
         )}
       </div>
