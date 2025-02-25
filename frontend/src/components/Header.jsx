@@ -32,7 +32,7 @@ const Header = () => {
   const toggleAccountMenu = () => setAccountMenuOpen(!accountMenuOpen);
   const handleLogout = async () => {
     await handleSignOut();
-    navigate("/login-register");
+    navigate("/my-account");
   };
 
   return (
@@ -77,7 +77,7 @@ const Header = () => {
               {accountMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
                   <NavLink
-                    to="/login-register"
+                    to="/my-account"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                     onClick={() => setAccountMenuOpen(false)}
                   >
@@ -186,7 +186,7 @@ const Header = () => {
                 {accountMenuOpen && (
                   <div className="flex flex-col space-y-2 pl-4">
                     <NavLink
-                      to="/login-register"
+                      to="/my-account"
                       className={getNavLinkClass}
                       onClick={() => {
                         toggleMenu();

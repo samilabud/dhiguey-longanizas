@@ -13,7 +13,7 @@ import Cancel from "./pages/Cancel";
 import Cart from "./pages/Cart";
 import ContactPage from "./pages/ContactPage";
 import Home from "./pages/Home";
-import LoginRegister from "./pages/LoginRegister";
+import MyAccount from "./pages/MyAccount";
 import ProductManagement from "./pages/ProductManagement";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
@@ -65,7 +65,7 @@ function AppRoutes() {
       <Route path="/success" element={<Success />} />
       <Route path="/cancel" element={<Cancel />} />
       <Route path="/products" element={<Products />} />
-      <Route path="/login-register" element={<LoginRegister />} />
+      <Route path="/my-account" element={<MyAccount />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/contact" element={<ContactPage />} />
       {loading === false && role === "admin" && (

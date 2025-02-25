@@ -4,7 +4,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import OrderList from "../components/OrderList";
 import { useUser } from "../context/UserContext";
 
-const LoginRegister = () => {
+const MyAccount = () => {
   const { user, handleLogin, handleSignOut, loading } = useUser();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   if (loading) {
@@ -30,7 +30,7 @@ const LoginRegister = () => {
               />
               <button
                 onClick={handleSignOut}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition pointer"
               >
                 Cerrar Sesión
               </button>
@@ -64,4 +64,4 @@ const LoginRegister = () => {
   );
 };
 
-export default LoginRegister;
+export default MyAccount;

@@ -283,7 +283,7 @@ const Cart = () => {
                   />
                 </>
               ) : (
-                <Link to="/login-register">
+                <Link to="/my-account">
                   <button className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-2xl lg:text-lg">
                     Iniciar Sesión para Comprar
                   </button>

@@ -14,7 +14,7 @@ const ProductManagement = () => {
   useEffect(() => {
     const storedUser = getUserFromLocalStorage();
     if (!storedUser) {
-      navigate("/login-register");
+      navigate("/my-account");
     }
 
     fetchProducts();
