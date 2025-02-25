@@ -80,6 +80,7 @@ export const UserProvider = ({ children }) => {
     await supabase.auth.signOut();
     setUser(null);
     setRole("user");
+    setPhoneNumber(null);
     localStorage.removeItem("googleUser");
   };
 

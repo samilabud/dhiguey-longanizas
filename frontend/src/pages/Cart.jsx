@@ -246,7 +246,7 @@ const Cart = () => {
               </button>
             </div>
             {/* Phone Number Input Field */}
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col">
               <label
                 htmlFor="telefono"
                 className="block text-2xl lg:text-lg mb-2 text-[#7F3C28]"
