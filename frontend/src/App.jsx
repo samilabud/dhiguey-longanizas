@@ -14,17 +14,16 @@ import Cart from "./pages/Cart";
 import ContactPage from "./pages/ContactPage";
 import Home from "./pages/Home";
 import LoginRegister from "./pages/LoginRegister";
-import Orders from "./pages/Orders";
 import ProductManagement from "./pages/ProductManagement";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
 
 // Components
+import { ToastContainer } from "react-toastify";
 import CartSidebar from "./components/CartSidebar";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { UserProvider, useUser } from "./context/UserContext";
-import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -46,10 +45,8 @@ function App() {
                 </main>
               </div>
 
-              {/* Conditionally show CartSidebar using useLocation() */}
               <CartSidebarWrapper />
 
-              {/* Footer visible on all pages */}
               <Footer />
             </div>
           </div>
@@ -60,7 +57,7 @@ function App() {
 }
 
 function AppRoutes() {
-  const { role, loading } = useUser(); // Moved here so it's inside UserProvider
+  const { role, loading } = useUser();
 
   return (
     <Routes>
@@ -70,7 +67,6 @@ function AppRoutes() {
       <Route path="/products" element={<Products />} />
       <Route path="/login-register" element={<LoginRegister />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/orders" element={<Orders />} />
       <Route path="/contact" element={<ContactPage />} />
       {loading === false && role === "admin" && (
         <>

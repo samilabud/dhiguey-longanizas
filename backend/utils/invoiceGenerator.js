@@ -60,6 +60,14 @@ export const generateInvoicePDF = async (invoiceData) => {
     }
 
     const publicUrl = urlData.publicUrl;
+    const { error: updateError } = await supabase
+      .from("invoices")
+      .update({ pdf_url: publicUrl })
+      .eq("invoice_num", invoiceData.invoiceNumber);
+
+    if (updateError) {
+      throw new Error("Error updating invoice: " + updateError.message);
+    }
     return publicUrl;
   }
 };
