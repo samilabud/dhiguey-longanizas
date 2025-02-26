@@ -35,6 +35,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     await handleSignOut();
+    setAccountMenuOpen(false);
     navigate("/my-account");
   };
 
@@ -58,11 +59,6 @@ const Header = () => {
             <NavLink to="/contact" className={getNavLinkClass}>
               Contáctanos
             </NavLink>
-            {!loading && !user && (
-              <NavLink to="/my-account" className={getNavLinkClass}>
-                Mi Cuenta
-              </NavLink>
-            )}
             {loading === false && role === "admin" && (
               <div className="relative">
                 <button
@@ -128,13 +124,21 @@ const Header = () => {
                   >
                     Ver mis órdenes
                   </NavLink>
-                  {user && (
+                  {user ? (
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
                       Salir
                     </button>
+                  ) : (
+                    <NavLink
+                      to="/my-account"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setAccountMenuOpen(false)}
+                    >
+                      Iniciar Sesión
+                    </NavLink>
                   )}
                 </div>
               )}
@@ -204,15 +208,6 @@ const Header = () => {
             >
               Contacto
             </NavLink>
-            {!loading && !user && (
-              <NavLink
-                to="/my-account"
-                className={getNavLinkClass}
-                onClick={toggleMenu}
-              >
-                Mi Cuenta
-              </NavLink>
-            )}
 
             {loading === false && role === "admin" && (
               <div className="flex flex-col">
@@ -269,6 +264,15 @@ const Header = () => {
                 )}
               </div>
             )}
+            {!user && (
+              <NavLink
+                to="/my-account"
+                className={getNavLinkClass}
+                onClick={toggleMenu}
+              >
+                Iniciar Sesión
+              </NavLink>
+            )}
 
             {/* Menú desplegable de Cuenta en mobile */}
             {user && (
@@ -295,7 +299,7 @@ const Header = () => {
                     >
                       Ver mis órdenes
                     </NavLink>
-                    {user && (
+                    {user ? (
                       <button
                         onClick={() => {
                           handleLogout();
@@ -305,6 +309,14 @@ const Header = () => {
                       >
                         Salir
                       </button>
+                    ) : (
+                      <NavLink
+                        to="/my-account"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => toggleMenu()}
+                      >
+                        Iniciar Sesión
+                      </NavLink>
                     )}
                   </div>
                 )}
