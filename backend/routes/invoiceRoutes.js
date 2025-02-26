@@ -60,7 +60,7 @@ router.post("/create-manual", async (req, res) => {
         <tr>
           <td>${product.name}</td>
           <td>${product.quantity}</td>
-          <td>RD$ ${product.price_dop.toFixed(2)}</td>
+          <td>RD$ ${product.price_cash.toFixed(2)}</td>
         </tr>`
       )
       .join("");
