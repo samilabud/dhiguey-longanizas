@@ -61,13 +61,13 @@ const ManualInvoice = () => {
         id: product.id,
         name: product.name,
         quantity: Number(quantities[product.id]),
-        price_dop: product.price_dop,
+        price_cash: product.price_cash,
       }));
     dataProducts.push({
       id: 0,
       name: "Envío a " + shippingOptions[selectedShippingIndex].label,
       quantity: 1,
-      price_dop: shippingCost,
+      price_cash: shippingCost,
     });
 
     const data = {
