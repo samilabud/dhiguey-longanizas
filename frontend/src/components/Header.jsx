@@ -23,13 +23,16 @@ const HeaderTitle = () => {
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false); // Dropdown state
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false); // Dropdown de Mi Cuenta
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false); // Dropdown de Administración
   const { role, loading, user, handleSignOut } = useUser();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleAccountMenu = () => setAccountMenuOpen(!accountMenuOpen);
+  const toggleAdminMenu = () => setAdminMenuOpen(!adminMenuOpen);
+
   const handleLogout = async () => {
     await handleSignOut();
     navigate("/my-account");
@@ -40,7 +43,7 @@ const Header = () => {
       <div className="flex items-center justify-between">
         <HeaderTitle />
 
-        {/* Desktop Menu (hidden on mobile) */}
+        {/* Menú de escritorio (oculto en mobile) */}
         {!isTabletOrMobile && (
           <nav className="flex space-x-6 relative">
             <NavLink to="/" className={getNavLinkClass}>
@@ -57,12 +60,43 @@ const Header = () => {
             </NavLink>
 
             {loading === false && role === "admin" && (
-              <NavLink to="/product-management" className={getNavLinkClass}>
-                Gestiona Productos
-              </NavLink>
+              <div className="relative">
+                <button
+                  onClick={toggleAdminMenu}
+                  className="flex items-center space-x-2 text-white hover:underline focus:outline-none"
+                >
+                  <span>Administración</span>
+                  <FaChevronDown className="ml-1" />
+                </button>
+                {adminMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+                    <NavLink
+                      to="/product-management"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setAdminMenuOpen(false)}
+                    >
+                      Gestionar productos
+                    </NavLink>
+                    <NavLink
+                      to="/add-product"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setAdminMenuOpen(false)}
+                    >
+                      Agregar productos
+                    </NavLink>
+                    <NavLink
+                      to="/create-manual-invoice"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setAdminMenuOpen(false)}
+                    >
+                      Crear factura manual
+                    </NavLink>
+                  </div>
+                )}
+              </div>
             )}
 
-            {/* Expandable Mi Cuenta Dropdown */}
+            {/* Dropdown de Mi Cuenta */}
             <div className="relative">
               <button
                 onClick={toggleAccountMenu}
@@ -97,7 +131,7 @@ const Header = () => {
           </nav>
         )}
 
-        {/* Mobile Menu Button */}
+        {/* Botón de menú para mobile */}
         {isTabletOrMobile && (
           <button
             className="text-white text-5xl focus:outline-none z-50"
@@ -108,7 +142,7 @@ const Header = () => {
           </button>
         )}
 
-        {/* Overlay for mobile menu */}
+        {/* Overlay para menú mobile */}
         {isOpen && (
           <div
             className="fixed inset-0 bg-black opacity-50 z-40"
@@ -116,7 +150,7 @@ const Header = () => {
           />
         )}
 
-        {/* Mobile Sidebar Menu */}
+        {/* Menú lateral para mobile */}
         <div
           className={`fixed left-0 top-0 h-full w-56 bg-[#7F3C28] shadow-lg transform ${
             isOpen ? "translate-x-0" : "-translate-x-full"
@@ -161,16 +195,52 @@ const Header = () => {
             </NavLink>
 
             {loading === false && role === "admin" && (
-              <NavLink
-                to="/product-management"
-                className={getNavLinkClass}
-                onClick={toggleMenu}
-              >
-                Gestiona Productos
-              </NavLink>
+              <div className="flex flex-col">
+                <button
+                  onClick={toggleAdminMenu}
+                  className="flex items-center justify-between  text-white hover:underline focus:outline-none"
+                >
+                  Gestión del Sistema
+                  <FaChevronDown />
+                </button>
+                {adminMenuOpen && (
+                  <div className="flex flex-col space-y-4 pl-4 text-3xl mt-4">
+                    <NavLink
+                      to="/product-management"
+                      className={getNavLinkClass}
+                      onClick={() => {
+                        toggleMenu();
+                        setAdminMenuOpen(false);
+                      }}
+                    >
+                      Gestionar productos
+                    </NavLink>
+                    <NavLink
+                      to="/add-product"
+                      className={getNavLinkClass}
+                      onClick={() => {
+                        toggleMenu();
+                        setAdminMenuOpen(false);
+                      }}
+                    >
+                      Agregar productos
+                    </NavLink>
+                    <NavLink
+                      to="/create-manual-invoice"
+                      className={getNavLinkClass}
+                      onClick={() => {
+                        toggleMenu();
+                        setAdminMenuOpen(false);
+                      }}
+                    >
+                      Crear factura manual
+                    </NavLink>
+                  </div>
+                )}
+              </div>
             )}
 
-            {/* Expandable Account Menu for Mobile */}
+            {/* Menú desplegable de Cuenta en mobile */}
             {user && (
               <div className="flex flex-col">
                 <span className="text-white mb-2">

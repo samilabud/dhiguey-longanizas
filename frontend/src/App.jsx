@@ -17,6 +17,7 @@ import MyAccount from "./pages/MyAccount";
 import ProductManagement from "./pages/ProductManagement";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
+import ManualInvoice from "./pages/ManualInvoice";
 
 // Components
 import { ToastContainer } from "react-toastify";
@@ -72,6 +73,7 @@ function AppRoutes() {
         <>
           <Route path="/product-management" element={<ProductManagement />} />
           <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/create-manual-invoice" element={<ManualInvoice />} />
         </>
       )}
       <Route path="*" element={<Navigate to="/" replace />} />

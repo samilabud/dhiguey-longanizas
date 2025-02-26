@@ -16,7 +16,7 @@ const OrderList = () => {
         .from("invoices")
         .select("*")
         .eq("client_email", user.email)
-        .eq("status", "paid")
+        .or("status.eq.paid,generated_by.eq.manual_invoice")
         .order("created_at", { ascending: true });
 
       if (error) {
@@ -58,7 +58,9 @@ const OrderList = () => {
                 {order.invoice_num}
               </td>
               <td className="p-3 border border-[#7F3C28] text-center">
-                Pagada
+                {order.generated_by === "manual_invoice"
+                  ? "Efectivo"
+                  : "Pagado"}
               </td>
               <td className="p-3 border border-[#7F3C28] text-center">
                 {new Date(order.created_at).toLocaleString("es-DO", {
