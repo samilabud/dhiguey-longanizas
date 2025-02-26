@@ -111,7 +111,7 @@ const ManualInvoice = () => {
   // Calculate total for products and the overall total including shipping
   const totalProductsCost = products.reduce((sum, product) => {
     const quantity = Number(quantities[product.id]) || 0;
-    return sum + quantity * product.price_dop;
+    return sum + quantity * product.price_cash;
   }, 0);
   const grandTotal = totalProductsCost + shippingCost;
 
@@ -156,7 +156,7 @@ const ManualInvoice = () => {
         <div className="mt-4 space-y-4 w-lg">
           {products.map((product) => {
             const quantity = Number(quantities[product.id]) || 0;
-            const total = quantity * product.price_dop;
+            const total = quantity * product.price_cash;
             return (
               <div
                 key={product.id}
