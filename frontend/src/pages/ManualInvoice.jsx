@@ -235,7 +235,7 @@ const ManualInvoice = () => {
         </button>
         {generatingInvoiceLoading && <LoadingIndicator />}
 
-        {invoiceUrl && (
+        {!generatingInvoiceLoading && invoiceUrl && (
           <div className="mt-4">
             <a href={invoiceUrl} target="_blank" rel="noopener noreferrer">
               Ver Factura
