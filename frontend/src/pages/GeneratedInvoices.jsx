@@ -97,7 +97,7 @@ const GeneratedInvoices = () => {
     <div className="flex flex-col min-h-screen">
       <div className="flex justify-end">
         <Link
-          to="/generated-invoices"
+          to="/create-manual-invoice"
           className="text-sm font-semibold text-[#7F3C28] hover:text-[#4C150B]"
         >
           Crear factura manual
