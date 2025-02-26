@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { BACKEND_URL } from "../config";
-import LoadingIndicator from "../components/LoadingIndicator";
-import useCachedFetch from "../hooks/useCachedFetch";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import LoadingIndicator from "../components/LoadingIndicator";
+import { BACKEND_URL } from "../config";
+import useCachedFetch from "../hooks/useCachedFetch";
 
 const ManualInvoice = () => {
   const [name, setName] = useState("");
@@ -116,8 +117,16 @@ const ManualInvoice = () => {
 
   return (
     <div>
+      <div className="flex justify-end">
+        <Link
+          to="/generated-invoices"
+          className="text-sm font-semibold text-[#7F3C28] hover:text-[#4C150B]"
+        >
+          Facturas generadas
+        </Link>
+      </div>
       <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Crear Factura</h2>
+        <h2 className="text-xl font-bold mb-4">Crear Factura Manual</h2>
         <input
           className="border p-2 w-full"
           type="text"
@@ -174,7 +183,7 @@ const ManualInvoice = () => {
         <div className="mt-4 flex justify-between items-center gap-4 mb-2">
           <label className="w-1/3">Método de envío</label>
           <select
-            className="border rounded text-4xl lg:text-base text-center pb-1 pt-1 w-1/3"
+            className="border rounded text-center pb-1 pt-1 w-1/3"
             value={selectedShippingIndex}
             onChange={(e) => {
               const newIndex = Number(e.target.value);

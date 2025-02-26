@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../common/supabaseClient";
-import LoadingIndicator from "./LoadingIndicator";
 import { useUser } from "../context/UserContext";
+import LoadingIndicator from "./LoadingIndicator";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);

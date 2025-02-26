@@ -12,12 +12,13 @@ import AddProduct from "./pages/AddProduct";
 import Cancel from "./pages/Cancel";
 import Cart from "./pages/Cart";
 import ContactPage from "./pages/ContactPage";
+import GeneratedInvoices from "./pages/GeneratedInvoices";
 import Home from "./pages/Home";
+import ManualInvoice from "./pages/ManualInvoice";
 import MyAccount from "./pages/MyAccount";
 import ProductManagement from "./pages/ProductManagement";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
-import ManualInvoice from "./pages/ManualInvoice";
 
 // Components
 import { ToastContainer } from "react-toastify";
@@ -74,6 +75,7 @@ function AppRoutes() {
           <Route path="/product-management" element={<ProductManagement />} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/create-manual-invoice" element={<ManualInvoice />} />
+          <Route path="/generated-invoices" element={<GeneratedInvoices />} />
         </>
       )}
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -8,7 +8,7 @@ dotenv.config();
 
 const router = express.Router();
 
-// Create Payment Order
+// Create Manual Invoice
 router.post("/create-manual", async (req, res) => {
   try {
     const {

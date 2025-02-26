@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -90,6 +90,13 @@ const Header = () => {
                       onClick={() => setAdminMenuOpen(false)}
                     >
                       Crear factura manual
+                    </NavLink>
+                    <NavLink
+                      to="/generated-invoices"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setAdminMenuOpen(false)}
+                    >
+                      Facturas generadas
                     </NavLink>
                   </div>
                 )}
@@ -234,6 +241,16 @@ const Header = () => {
                       }}
                     >
                       Crear factura manual
+                    </NavLink>
+                    <NavLink
+                      to="/generated-invoices"
+                      className={getNavLinkClass}
+                      onClick={() => {
+                        toggleMenu();
+                        setAdminMenuOpen(false);
+                      }}
+                    >
+                      Facturas generadas
                     </NavLink>
                   </div>
                 )}
