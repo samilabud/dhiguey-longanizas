@@ -108,8 +108,8 @@ const ProductManagement = () => {
             <h3 className="text-lg font-bold">{product.name}</h3>
             <p className="text-gray-600">{product.description}</p>
             <p className="font-bold text-blue-500">
-              DOP {product.price_dop} / USD {product.price_usd}{" "}
-              {product.selling_by}
+              DOP {product.price_dop} / USD {product.price_usd} / Efectivo{" "}
+              {product.price_cash} {product.selling_by}
             </p>
             <p className="text-sm">
               {product.available ? "Disponible" : "Agotado"}
@@ -198,6 +198,21 @@ const ProductManagement = () => {
                 name="price_usd"
                 id="price_usd"
                 value={editingProduct.price_usd}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+              />
+            </div>
+
+            {/* PRICE CASH */}
+            <div className="mb-4">
+              <label className="block font-semibold mb-1" htmlFor="price_cash">
+                Precio (Efectivo):
+              </label>
+              <input
+                type="number"
+                name="price_cash"
+                id="price_cash"
+                value={editingProduct.price_cash}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"
               />

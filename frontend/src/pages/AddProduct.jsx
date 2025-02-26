@@ -7,6 +7,7 @@ const AddProduct = ({ onProductAdded }) => {
   const [description, setDescription] = useState("");
   const [priceDOP, setPriceDOP] = useState("");
   const [priceUSD, setPriceUSD] = useState("");
+  const [priceCash, setPriceCash] = useState("");
   const [image, setImage] = useState("");
   const [sellingBy, setSellingBy] = useState("");
 
@@ -18,6 +19,7 @@ const AddProduct = ({ onProductAdded }) => {
       description,
       price_dop: parseFloat(priceDOP),
       price_usd: parseFloat(priceUSD),
+      price_cash: parseFloat(priceCash),
       image,
       available: true,
       selling_by: sellingBy,
@@ -82,6 +84,14 @@ const AddProduct = ({ onProductAdded }) => {
           placeholder="Precio USD"
           value={priceUSD}
           onChange={(e) => setPriceUSD(e.target.value)}
+          required
+        />
+        <input
+          className="border p-2 w-full mt-2"
+          type="number"
+          placeholder="Precio Efectivo DOP"
+          value={priceCash}
+          onChange={(e) => setPriceCash(e.target.value)}
           required
         />
         <input

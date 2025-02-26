@@ -73,6 +73,7 @@ const GeneratedInvoices = () => {
   // Fetch invoices on initial mount.
   useEffect(() => {
     fetchInvoices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (e) => {
