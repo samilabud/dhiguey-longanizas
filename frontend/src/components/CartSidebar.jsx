@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { useLocation, Link } from "react-router-dom";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { MdOutlineShoppingCart, MdMinimize } from "react-icons/md";
 
 const CartSidebar = () => {
   const { cart, removeFromCart } = useContext(CartContext);
@@ -46,19 +46,35 @@ const CartSidebar = () => {
     <div
       className={`fixed top-40 lg:top-20 right-0 ${
         isOpen ? "w-96 lg:w-72" : "w-20"
-      }  bg-white shadow-lg h-fit p-4 border rounded-lg`}
+      } bg-white shadow-lg h-fit p-4 border rounded-lg`}
       style={{ zIndex: 9999 }}
     >
       {isOpen ? (
-        <h2 className="text-5xl lg:text-xl font-extrabold mb-4 flex items-center justify-between text-[#7F3C28]">
-          <Link to="/cart"> Tu Carrito </Link>
-          <MdOutlineShoppingCart
-            className="text-5xl lg:text-2xl animate-pulse transition-all duration-1000 ease-in-out"
-            style={{
-              animation: "color-change 1s 7 alternate",
-            }}
+        <h2 className="flex items-center justify-between mb-4 text-[#7F3C28]">
+          {/* Toggle Button on the Right */}
+          <button
             onClick={() => setIsOpen(!isOpen)}
-          />
+            className="focus:outline-none"
+          >
+            <MdOutlineShoppingCart
+              className="text-5xl lg:text-2xl animate-pulse transition-all duration-1000 ease-in-out"
+              style={{
+                animation: "color-change 1s 7 alternate",
+              }}
+            />
+          </button>
+
+          {/* Cart Link in the Center */}
+          <Link to="/cart" className="text-5xl lg:text-xl font-extrabold">
+            Tu Carrito
+          </Link>
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-5xl lg:text-xl focus:outline-none -mt-12"
+          >
+            <MdMinimize />
+          </button>
         </h2>
       ) : (
         <MdOutlineShoppingCart
@@ -100,9 +116,9 @@ const CartSidebar = () => {
 
           {/* Link to Cart Page */}
           <Link to="/cart">
-            <h6 className="text-2xl lg:text-sm font-bold mt-3 underline text-[#7F3C28] hover:text-blue-700 cursor-pointer">
+            <button className="bg-[#7F3C28] text-white font-bold text-3xl lg:text-2xl px-6 py-2 rounded-md mt-3 hover:bg-[#4C150B] transition">
               Realizar la compra
-            </h6>
+            </button>
           </Link>
         </>
       )}

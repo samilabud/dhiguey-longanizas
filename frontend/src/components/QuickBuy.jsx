@@ -86,11 +86,10 @@ const QuickBuy = () => {
                 </p>
               </div>
 
-              <div className="w-auto mt-4 ml-4">
+              <div className="w-auto mt-4 ml-4 lg:mt-1">
                 <button
                   onClick={handleAddToCart}
-                  // className="bg-[#7F3C28] ml-4 text-white lg:px-1 px-4 py-2 rounded hover:bg-[#4C150B] transition text-4xl lg:text-xl"
-                  className="bg-[#7F3C28] text-white px-6 py-2 rounded-md hover:bg-[#4C150B] transition cursor-pointer text-2xl lg:text-xl"
+                  className="bg-[#FF7043] text-white px-8 py-3 lg:px-4 lg:py-4 rounded-md hover:bg-[#E64A19] transition cursor-pointer text-3xl lg:text-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E64A19]"
                 >
                   Agregar al carrito
                 </button>

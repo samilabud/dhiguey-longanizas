@@ -68,7 +68,7 @@ const Cart = () => {
 
   if (error && error !== "Auth session missing!") {
     return (
-      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+      <div className="lg:mt-7 p-10 mt-24">
         <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
           Tu Carrito
         </h2>
@@ -81,7 +81,7 @@ const Cart = () => {
   }
   if (loadingShippingOptions || loadingUser) {
     return (
-      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+      <div className="lg:mt-7 p-10 mt-24">
         <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
           Tu Carrito
         </h2>
@@ -119,7 +119,7 @@ const Cart = () => {
 
   if (errorShippingOptions)
     return (
-      <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+      <div className="lg:mt-7 p-10 mt-24">
         <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
           Tu Carrito
         </h2>
@@ -131,7 +131,7 @@ const Cart = () => {
     );
 
   return (
-    <div className="bg-gray-100 lg:mt-7 p-10 mt-24">
+    <div className="lg:mt-7 p-10 mt-24">
       <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
         Tu Carrito
       </h2>
@@ -235,13 +235,13 @@ const Cart = () => {
           <div className="mt-6 flex justify-between items-end">
             <div className="mt-4 flex flex-col gap-4 items-start justify-start">
               <Link to="/products">
-                <button className="bg-white border border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg">
+                <button className="bg-[#7F3C28] text-white text-2xl lg:text-lg px-4 py-2 rounded-md hover:bg-[#4C150B] transition opacity-90 hover:opacity-100 cursor-pointer">
                   Seguir Comprando
                 </button>
               </Link>
               <button
                 onClick={clearCart}
-                className="bg-white border h-1/2 border-[#7F3C28] px-4 py-2 rounded hover:bg-[#4C150B] transition text-[#7F3C28] hover:text-white text-2xl lg:text-lg"
+                className="bg-[#7F3C28] text-white text-2xl lg:text-lg px-4 py-2 rounded-md hover:bg-[#4C150B] transition opacity-90 hover:opacity-100 cursor-pointer"
               >
                 Vaciar Carrito
               </button>

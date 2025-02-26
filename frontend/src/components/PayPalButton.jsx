@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { toast } from "react-toastify";
+import { FaPaypal } from "react-icons/fa";
 
 const PayPalButton = ({
   totalDOP,
@@ -53,10 +54,17 @@ const PayPalButton = ({
       {error && <p className="text-red-500">{error}</p>}
       <button
         onClick={handlePayment}
-        className="bg-[#7F3C28] text-white px-6 rounded-md hover:bg-[#4C150B] transition cursor-pointer text-4xl lg:text-xl h-28 lg:h-18"
+        className="bg-[#FF7043] text-white px-12 py-6 lg:px-4 lg:py-4 rounded-md hover:bg-[#E64A19] transition cursor-pointer text-4xl lg:text-xl h-28 lg:h-18 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E64A19]"
         disabled={loading}
       >
-        {loading ? "Procesando..." : "Pagar con PayPal"}
+        {loading ? (
+          "Procesando..."
+        ) : (
+          <>
+            <FaPaypal className="inline mr-2" />
+            Pagar con PayPal
+          </>
+        )}
       </button>
     </div>
   );

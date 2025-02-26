@@ -123,7 +123,7 @@ const ProductCard = ({ product }) => {
         {product.available ? (
           <div className="mt-3 flex items-center gap-2">
             <button onClick={decreaseQuantity} className="text-4xl lg:text-xl">
-              <FaMinus />
+              <FaMinus className="hover:text-[#E64A19] transition cursor-pointer" />
             </button>
             <input
               type="number"
@@ -133,17 +133,21 @@ const ProductCard = ({ product }) => {
               className="w-16 border border-gray-300 rounded px-2 py-1 text-center text-4xl lg:text-xl"
             />
             <button onClick={increaseQuantity} className="text-4xl lg:text-xl">
-              <FaPlus />
+              <FaPlus className="hover:text-[#E64A19] transition cursor-pointer" />
             </button>
             <button
               onClick={handleAddToCart}
-              className="bg-[#7F3C28] ml-4 text-white lg:px-1 px-4 py-2 rounded hover:bg-[#4C150B] transition text-4xl lg:text-xl"
+              className="bg-[#FF7043] text-white px-8 py-3 lg:px-3 lg:py-2 rounded-md hover:bg-[#E64A19] transition cursor-pointer text-3xl lg:text-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E64A19]"
             >
               Agregar al carrito
             </button>
           </div>
         ) : (
-          <p className="mt-2 text-red-500 text-2xl lg:text-xl">No disponible</p>
+          <div className="mt-3 flex items-center gap-2">
+            <p className="mt-2 text-red-500 text-3xl lg:text-xl font-bold">
+              AGOTADO
+            </p>
+          </div>
         )}
       </div>
     </div>
