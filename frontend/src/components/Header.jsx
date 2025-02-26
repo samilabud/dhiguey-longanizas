@@ -58,7 +58,11 @@ const Header = () => {
             <NavLink to="/contact" className={getNavLinkClass}>
               Contáctanos
             </NavLink>
-
+            {!loading && !user && (
+              <NavLink to="/my-account" className={getNavLinkClass}>
+                Mi Cuenta
+              </NavLink>
+            )}
             {loading === false && role === "admin" && (
               <div className="relative">
                 <button
@@ -200,6 +204,15 @@ const Header = () => {
             >
               Contacto
             </NavLink>
+            {!loading && !user && (
+              <NavLink
+                to="/my-account"
+                className={getNavLinkClass}
+                onClick={toggleMenu}
+              >
+                Mi Cuenta
+              </NavLink>
+            )}
 
             {loading === false && role === "admin" && (
               <div className="flex flex-col">
