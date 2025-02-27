@@ -17,7 +17,7 @@ const PayPalButton = ({
   const [error, setError] = useState(null);
 
   const handlePayment = async () => {
-    if (!customerPhone.trim()) {
+    if (!customerPhone || !customerPhone.trim()) {
       toast.warning("Por favor, ingrese su número de teléfono");
       return;
     }
