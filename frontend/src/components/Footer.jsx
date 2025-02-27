@@ -1,34 +1,53 @@
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { useMediaQuery } from "react-responsive";
 
 const Footer = () => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   return (
-    <footer className="bg-[#7F3C28] text-white text-center p-4 text-4xl lg:text-xl">
-      <p className="m-0">D&apos;Higüey Longanizas y Más</p>
-      <p className="m-0">Del campo a tu mesa</p>
-
+    <footer className="bg-[#7F3C28] text-white text-center p-4">
       {/* Social Media Icons */}
       <div className="mt-2 flex justify-center gap-4">
         <a
           href="https://www.instagram.com/dhigueylonganizasymas"
-          className="text-white hover:text-gray-300 transition"
+          aria-label="Visit our Instagram"
+          className="text-white hover:text-gray-300 transition transform hover:scale-105"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaInstagram size={isTabletOrMobile ? 48 : 24} />
+          <FaInstagram className="w-6 h-6 md:w-12 md:h-12" />
         </a>
         <a
           href="https://wa.me/8496535551"
-          className="text-white hover:text-gray-300 transition"
+          aria-label="Chat on WhatsApp"
+          className="text-white hover:text-gray-300 transition transform hover:scale-105"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaWhatsapp size={isTabletOrMobile ? 48 : 24} />
+          <FaWhatsapp className="w-6 h-6 md:w-12 md:h-12" />
         </a>
       </div>
 
-      {/* Contact Info */}
+      {/* Additional Menu */}
+      <nav className="mt-4">
+        <ul className="flex justify-center gap-4">
+          <li>
+            <a
+              href="/terms-and-conditions"
+              className="text-white hover:text-gray-300 transition"
+            >
+              Términos y Condiciones
+            </a>
+          </li>
+          <li>
+            <a
+              href="/faqs"
+              className="text-white hover:text-gray-300 transition"
+            >
+              FAQs
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Contact Information */}
       <p className="mt-2 text-4xl lg:text-xl">
         Tel:{" "}
         <a

@@ -19,6 +19,8 @@ import MyAccount from "./pages/MyAccount";
 import ProductManagement from "./pages/ProductManagement";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
+import FAQs from "./pages/FAQs";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 // Components
 import { ToastContainer } from "react-toastify";
@@ -70,6 +72,8 @@ function AppRoutes() {
       <Route path="/my-account" element={<MyAccount />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/faqs" element={<FAQs />} />
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       {loading === false && role === "admin" && (
         <>
           <Route path="/product-management" element={<ProductManagement />} />
