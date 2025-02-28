@@ -97,18 +97,15 @@ const GeneratedInvoices = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex justify-end">
-        <Link
-          to="/create-manual-invoice"
-          className="text-sm font-semibold text-[#7F3C28] hover:text-[#4C150B]"
-        >
+        <Link to="/create-manual-invoice" className="link-button-inside-text">
           Crear factura manual
         </Link>
       </div>
       <div className="bg-white min-h-screen flex flex-col items-center p-6 lg:gap-1 gap-10">
-        <h1 className="text-[#7F3C28] text-5xl lg:text-3xl font-bold mb-4">
+        <h1 className="text-primary text-5xl lg:text-3xl font-bold mb-4">
           Facturas Generadas
         </h1>
-        <p className="text-gray-700 text-4xl lg:text-xl">
+        <p className="text-primary text-4xl lg:text-xl">
           Aquí puedes ver tus facturas generadas
         </p>
         {/* Search Form */}
@@ -151,16 +148,13 @@ const GeneratedInvoices = () => {
             />
           </div>
           <div className="flex gap-4 mt-4">
-            <button
-              type="submit"
-              className="bg-[#7F3C28] text-white px-4 py-2 rounded"
-            >
+            <button type="submit" className="secondary-button">
               Buscar
             </button>
             <button
               type="button"
               onClick={handleReset}
-              className="bg-gray-400 text-white px-4 py-2 rounded"
+              className="bg-gray-400 text-white px-4 py-2 rounded cursor-pointer hover:bg-gray-500 transition"
             >
               Resetear
             </button>
@@ -171,16 +165,14 @@ const GeneratedInvoices = () => {
         <div className="w-full max-w-4xl overflow-x-auto">
           <table className="min-w-full border-collapse">
             <thead>
-              <tr className="bg-[#7F3C28] text-white">
-                <th className="p-3 border border-[#7F3C28]">Número Factura</th>
-                <th className="p-3 border border-[#7F3C28]">Nombre Cliente</th>
-                <th className="p-3 border border-[#7F3C28]">Teléfono</th>
-                <th className="p-3 border border-[#7F3C28]">Email</th>
-                <th className="p-3 border border-[#7F3C28]">Estado</th>
-                <th className="p-3 border border-[#7F3C28]">
-                  Fecha de Creación
-                </th>
-                <th className="p-3 border border-[#7F3C28]">Ver Factura</th>
+              <tr className="bg-primary text-white">
+                <th className="p-3 border border-primary">Número Factura</th>
+                <th className="p-3 border border-primary">Nombre Cliente</th>
+                <th className="p-3 border border-primary">Teléfono</th>
+                <th className="p-3 border border-primary">Email</th>
+                <th className="p-3 border border-primary">Estado</th>
+                <th className="p-3 border border-primary">Fecha de Creación</th>
+                <th className="p-3 border border-primary">Ver Factura</th>
               </tr>
             </thead>
             <tbody>
@@ -190,22 +182,22 @@ const GeneratedInvoices = () => {
                     key={invoice.id}
                     className={index % 2 === 0 ? "bg-white" : "bg-[#F5E6D8]"}
                   >
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {invoice.invoice_num}
                     </td>
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {invoice.client_name}
                     </td>
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {invoice.client_phone}
                     </td>
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {invoice.client_email}
                     </td>
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {invoice.status}
                     </td>
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {new Date(invoice.created_at).toLocaleString("es-DO", {
                         year: "numeric",
                         month: "2-digit",
@@ -215,7 +207,7 @@ const GeneratedInvoices = () => {
                         second: "2-digit",
                       })}
                     </td>
-                    <td className="p-3 border border-[#7F3C28] text-center">
+                    <td className="p-3 border border-primary text-center">
                       {invoice.pdf_url ? (
                         <a
                           href={invoice.pdf_url}
@@ -235,7 +227,7 @@ const GeneratedInvoices = () => {
                 <tr>
                   <td
                     colSpan="7"
-                    className="p-3 border border-[#7F3C28] text-center"
+                    className="p-3 border border-primary text-center"
                   >
                     No se encontraron facturas.
                   </td>

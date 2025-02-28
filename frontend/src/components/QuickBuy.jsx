@@ -48,14 +48,11 @@ const QuickBuy = () => {
           <img
             src={product.image}
             alt={product.name}
-            className="w-sm h-auto rounded-xl transform transition duration-300 ease-in-out hover:scale-105"
+            className="product-image w-sm h-auto"
           />
 
           {/* Product Details */}
           <div className="mt-4 md:mt-0 md:ml-6 flex flex-col text-center md:text-left">
-            {/* <h2 className="text-4xl lg:text-xl font-bold text-[#7F3C28] font-lobster">
-              {product.name}
-            </h2> */}
             <p className="text-gray-700 mt-2 text-3xl lg:text-xl">
               {product.description}
             </p>
@@ -77,7 +74,7 @@ const QuickBuy = () => {
                   ))}
                 </select>
 
-                <p className="text-3xl lg:text-xl font-semibold mt-2 text-[#7F3C28]">
+                <p className="product-price">
                   RD$&nbsp;
                   {totalprice_dop.toLocaleString("es-DO", {
                     minimumFractionDigits: 2,
@@ -89,17 +86,14 @@ const QuickBuy = () => {
               <div className="w-auto mt-4 ml-4 lg:mt-1">
                 <button
                   onClick={handleAddToCart}
-                  className="bg-[#FF7043] text-white px-8 py-3 lg:px-4 lg:py-4 rounded-md hover:bg-[#E64A19] transition cursor-pointer text-3xl lg:text-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E64A19]"
+                  className="add-to-cart-button"
                 >
                   Agregar al carrito
                 </button>
               </div>
             </div>
             <div className="mt-4">
-              <Link
-                to="/products"
-                className="text-[#7F3C28] hover:text-[#4C150B] transition text-3xl lg:text-xl"
-              >
+              <Link to="/products" className="secondary-button">
                 Ver todos los productos
               </Link>
             </div>

@@ -5,7 +5,7 @@ const ContactPage = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   return (
     <div className="bg-white min-h-screen flex flex-col items-center p-6 lg:gap-1 gap-10">
-      <h1 className="text-[#7F3C28] text-5xl lg:text-3xl font-bold mb-4">
+      <h1 className="text-primary text-5xl lg:text-3xl font-bold mb-4">
         Contáctanos
       </h1>
       <p className="text-gray-700 text-4xl lg:text-xl">
@@ -16,7 +16,7 @@ const ContactPage = () => {
 
       {/* Contact Information */}
       <div className="mt-6 text-center">
-        <h2 className="text-4xl lg:text-2xl font-semibold text-[#7F3C28]">
+        <h2 className="text-4xl lg:text-2xl font-semibold text-primary">
           D&apos;Higüey Longanizas y Más
         </h2>
         <p className="text-gray-700 text-4xl lg:text-lg lg:mt-0 mt-1">
@@ -25,14 +25,17 @@ const ContactPage = () => {
 
         <div className="flex justify-center mt-4 space-x-6">
           <a
+            className="social-icon-link"
             href="mailto:dhigueylonganizas@gmail.com"
-            className="text-[#7F3C28] hover:text-gray-600 transition"
           >
-            <FaMailBulk size={isTabletOrMobile ? 64 : 32} />
+            <FaMailBulk
+              className="social-icon"
+              size={isTabletOrMobile ? 64 : 32}
+            />
           </a>
           <a
             href="https://www.instagram.com/dhigueylonganizasymas"
-            className="text-[#7F3C28] hover:text-gray-600 transition"
+            className="social-icon-link"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -40,26 +43,20 @@ const ContactPage = () => {
           </a>
           <a
             href="https://wa.me/8496535551"
-            className="text-[#7F3C28] hover:text-gray-600 transition"
+            className="social-icon-link"
             target="_blank"
             rel="noopener noreferrer"
           >
             <FaWhatsapp size={isTabletOrMobile ? 64 : 32} />
           </a>
-          <a
-            href="tel:+18496535551"
-            className="text-[#7F3C28] hover:text-gray-600 transition"
-          >
+          <a href="tel:+18496535551" className="social-icon-link">
             <FaPhone size={isTabletOrMobile ? 64 : 32} />
           </a>
         </div>
 
         <p className="mt-3 text-4xl lg:text-xl">
           Teléfono:{" "}
-          <a
-            href="tel:+18496535551"
-            className="text-[#7F3C28] hover:text-gray-600 transition"
-          >
+          <a href="tel:+18496535551" className="social-icon-link">
             +1 (849) 653-5551
           </a>
         </p>
@@ -67,7 +64,7 @@ const ContactPage = () => {
 
       {/* Google Map Section */}
       <div className="mt-6 w-full max-w-4xl">
-        <h2 className="text-4xl lg:text-2xl font-semibold text-[#7F3C28] text-center mb-4">
+        <h2 className="text-4xl lg:text-2xl font-semibold text-primary text-center mb-4">
           Nuestra Ubicación
         </h2>
         <div className="w-full h-64 md:h-96">

@@ -118,15 +118,14 @@ const ManualInvoice = () => {
   return (
     <div>
       <div className="flex justify-end">
-        <Link
-          to="/generated-invoices"
-          className="text-sm font-semibold text-[#7F3C28] hover:text-[#4C150B]"
-        >
+        <Link to="/generated-invoices" className="link-button-inside-text">
           Facturas generadas
         </Link>
       </div>
       <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Crear Factura Manual</h2>
+        <h2 className="text-xl font-bold mb-4 text-primary">
+          Crear Factura Manual
+        </h2>
         <input
           className="border p-2 w-full"
           type="text"
@@ -228,7 +227,7 @@ const ManualInvoice = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+          className="secondary-button mt-4"
           disabled={generatingInvoiceLoading}
         >
           Generar Factura

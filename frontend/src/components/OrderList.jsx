@@ -35,17 +35,17 @@ const OrderList = () => {
     return <div>Error cargando los pedidos realizados: {error.message}</div>;
 
   return (
-    <div className="max-w-5xl mx-auto my-8 p-4 bg-white border-2 border-[#7F3C28] rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-[#7F3C28]">
+    <div className="max-w-5xl mx-auto my-8 p-4 bg-white border-2 border-primary rounded-lg">
+      <h2 className="text-2xl font-bold mb-4 text-primary">
         Pedidos realizados
       </h2>
       <table className="min-w-full border-collapse">
         <thead>
-          <tr className="bg-[#7F3C28] text-white">
-            <th className="p-3 border border-[#7F3C28]">Número Factura</th>
-            <th className="p-3 border border-[#7F3C28]">Estado</th>
-            <th className="p-3 border border-[#7F3C28]">Fecha de emisión</th>
-            <th className="p-3 border border-[#7F3C28]">Ver Factura</th>
+          <tr className="bg-primary text-white">
+            <th className="p-3 border border-primary">Número Factura</th>
+            <th className="p-3 border border-primary">Estado</th>
+            <th className="p-3 border border-primary">Fecha de emisión</th>
+            <th className="p-3 border border-primary">Ver Factura</th>
           </tr>
         </thead>
         <tbody>
@@ -54,15 +54,15 @@ const OrderList = () => {
               key={order.id}
               className={index % 2 === 0 ? "bg-white" : "bg-[#F5E6D8]"}
             >
-              <td className="p-3 border border-[#7F3C28] text-center">
+              <td className="p-3 border border-primary text-center">
                 {order.invoice_num}
               </td>
-              <td className="p-3 border border-[#7F3C28] text-center">
+              <td className="p-3 border border-primary text-center">
                 {order.generated_by === "manual_invoice"
                   ? "Efectivo"
                   : "Pagado"}
               </td>
-              <td className="p-3 border border-[#7F3C28] text-center">
+              <td className="p-3 border border-primary text-center">
                 {new Date(order.created_at).toLocaleString("es-DO", {
                   year: "numeric",
                   month: "2-digit",
@@ -72,12 +72,12 @@ const OrderList = () => {
                   second: "2-digit",
                 })}
               </td>
-              <td className="p-3 border border-[#7F3C28] text-center">
+              <td className="p-3 border border-primary text-center">
                 <a
                   href={order.pdf_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="secondary-button"
                 >
                   Ver Factura
                 </a>
