@@ -85,15 +85,12 @@ const ProductManagement = () => {
   }
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4 text-[#7F3C28]">
+      <h2 className="text-2xl font-bold mb-4 text-primary">
         Gestión de Productos
       </h2>
       {/* Product Grid */}
       <div className="flex justify-end">
-        <Link
-          to="/add-product"
-          className="text-sm font-semibold text-[#7F3C28] hover:text-[#4C150B]"
-        >
+        <Link to="/add-product" className="link-button-inside-text">
           Agregar nuevo producto
         </Link>
       </div>
@@ -114,19 +111,21 @@ const ProductManagement = () => {
             <p className="text-sm">
               {product.available ? "Disponible" : "Agotado"}
             </p>
-            <button
-              onClick={() => handleEditClick(product)}
-              className="bg-yellow-500 text-white px-2 py-1 rounded mt-2"
-            >
-              Editar
-            </button>
+            <div className="mt-2 flex justify-start">
+              <button
+                onClick={() => handleEditClick(product)}
+                className="secondary-button mt-2"
+              >
+                Editar
+              </button>
 
-            <button
-              onClick={() => deleteProduct(product.id)}
-              className="bg-red-500 text-white px-2 py-1 rounded mt-2 ml-2"
-            >
-              Eliminar
-            </button>
+              <button
+                onClick={() => deleteProduct(product.id)}
+                className="remove-button text-2xl lg:text-lg px-4 py-2 rounded-md mt-2 ml-2"
+              >
+                Eliminar
+              </button>
+            </div>
           </div>
         ))}
       </div>

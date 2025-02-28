@@ -50,7 +50,7 @@ const CartSidebar = () => {
       style={{ zIndex: 9999 }}
     >
       {isOpen ? (
-        <h2 className="flex items-center justify-between mb-4 text-[#7F3C28]">
+        <h2 className="flex items-center justify-between mb-4 text-primary">
           {/* Toggle Button on the Right */}
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -105,21 +105,19 @@ const CartSidebar = () => {
               </button>
             </div>
           ))}
-
-          {/* Total Quantity and Price */}
-          <div className="border-t mt-3 pt-2 font-semibold text-2xl lg:text-lg">
+          <div className="flex flex-col items-start mt-3 border-t pt-2 font-semibold text-2xl lg:text-lg">
+            {/* Total Quantity and Price */}
             <p>Cantidad Total: {totalQuantity}</p>
-            <p className="text-[#7F3C28]">
-              Total: RD$ {formatPrice(totalPrice)}
-            </p>
+            <p className="text-primary">Total: RD$ {formatPrice(totalPrice)}</p>
+            <div className="mt-3 w-full">
+              {/* Link to Cart Page */}
+              <Link to="/cart">
+                <button className="secondary-button w-full">
+                  Realizar la compra
+                </button>
+              </Link>
+            </div>
           </div>
-
-          {/* Link to Cart Page */}
-          <Link to="/cart">
-            <button className="bg-[#7F3C28] text-white font-bold text-3xl lg:text-2xl px-6 py-2 rounded-md mt-3 hover:bg-[#4C150B] transition">
-              Realizar la compra
-            </button>
-          </Link>
         </>
       )}
     </div>

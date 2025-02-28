@@ -7,12 +7,9 @@ export const saveUserToLocalStorage = (user) => {
   localStorage.setItem("googleUser", JSON.stringify(user));
 };
 
-// Function to determine the class for active and pending states
-export const getNavLinkClass = ({ isActive, isPending }) =>
-  `transition ${
-    isPending
-      ? "text-white hover:text-gray-300"
-      : isActive
-      ? "text-gray-300"
-      : "text-white"
-  }`;
+// Determine the class for active and pending states
+export const getNavLinkClass = ({ isActive: active, isPending: pending }) => {
+  if (pending) return `pending-link`;
+  if (active) return `primary-link`;
+  return `inactive-link`;
+};

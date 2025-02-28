@@ -46,15 +46,14 @@ const AddProduct = ({ onProductAdded }) => {
   return (
     <div>
       <div className="flex justify-end">
-        <Link
-          to="/product-management"
-          className="text-sm font-semibold text-[#7F3C28] hover:text-[#4C150B]"
-        >
+        <Link to="/product-management" className="link-button-inside-text">
           Gestion de productos
         </Link>
       </div>
       <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Agregar Producto</h2>
+        <h2 className="text-xl font-bold mb-4 text-primary">
+          Agregar Producto
+        </h2>
         <input
           className="border p-2 w-full"
           type="text"
@@ -110,10 +109,7 @@ const AddProduct = ({ onProductAdded }) => {
           onChange={(e) => setSellingBy(e.target.value)}
           required
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        >
+        <button type="submit" className="secondary-button mt-4">
           Agregar
         </button>
       </form>

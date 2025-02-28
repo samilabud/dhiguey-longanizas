@@ -1,27 +1,29 @@
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { getNavLinkClass } from "../common/utils";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#7F3C28] text-white text-center p-4">
+    <footer className="bg-primary text-white text-center p-4">
       {/* Social Media Icons */}
       <div className="mt-2 flex justify-center gap-4">
         <a
           href="https://www.instagram.com/dhigueylonganizasymas"
           aria-label="Visit our Instagram"
-          className="text-white hover:text-gray-300 transition transform hover:scale-105"
+          className="social-icon-link-footer"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaInstagram className="w-6 h-6 md:w-12 md:h-12" />
+          <FaInstagram className="social-icon" />
         </a>
         <a
           href="https://wa.me/8496535551"
           aria-label="Chat on WhatsApp"
-          className="text-white hover:text-gray-300 transition transform hover:scale-105"
+          className="social-icon-link-footer"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaWhatsapp className="w-6 h-6 md:w-12 md:h-12" />
+          <FaWhatsapp className="social-icon" />
         </a>
       </div>
 
@@ -29,20 +31,14 @@ const Footer = () => {
       <nav className="mt-4">
         <ul className="flex justify-center gap-4">
           <li>
-            <a
-              href="/terms-and-conditions"
-              className="text-white hover:text-gray-300 transition"
-            >
+            <NavLink to="/terms-and-conditions" className={getNavLinkClass}>
               Términos y Condiciones
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a
-              href="/faqs"
-              className="text-white hover:text-gray-300 transition"
-            >
+            <NavLink to="/faqs" className={getNavLinkClass}>
               FAQs
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>

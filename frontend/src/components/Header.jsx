@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-[#7F3C28] px-6 md:px-10 py-4">
+    <header className="bg-primary px-6 md:px-10 py-4">
       <div className="flex items-center justify-between">
         <HeaderTitle />
 
@@ -167,7 +167,7 @@ const Header = () => {
 
         {/* Menú lateral para mobile */}
         <div
-          className={`fixed left-0 top-0 h-full w-56 bg-[#7F3C28] shadow-lg transform ${
+          className={`fixed left-0 top-0 h-full w-56 bg-primary shadow-lg transform ${
             isOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform duration-300 ease-in-out z-50`}
         >
@@ -276,7 +276,7 @@ const Header = () => {
 
             {/* Menú desplegable de Cuenta en mobile */}
             {user && (
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-4">
                 <span className="text-white mb-2">
                   {user.user_metadata.full_name}
                 </span>
@@ -288,7 +288,7 @@ const Header = () => {
                   <FaChevronDown />
                 </button>
                 {accountMenuOpen && (
-                  <div className="flex flex-col space-y-2 pl-4">
+                  <div className="flex flex-col space-y-2 pl-4 gap-2">
                     <NavLink
                       to="/my-account"
                       className={getNavLinkClass}
@@ -312,7 +312,7 @@ const Header = () => {
                     ) : (
                       <NavLink
                         to="/my-account"
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        className={getNavLinkClass}
                         onClick={() => toggleMenu()}
                       >
                         Iniciar Sesión

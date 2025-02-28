@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaMinus, FaPlus, FaTrash, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
 import PayPalButton from "../components/PayPalButton";
@@ -7,6 +7,7 @@ import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
 import useCachedFetch from "../hooks/useCachedFetch";
 import { useUser } from "../context/UserContext";
+import { MdOutlineLogin } from "react-icons/md";
 
 const Cart = () => {
   const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
@@ -69,10 +70,10 @@ const Cart = () => {
   if (error && error !== "Auth session missing!") {
     return (
       <div className="lg:mt-7 p-10 mt-24">
-        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-primary">
           Tu Carrito
         </h2>
-        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
+        <div className="flex flex-col items-center justify-center text-primary text-4xl lg:text-xl">
           <p className="mb-4">Error al cargar el carrito</p>
           <p>{error}</p>
         </div>
@@ -82,7 +83,7 @@ const Cart = () => {
   if (loadingShippingOptions || loadingUser) {
     return (
       <div className="lg:mt-7 p-10 mt-24">
-        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-primary">
           Tu Carrito
         </h2>
         <LoadingIndicator />
@@ -120,10 +121,10 @@ const Cart = () => {
   if (errorShippingOptions)
     return (
       <div className="lg:mt-7 p-10 mt-24">
-        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+        <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-primary">
           Tu Carrito
         </h2>
-        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
+        <div className="flex flex-col items-center justify-center text-primary text-4xl lg:text-xl">
           <p className="mb-4">Error al cargar opciones de envío</p>
           <p>{errorShippingOptions}</p>
         </div>
@@ -132,17 +133,14 @@ const Cart = () => {
 
   return (
     <div className="lg:mt-7 p-10 mt-24">
-      <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-[#7F3C28]">
+      <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-primary">
         Tu Carrito
       </h2>
 
       {groupedCartArray.length === 0 ? (
-        <div className="flex flex-col items-center justify-center text-[#7F3C28] text-4xl lg:text-xl">
+        <div className="flex flex-col items-center justify-center text-primary text-4xl lg:text-xl">
           <p className="mb-4">No hay productos en el carrito</p>
-          <Link
-            to="/products"
-            className="text-white bg-[#7F3C28] hover:bg-[#7F3C28] px-4 py-2 rounded"
-          >
+          <Link to="/products" className="secondary-button">
             Ver Productos
           </Link>
         </div>
@@ -165,14 +163,14 @@ const Cart = () => {
                   <td className="p-2 flex items-center gap-2">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="text-[#7F3C28] hover:text-red-500"
+                      className="text-primary hover:text-red-500"
                     >
                       <FaMinus />
                     </button>
                     {item.quantity}
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="text-[#7F3C28] hover:text-green-500"
+                      className="text-primary hover:text-green-500"
                     >
                       <FaPlus />
                     </button>
@@ -184,7 +182,7 @@ const Cart = () => {
                   <td className="p-2 text-center">
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+                      className="remove-button"
                     >
                       Eliminar
                     </button>
@@ -201,7 +199,7 @@ const Cart = () => {
           <div className="flex justify-between mt-4 text-3xl lg:text-xl">
             <span className="mr-4 font-bold">Zona de Envío:</span>
             <select
-              className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2"
+              className="border rounded text-4xl lg:text-base border-primary text-primary text-center pb-2 pt-2"
               value={selectedShippingIndex}
               onChange={(e) => {
                 const newIndex = Number(e.target.value);
@@ -227,7 +225,7 @@ const Cart = () => {
           </div>
           <div className="flex justify-between mt-1 text-3xl lg:text-xl">
             <span className="font-bold">Total a Pagar (RD$):</span>
-            <span className="font-bold text-[#7F3C28]">
+            <span className="font-bold text-primary">
               RD$ {formatPrice(totalWithShippingDOP)}
             </span>
           </div>
@@ -235,15 +233,12 @@ const Cart = () => {
           <div className="mt-6 flex justify-between items-end">
             <div className="mt-4 flex flex-col gap-4 items-start justify-start">
               <Link to="/products">
-                <button className="bg-[#7F3C28] text-white text-2xl lg:text-lg px-4 py-2 rounded-md hover:bg-[#4C150B] transition opacity-90 hover:opacity-100 cursor-pointer">
-                  Seguir Comprando
+                <button className="secondary-button">
+                  <FaShoppingCart /> Seguir Comprando
                 </button>
               </Link>
-              <button
-                onClick={clearCart}
-                className="bg-[#7F3C28] text-white text-2xl lg:text-lg px-4 py-2 rounded-md hover:bg-[#4C150B] transition opacity-90 hover:opacity-100 cursor-pointer"
-              >
-                Vaciar Carrito
+              <button onClick={clearCart} className="secondary-button">
+                <FaTrash /> Vaciar Carrito
               </button>
             </div>
             {/* Phone Number Input Field */}
@@ -252,7 +247,7 @@ const Cart = () => {
                 <>
                   <label
                     htmlFor="telefono"
-                    className="block text-2xl lg:text-lg mb-2 text-[#7F3C28]"
+                    className="block text-2xl lg:text-lg mb-2 text-primary"
                   >
                     Número de Teléfono:
                   </label>
@@ -268,7 +263,7 @@ const Cart = () => {
                       }
                     }}
                     placeholder="Su número de contacto"
-                    className="border rounded text-4xl lg:text-base border-[#7F3C28] text-[#7F3C28] text-center pb-2 pt-2 mb-2"
+                    className="border rounded text-4xl lg:text-base border-primary text-primary text-center pb-2 pt-2 mb-2"
                     inputMode="numeric"
                     pattern="[0-9]*"
                   />
@@ -285,7 +280,8 @@ const Cart = () => {
                 </>
               ) : (
                 <Link to="/my-account">
-                  <button className="bg-[#7F3C28] text-white px-4 py-2 rounded hover:bg-[#4C150B] transition text-2xl lg:text-lg">
+                  <button className="secondary-button">
+                    <MdOutlineLogin />
                     Iniciar Sesión para Comprar
                   </button>
                 </Link>

@@ -8,3 +8,67 @@
     color: #e3570c;
   }
 }
+
+@theme {
+  --color-primary: #7f3c28;
+  --color-primary-focus: #4c150b;
+  --color-secondary: #fff;
+  --color-call-to-action: #ff7043;
+  --color-call-to-action-focus: #e64a19;
+}
+
+@layer components {
+  .secondary-button {
+    @apply bg-primary text-white text-2xl lg:text-lg px-4 py-2 rounded-md 
+           hover:bg-primary-focus transition opacity-90 hover:opacity-100 
+           cursor-pointer flex items-center justify-center gap-2;
+  }
+
+  .remove-button {
+    @apply text-secondary bg-primary-focus hover:bg-red-500 px-3 py-1 rounded cursor-pointer;
+  }
+
+  .social-icon-link {
+    @apply text-primary hover:text-gray-300 transition transform hover:scale-105;
+  }
+
+  .social-icon-link-footer {
+    @apply text-secondary hover:text-gray-300 transition transform hover:scale-105;
+  }
+
+  .social-icon {
+    @apply w-6 h-6 md:w-12 md:h-12;
+  }
+
+  .primary-link {
+    @apply text-gray-300 hover:text-gray-300 transition;
+  }
+
+  .pending-link {
+    @apply text-secondary hover:text-gray-300 transition;
+  }
+
+  .inactive-link {
+    @apply text-secondary hover:text-gray-300 transition;
+  }
+
+  .link-button-inside-text {
+    @apply text-primary hover:text-primary-focus transition text-4xl lg:text-xl cursor-pointer;
+  }
+
+  .add-to-cart-button {
+    @apply bg-call-to-action text-white px-8 py-3 lg:px-3 lg:py-2 rounded-md hover:bg-call-to-action-focus transition cursor-pointer text-3xl lg:text-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-call-to-action-focus;
+  }
+
+  .product-price {
+    @apply text-3xl lg:text-xl font-semibold mt-2 text-[#7F3C28];
+  }
+
+  .product-image {
+    @apply rounded-xl transform transition duration-300 ease-in-out hover:scale-105;
+  }
+
+  .terms-title {
+    @apply text-2xl font-semibold mt-6 mb-4 text-primary;
+  }
+}

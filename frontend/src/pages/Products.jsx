@@ -99,7 +99,7 @@ const ProductCard = ({ product }) => {
       <img
         src={product.image}
         alt={product.name}
-        className="w-1/2 h-3/4 lg:w-full lg:h-auto max-h-[300px] rounded-xl transform transition duration-300 ease-in-out hover:scale-105"
+        className="product-image w-1/2 h-3/4 lg:w-full lg:h-auto "
       />
       <div className="p-3 lg:p-4 text-left ml-6 lg:ml-0">
         <h3 className="text-4xl lg:text-xl font-semibold mb-2">
@@ -110,20 +110,20 @@ const ProductCard = ({ product }) => {
           {product.description.length > MAX_LENGTH && (
             <button
               onClick={toggleDescription}
-              className="ml-2 text-[#7F3C28] hover:text-[#4C150B] transition text-4xl lg:text-xl"
+              className="link-button-inside-text"
             >
               {isExpanded ? "Ver menos" : "Ver más"}
             </button>
           )}
         </p>
-        <p className="text-[#7F3C28] font-bold text-4xl lg:text-xl mt-2 lg:mt-0">
+        <p className="product-price">
           RD$ {product.price_dop} {product.selling_by}
         </p>
 
         {product.available ? (
           <div className="mt-3 flex items-center gap-2">
             <button onClick={decreaseQuantity} className="text-4xl lg:text-xl">
-              <FaMinus className="hover:text-[#E64A19] transition cursor-pointer" />
+              <FaMinus className="hover:text-call-to-action transition cursor-pointer" />
             </button>
             <input
               type="number"
@@ -133,12 +133,9 @@ const ProductCard = ({ product }) => {
               className="w-16 border border-gray-300 rounded px-2 py-1 text-center text-4xl lg:text-xl"
             />
             <button onClick={increaseQuantity} className="text-4xl lg:text-xl">
-              <FaPlus className="hover:text-[#E64A19] transition cursor-pointer" />
+              <FaPlus className="hover:text-call-to-action transition cursor-pointer" />
             </button>
-            <button
-              onClick={handleAddToCart}
-              className="bg-[#FF7043] text-white px-8 py-3 lg:px-3 lg:py-2 rounded-md hover:bg-[#E64A19] transition cursor-pointer text-3xl lg:text-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E64A19]"
-            >
+            <button onClick={handleAddToCart} className="add-to-cart-button">
               Agregar al carrito
             </button>
           </div>
