@@ -16,7 +16,7 @@ const Cart = () => {
   const {
     user,
     loading: loadingUser,
-    error,
+    error: errorUser,
     phoneNumber: userPhoneNumber,
   } = useUser();
   const [phoneNumber, setPhoneNumber] = useState(userPhoneNumber);
@@ -67,7 +67,10 @@ const Cart = () => {
       maximumFractionDigits: 2,
     });
 
-  if (error && error !== "Auth session missing!") {
+  if (
+    errorUser &&
+    !["Auth session missing!", "Failed to fetch user role."].includes(errorUser)
+  ) {
     return (
       <div className="lg:mt-7 p-10 mt-24">
         <h2 className="text-5xl lg:text-2xl font-bold text-center mb-6 text-primary">
@@ -75,7 +78,7 @@ const Cart = () => {
         </h2>
         <div className="flex flex-col items-center justify-center text-primary text-4xl lg:text-xl">
           <p className="mb-4">Error al cargar el carrito</p>
-          <p>{error}</p>
+          <p>{errorUser}</p>
         </div>
       </div>
     );
