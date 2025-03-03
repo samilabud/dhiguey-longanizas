@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white text-center p-4">
+    <footer className="bg-primary text-white text-center p-4 gap-4 lg:gap-0 flex flex-col">
       {/* Social Media Icons */}
       <div className="mt-2 flex justify-center gap-4">
         <a
@@ -29,7 +29,7 @@ const Footer = () => {
 
       {/* Additional Menu */}
       <nav className="mt-4">
-        <ul className="flex justify-center gap-4">
+        <ul className="flex justify-center gap-4 text-4xl lg:text-xl">
           <li>
             <NavLink to="/terms-and-conditions" className={getNavLinkClass}>
               Términos y Condiciones

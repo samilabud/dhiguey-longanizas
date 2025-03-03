@@ -1,6 +1,6 @@
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen text-gray-800 py-8 px-4">
+    <div className="py-8 px-4">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">
         <h1 className="text-3xl font-bold mb-6 text-primary">
           Términos y Condiciones
