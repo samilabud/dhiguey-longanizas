@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
+import Logo from "../assets/logo.svg";
 import { getNavLinkClass } from "../common/utils";
 import { useUser } from "../context/UserContext";
 
@@ -10,13 +10,14 @@ const HeaderTitle = () => {
   return (
     <Link to="/" className="flex items-center space-x-3">
       <img
-        src={logo}
+        src={Logo}
         alt="Logo"
-        className="h-40 lg:h-16 drop-shadow-lg filter brightness-110"
+        className="h-40 lg:h-35 drop-shadow-lg filter brightness-110 ease-in-out hover:scale-115 transition duration-300 absolute top-1 left-1"
       />
-      <span className="text-white font-lobster text-5xl lg:text-2xl drop-shadow-md">
-        D&apos;Higüey Longanizas y Más
-      </span>
+      <span
+        className="text-white text-5xl lg:text-2xl drop-shadow-md p-10 ml-10"
+        style={{ fontFamily: '"Lato", sans-serif' }}
+      ></span>
     </Link>
   );
 };
@@ -178,7 +179,7 @@ const Header = () => {
               onClick={toggleMenu}
             >
               <img
-                src={logo}
+                src={Logo}
                 alt="Logo"
                 className="h-40 lg:h-16 drop-shadow-lg filter brightness-110"
               />
