@@ -84,17 +84,17 @@ const ProductManagement = () => {
     return <LoadingIndicator />;
   }
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4 text-primary">
-        Gestión de Productos
-      </h2>
-      {/* Product Grid */}
-      <div className="flex justify-end">
+    <div className="flex flex-col overflow-x-auto w-11/12 items-center justify-center">
+      <div className="mt-3 -ml-1 w-11/12 flex justify-end">
         <Link to="/add-product" className="link-button-inside-text">
           Agregar nuevo producto
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <h2 className="text-4xl lg:text-2xl font-bold mb-4 text-primary mt-2">
+        Gestión de Productos
+      </h2>
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-11/12">
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded shadow">
             <img
@@ -129,7 +129,6 @@ const ProductManagement = () => {
           </div>
         ))}
       </div>
-
       {/* Edit Modal */}
       {showModal && editingProduct && (
         <div className="fixed inset-0 flex items-center justify-center z-50">

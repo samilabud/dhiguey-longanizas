@@ -116,8 +116,8 @@ const ManualInvoice = () => {
   const grandTotal = totalProductsCost + shippingCost;
 
   return (
-    <div>
-      <div className="flex justify-end">
+    <div className="flex flex-col overflow-x-auto items-center justify-center">
+      <div className="m-4 w-1/3 flex justify-end">
         <Link to="/generated-invoices" className="link-button-inside-text">
           Facturas generadas
         </Link>

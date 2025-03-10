@@ -44,14 +44,17 @@ const AddProduct = ({ onProductAdded }) => {
   };
 
   return (
-    <div>
-      <div className="flex justify-end">
+    <div className="flex flex-col overflow-x-auto items-center justify-center w-11/12">
+      <div className="m-4 w-2/3 flex justify-end">
         <Link to="/product-management" className="link-button-inside-text">
           Gestion de productos
         </Link>
       </div>
-      <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
-        <h2 className="text-xl font-bold mb-4 text-primary">
+      <form
+        onSubmit={handleSubmit}
+        className="p-4 border rounded shadow max-w-xl"
+      >
+        <h2 className="text-4xl lg:text-xl font-bold mb-4 text-primary">
           Agregar Producto
         </h2>
         <input
