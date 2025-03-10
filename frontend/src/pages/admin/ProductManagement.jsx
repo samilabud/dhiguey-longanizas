@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { BACKEND_URL } from "../config";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoadingIndicator from "../components/LoadingIndicator";
-import { getUserFromLocalStorage } from "../common/utils";
+import { getUserFromLocalStorage } from "../../common/utils";
+import LoadingIndicator from "../../components/LoadingIndicator";
+import { BACKEND_URL } from "../../config";
 
 const ProductManagement = () => {
   const [loading, setLoading] = useState(true);

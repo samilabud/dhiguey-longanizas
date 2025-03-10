@@ -4,11 +4,11 @@ import { useMediaQuery } from "react-responsive";
 const ContactPage = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center p-6 lg:gap-1 gap-10">
+    <div className="bg-white flex flex-col items-center p-6 lg:gap-1 gap-10 overflow-y-auto">
       <h1 className="text-primary text-5xl lg:text-3xl font-bold mb-4">
         Contáctanos
       </h1>
-      <p className="text-gray-700 text-4xl lg:text-xl">
+      <p className="text-gray-700 text-4xl lg:text-xl p-2 text-justify">
         ¡Estamos aquí para servirte! Contáctanos a través de nuestras redes.
         Nuestro servicio de delivery opera desde Santo Domingo Este, llevamos
         calidad y sabor directamente a tu mesa.
@@ -16,10 +16,10 @@ const ContactPage = () => {
 
       {/* Contact Information */}
       <div className="mt-6 text-center">
-        <h2 className="text-4xl lg:text-2xl font-semibold text-primary">
+        <h2 className="text-4xl lg:text-2xl font-semibold text-primary block lg:hidden">
           D&apos;Higüey Longanizas y Más
         </h2>
-        <p className="text-gray-700 text-4xl lg:text-lg lg:mt-0 mt-1">
+        <p className="text-gray-700 text-4xl lg:text-lg lg:mt-0 mt-1 block lg:hidden">
           Del campo a tu mesa
         </p>
 
@@ -63,11 +63,11 @@ const ContactPage = () => {
       </div>
 
       {/* Google Map Section */}
-      <div className="mt-6 w-full max-w-4xl">
-        <h2 className="text-4xl lg:text-2xl font-semibold text-primary text-center mb-4">
+      <div className="mt-6 lg:mt-3 w-full max-w-4xl">
+        <h2 className="text-4xl lg:text-2xl font-semibold text-primary text-center mb-4 lg:mb-2">
           Nuestra Ubicación
         </h2>
-        <div className="w-full h-64 md:h-96">
+        <div className="w-full h-64 md:h-80">
           <iframe
             title="D'Higüey Longanizas y Más Location"
             className="w-full h-full rounded-lg shadow-lg"

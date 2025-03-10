@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import LoadingIndicator from "../components/LoadingIndicator";
-import { BACKEND_URL } from "../config";
-import useCachedFetch from "../hooks/useCachedFetch";
+import LoadingIndicator from "../../components/LoadingIndicator";
+import { BACKEND_URL } from "../../config";
+import useCachedFetch from "../../hooks/useCachedFetch";
 
 const ManualInvoice = () => {
   const [name, setName] = useState("");

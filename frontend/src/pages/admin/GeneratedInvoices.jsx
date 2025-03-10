@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { supabase } from "../common/supabaseClient";
-import LoadingIndicator from "../components/LoadingIndicator";
+import { supabase } from "../../common/supabaseClient";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 const GeneratedInvoices = () => {
   const [searchByClient, setSearchByClient] = useState("");

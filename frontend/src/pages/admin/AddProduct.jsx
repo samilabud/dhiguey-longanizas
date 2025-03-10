@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { BACKEND_URL } from "../config";
 import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../../config";
 
 const AddProduct = ({ onProductAdded }) => {
   const [name, setName] = useState("");

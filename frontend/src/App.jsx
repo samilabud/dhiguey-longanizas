@@ -7,20 +7,21 @@ import {
 } from "react-router-dom";
 import { CartProvider } from "./context/CartProvider";
 
-// Pages
-import AddProduct from "./pages/AddProduct";
+// User pages
 import Cancel from "./pages/Cancel";
 import Cart from "./pages/Cart";
 import ContactPage from "./pages/ContactPage";
-import GeneratedInvoices from "./pages/GeneratedInvoices";
+import FAQs from "./pages/FAQs";
 import Home from "./pages/Home";
-import ManualInvoice from "./pages/ManualInvoice";
 import MyAccount from "./pages/MyAccount";
-import ProductManagement from "./pages/ProductManagement";
 import Products from "./pages/Products";
 import Success from "./pages/Success";
-import FAQs from "./pages/FAQs";
 import TermsAndConditions from "./pages/TermsAndConditions";
+// Admin pages
+import AddProduct from "./pages/admin/AddProduct";
+import GeneratedInvoices from "./pages/admin/GeneratedInvoices";
+import ManualInvoice from "./pages/admin/ManualInvoice";
+import ProductManagement from "./pages/admin/ProductManagement";
 
 // Components
 import { ToastContainer } from "react-toastify";
@@ -41,13 +42,9 @@ function App() {
               <Header />
 
               {/* Main content */}
-              <div className="flex-grow">
-                <main className="flex-1 flex flex-col">
-                  <section className="flex flex-wrap justify-center items-center gap-8 p-6 flex-1">
-                    <AppRoutes />
-                  </section>
-                </main>
-              </div>
+              <main className="flex-grow">
+                <AppRoutes />
+              </main>
 
               <CartSidebarWrapper />
 
