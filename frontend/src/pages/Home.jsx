@@ -4,7 +4,7 @@ function Home() {
   return (
     <section className="text-center p-6 md:p-8 text-primary text-6xl lg:text-3xl flex flex-col mt-20 lg:mt-0">
       <h1
-        className="text-3xl font-bold"
+        className="text-4xl font-bold"
         style={{ fontFamily: '"Lato", sans-serif' }}
       >
         D&apos;Higüey Longanizas y Más

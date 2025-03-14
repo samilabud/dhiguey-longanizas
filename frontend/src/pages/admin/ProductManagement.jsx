@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../../common/supabaseClient";
 import { getUserFromLocalStorage } from "../../common/utils";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { BACKEND_URL } from "../../config";
@@ -9,6 +10,8 @@ const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [newImageFiles, setNewImageFiles] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,23 +61,56 @@ const ProductManagement = () => {
     }));
   };
 
+  const handleRemoveImage = (index) => {
+    setEditingProduct((prev) => {
+      const updatedImages = prev.images.filter((_, i) => i !== index);
+      return { ...prev, images: updatedImages };
+    });
+  };
+
   // Save changes to the server (PUT request)
   const handleSave = async () => {
     if (!editingProduct) return;
 
+    // Upload new images if any
+    let newImageUrls = [];
+    if (newImageFiles.length > 0) {
+      for (const file of newImageFiles) {
+        const filePath = `${Date.now()}-${file.name}`;
+        const { data, error } = await supabase.storage
+          .from("products")
+          .upload(filePath, file);
+        if (error) {
+          console.error("Error uploading file:", error);
+          continue;
+        }
+        console.log({ data });
+        // Get the public URL for the uploaded file
+        const { data: urlData } = supabase.storage
+          .from("products")
+          .getPublicUrl(data.path);
+        const publicUrl = urlData.publicUrl;
+        newImageUrls.push(publicUrl);
+      }
+    }
+
+    // Merge existing images with new uploads
+    const updatedImages = [...(editingProduct.images || []), ...newImageUrls];
+
     const { id, ...updateFields } = editingProduct;
+    updateFields.images = updatedImages;
 
     try {
       await fetch(`${BACKEND_URL}/api/products/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateFields),
       });
-      // Refresh and close modal
+      // Refresh products list and close modal
       fetchProducts();
       setShowModal(false);
+      // Clear new images state for next time
+      setNewImageFiles([]);
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -97,8 +133,13 @@ const ProductManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded shadow">
-            <img
+            {/* <img
               src={product.image}
+              alt={product.name}
+              className="w-full h-40 object-cover"
+            /> */}
+            <img
+              src={product.images && product.images[0]}
               alt={product.name}
               className="w-full h-40 object-cover"
             />
@@ -132,7 +173,7 @@ const ProductManagement = () => {
 
       {/* Edit Modal */}
       {showModal && editingProduct && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 overflow-auto">
           {/* Overlay */}
           <div
             className="absolute inset-0 bg-black opacity-50"
@@ -153,6 +194,37 @@ const ProductManagement = () => {
                 id="name"
                 value={editingProduct.name}
                 onChange={handleChange}
+                className="w-full border p-2 rounded"
+              />
+            </div>
+            {/* Images with Remove Button */}
+            {editingProduct.images &&
+              editingProduct.images.map((imgUrl, index) => (
+                <div key={index} className="relative inline-block mr-2">
+                  <img
+                    src={imgUrl}
+                    alt={`Producto ${editingProduct.name}`}
+                    className="w-20 h-20 object-cover border"
+                  />
+                  <button
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            {/* New Images Upload */}
+            <div className="mb-4">
+              <label className="block font-semibold mb-1" htmlFor="newImages">
+                Agregar nuevas imágenes:
+              </label>
+              <input
+                type="file"
+                name="newImages"
+                id="newImages"
+                multiple
+                onChange={(e) => setNewImageFiles([...e.target.files])}
                 className="w-full border p-2 rounded"
               />
             </div>

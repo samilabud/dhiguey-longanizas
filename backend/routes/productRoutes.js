@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
     price_dop,
     price_usd,
     price_cash,
-    image,
+    images,
     available,
     selling_by,
   } = req.body;
@@ -71,7 +71,7 @@ router.post("/", async (req, res) => {
         price_dop,
         price_usd,
         price_cash,
-        image,
+        images,
         available,
         selling_by,
       },
@@ -94,7 +94,7 @@ router.put("/:id", async (req, res) => {
     price_dop,
     price_usd,
     price_cash,
-    image,
+    images,
     available,
     selling_by,
   } = req.body;
@@ -108,12 +108,11 @@ router.put("/:id", async (req, res) => {
         price_dop,
         price_usd,
         price_cash,
-        image,
+        images,
         available,
         selling_by,
       })
       .eq("id", id);
-
     if (error) return res.status(500).json({ error: error.message });
 
     res.json(data);
