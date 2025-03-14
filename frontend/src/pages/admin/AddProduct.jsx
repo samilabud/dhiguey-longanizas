@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { supabase } from "../../common/supabaseClient";
 import { BACKEND_URL } from "../../config";
 
 const AddProduct = ({ onProductAdded }) => {
@@ -8,11 +10,39 @@ const AddProduct = ({ onProductAdded }) => {
   const [priceDOP, setPriceDOP] = useState("");
   const [priceUSD, setPriceUSD] = useState("");
   const [priceCash, setPriceCash] = useState("");
-  const [image, setImage] = useState("");
   const [sellingBy, setSellingBy] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+
+  const handleImageChange = (e) => {
+    setImageFiles([...e.target.files]);
+  };
+
+  const uploadFiles = async () => {
+    const urls = [];
+    for (const file of imageFiles) {
+      // Example: upload the file to Supabase Storage
+      const filePath = `products/${Date.now()}-${file.name}`;
+      const { data, error } = await supabase.storage
+        .from("products")
+        .upload(filePath, file);
+      if (error) {
+        console.error("Error uploading file:", error);
+        continue;
+      }
+      console.log({ data });
+      // Get public URL for the uploaded file
+      const { publicURL } = supabase.storage
+        .from("products")
+        .getPublicUrl(filePath);
+      urls.push(publicURL);
+    }
+    return urls;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const imageUrls = await uploadFiles();
 
     const product = {
       name,
@@ -20,7 +50,7 @@ const AddProduct = ({ onProductAdded }) => {
       price_dop: parseFloat(priceDOP),
       price_usd: parseFloat(priceUSD),
       price_cash: parseFloat(priceCash),
-      image,
+      images: imageUrls,
       available: true,
       selling_by: sellingBy,
     };
@@ -36,10 +66,11 @@ const AddProduct = ({ onProductAdded }) => {
       setDescription("");
       setPriceDOP("");
       setPriceUSD("");
-      setImage("");
+      setPriceCash("");
+      setImageFiles([]);
       setSellingBy("");
       onProductAdded();
-      alert("Producto agregado exitosamente");
+      toast.success("Producto agregado correctamente");
     }
   };
 
@@ -63,6 +94,13 @@ const AddProduct = ({ onProductAdded }) => {
           placeholder="Nombre"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          className="border p-2 w-full mt-2"
+          type="file"
+          multiple
+          onChange={handleImageChange}
           required
         />
         <textarea
@@ -94,14 +132,6 @@ const AddProduct = ({ onProductAdded }) => {
           placeholder="Precio Efectivo DOP"
           value={priceCash}
           onChange={(e) => setPriceCash(e.target.value)}
-          required
-        />
-        <input
-          className="border p-2 w-full mt-2"
-          type="text"
-          placeholder="Imagen URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
           required
         />
         <input

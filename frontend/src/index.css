@@ -68,6 +68,9 @@
     @apply rounded-xl transform transition duration-300 ease-in-out hover:scale-105;
   }
 
+  .product-image-slider {
+    @apply w-full h-3/4 object-cover lg:h-auto;
+  }
   .terms-title {
     @apply text-2xl font-semibold mt-6 mb-4 text-primary;
   }

@@ -1,9 +1,13 @@
 import { useContext, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import Slider from "react-slick";
+import LoadingIndicator from "../components/LoadingIndicator";
 import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
-import LoadingIndicator from "../components/LoadingIndicator";
 import useCachedFetch from "../hooks/useCachedFetch";
+
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 const MAX_LENGTH = 90;
 
@@ -16,27 +20,6 @@ const Products = () => {
 
   if (loading) {
     return <LoadingIndicator />;
-  }
-
-  if (error) {
-    return (
-      <div className="p-6 text-center text-red-500">
-        Error al cargar productos: {error}
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="p-6 text-center flex flex-col items-center">
-        <span>Cargando productos...</span>
-        <img
-          className="mx-auto"
-          src="/images/loading-indicator.gif"
-          alt="Cargando..."
-        />
-      </div>
-    );
   }
 
   if (error) {
@@ -61,6 +44,17 @@ const Products = () => {
   );
 };
 
+// Settings for the react-slick slider
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  pauseOnHover: true,
+};
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -96,11 +90,27 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="bg-white rounded shadow overflow-hidden hover:shadow-md transition flex lg:block justify-center items-center lg:justify-normal">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="product-image w-1/2 h-3/4 lg:w-full lg:h-auto "
-      />
+      {product.images && product.images.length > 1 ? (
+        <div className="w-1/2 lg:w-full">
+          <Slider {...sliderSettings}>
+            {product.images.map((imgUrl, index) => (
+              <div key={index}>
+                <img
+                  src={imgUrl}
+                  alt={`Imagen ${index + 1} de ${product.name}`}
+                  className="product-image-slider "
+                />
+              </div>
+            ))}
+          </Slider>
+        </div>
+      ) : (
+        <img
+          src={product.images[0]}
+          alt={product.name}
+          className="product-image w-3/6 lg:w-full lg:h-auto"
+        />
+      )}
       <div className="p-3 lg:p-4 text-left ml-6 lg:ml-0">
         <h3 className="text-4xl lg:text-xl font-semibold mb-2">
           {product.name}
