@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../common/supabaseClient";
-import { getUserFromLocalStorage } from "../../common/utils";
+import { getUserFromLocalStorage, clearCache } from "../../common/utils";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { BACKEND_URL } from "../../config";
 
@@ -106,6 +106,7 @@ const ProductManagement = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateFields),
       });
+      clearCache("productsCache");
       // Refresh products list and close modal
       fetchProducts();
       setShowModal(false);

@@ -7,6 +7,10 @@ export const saveUserToLocalStorage = (user) => {
   localStorage.setItem("googleUser", JSON.stringify(user));
 };
 
+export const clearCache = (key) => {
+  localStorage.removeItem(key);
+};
+
 // Determine the class for active and pending states
 export const getNavLinkClass = ({ isActive: active, isPending: pending }) => {
   if (pending) return `pending-link`;

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { supabase } from "../../common/supabaseClient";
 import { BACKEND_URL } from "../../config";
+import { clearCache } from "../../common/utils";
 
 const AddProduct = ({ onProductAdded }) => {
   const [name, setName] = useState("");
@@ -22,14 +23,13 @@ const AddProduct = ({ onProductAdded }) => {
     for (const file of imageFiles) {
       // Example: upload the file to Supabase Storage
       const filePath = `products/${Date.now()}-${file.name}`;
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("products")
         .upload(filePath, file);
       if (error) {
         console.error("Error uploading file:", error);
         continue;
       }
-      console.log({ data });
       // Get public URL for the uploaded file
       const { publicURL } = supabase.storage
         .from("products")
@@ -72,6 +72,7 @@ const AddProduct = ({ onProductAdded }) => {
       onProductAdded();
       toast.success("Producto agregado correctamente");
     }
+    clearCache("productsCache");
   };
 
   return (
