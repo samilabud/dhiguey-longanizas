@@ -7,7 +7,7 @@ import useCachedFetch from "../../hooks/useCachedFetch";
 
 const ManualInvoice = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("dhigueylonganizas@gmail.com");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedShippingIndex, setSelectedShippingIndex] = useState(-1);
   const [shippingCost, setShippingCost] = useState(0);
@@ -54,7 +54,14 @@ const ManualInvoice = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (selectedShippingIndex === -1) {
+      toast.error("Por favor selecciona una zona de envío.");
+      return;
+    }
+
     setGeneratingInvoiceLoading(true);
+
     const dataProducts = products
       .filter((product) => Number(quantities[product.id]) > 0)
       .map((product) => ({
@@ -63,6 +70,7 @@ const ManualInvoice = () => {
         quantity: Number(quantities[product.id]),
         price_cash: product.price_cash,
       }));
+
     dataProducts.push({
       id: 0,
       name: "Envío a " + shippingOptions[selectedShippingIndex].label,
