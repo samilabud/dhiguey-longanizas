@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { CartProvider } from "./context/CartProvider";
+import { HelmetProvider } from "react-helmet-async";
 
 // User pages
 import Cancel from "./pages/Cancel";
@@ -33,26 +34,28 @@ import { UserProvider, useUser } from "./context/UserContext";
 function App() {
   return (
     <Router>
-      <UserProvider>
-        <CartProvider>
-          <ToastContainer />
-          <div className="relative min-h-screen flex flex-col">
-            <div className="relative z-10 flex flex-col min-h-screen">
-              {/* Header visible on all pages */}
-              <Header />
+      <HelmetProvider>
+        <UserProvider>
+          <CartProvider>
+            <ToastContainer />
+            <div className="relative min-h-screen flex flex-col">
+              <div className="relative z-10 flex flex-col min-h-screen">
+                {/* Header visible on all pages */}
+                <Header />
 
-              {/* Main content */}
-              <main className="flex-grow">
-                <AppRoutes />
-              </main>
+                {/* Main content */}
+                <main className="flex-grow">
+                  <AppRoutes />
+                </main>
 
-              <CartSidebarWrapper />
+                <CartSidebarWrapper />
 
-              <Footer />
+                <Footer />
+              </div>
             </div>
-          </div>
-        </CartProvider>
-      </UserProvider>
+          </CartProvider>
+        </UserProvider>
+      </HelmetProvider>
     </Router>
   );
 }

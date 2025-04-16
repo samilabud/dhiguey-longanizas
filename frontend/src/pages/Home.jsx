@@ -1,5 +1,6 @@
+import { Helmet } from "react-helmet-async";
 import QuickBuy from "../components/QuickBuy";
-import { Helmet } from "react-helmet";
+
 function Home() {
   return (
     <>
