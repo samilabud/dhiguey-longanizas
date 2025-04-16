@@ -5,6 +5,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
 import useCachedFetch from "../hooks/useCachedFetch";
+import { Helmet } from "react-helmet";
 
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -31,16 +32,25 @@ const Products = () => {
   }
 
   return (
-    <div className="p-6">
-      <h2 className="text-5xl lg:text-3xl font-bold mb-6 text-center text-[#7F3C28]">
-        Nuestra Galería de Productos
-      </h2>
-      <div className="grid gap-6 grid-cols-1 lg:grid-cols-3 max-w-4xl lg:max-w-5xl mx-auto">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+    <>
+      <Helmet>
+        <title>D&apos;Higüey Longanizas y Más | Catalogo de productos</title>
+        <meta
+          name="description"
+          content="D'Higüey Longanizas y Más - catalogo de productos"
+        />
+      </Helmet>
+      <div className="p-6">
+        <h2 className="text-5xl lg:text-3xl font-bold mb-6 text-center text-[#7F3C28]">
+          Nuestra Galería de Productos
+        </h2>
+        <div className="grid gap-6 grid-cols-1 lg:grid-cols-3 max-w-4xl lg:max-w-5xl mx-auto">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
