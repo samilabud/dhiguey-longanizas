@@ -1,8 +1,11 @@
-import { FaInstagram, FaWhatsapp, FaPhone, FaMailBulk } from "react-icons/fa";
+import { FC, JSX } from "react";
+import { FaInstagram, FaMailBulk, FaPhone, FaWhatsapp } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 
-const ContactPage = () => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+const ContactPage: FC = (): JSX.Element => {
+  const isTabletOrMobile: boolean = useMediaQuery({
+    query: "(max-width: 1224px)",
+  });
   return (
     <div className="bg-white flex flex-col items-center p-6 lg:gap-1 gap-10 overflow-y-auto">
       <h1 className="text-primary text-5xl lg:text-3xl font-bold mb-4">

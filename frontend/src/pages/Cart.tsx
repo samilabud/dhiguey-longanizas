@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, FC, JSX } from "react";
 import { FaMinus, FaPlus, FaTrash, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -8,8 +8,9 @@ import { CartContext } from "../context/CartContext";
 import useCachedFetch from "../hooks/useCachedFetch";
 import { useUser } from "../context/UserContext";
 import { MdOutlineLogin } from "react-icons/md";
+import { Product, ShippingOption } from "../common/types";
 
-const Cart = () => {
+const Cart: FC = (): JSX.Element => {
   const [selectedShippingIndex, setSelectedShippingIndex] = useState(0);
   const { cart, removeFromCart, clearCart, updateQuantity } =
     useContext(CartContext);
@@ -24,7 +25,7 @@ const Cart = () => {
     data: shippingOptions,
     loading: loadingShippingOptions,
     error: errorShippingOptions,
-  } = useCachedFetch(
+  } = useCachedFetch<ShippingOption>(
     "shippingOptionsCache",
     `${BACKEND_URL}/api/products/shipping_options`
   );
@@ -37,13 +38,16 @@ const Cart = () => {
   }, []);
 
   // Group products by ID and sum their quantities
-  const groupedCart = cart.reduce((acc, item) => {
-    if (!acc[item.id]) {
-      acc[item.id] = { ...item, quantity: 0 };
-    }
-    acc[item.id].quantity += item.quantity || 1;
-    return acc;
-  }, {});
+  const groupedCart = cart.reduce(
+    (acc: { [key: string]: Product }, item: Product) => {
+      if (!acc[item.id]) {
+        acc[item.id] = { ...item, quantity: 0 };
+      }
+      acc[item.id].quantity += item.quantity || 1;
+      return acc;
+    },
+    {}
+  );
 
   const groupedCartArray = Object.values(groupedCart);
 
@@ -61,7 +65,7 @@ const Cart = () => {
     0
   );
 
-  const formatPrice = (price) =>
+  const formatPrice = (price: number) =>
     price.toLocaleString("es-DO", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -108,16 +112,17 @@ const Cart = () => {
       shippingCostDOP
     )})`,
   ].join(", ");
-  const products = groupedCartArray.map((item) => ({
+  const products: Partial<Product>[] = groupedCartArray.map((item) => ({
     name: item.name,
     quantity: item.quantity,
-    price: item.price_usd,
+    price_usd: item.price_usd,
     price_dop: item.price_dop,
   }));
+
   products.push({
     name: "Envío",
     quantity: 1,
-    price: shippingCostUSD,
+    price_usd: shippingCostUSD,
     price_dop: shippingCostDOP,
   });
 
@@ -207,7 +212,10 @@ const Cart = () => {
               onChange={(e) => {
                 const newIndex = Number(e.target.value);
                 setSelectedShippingIndex(newIndex);
-                localStorage.setItem("selectedShippingIndex", newIndex);
+                localStorage.setItem(
+                  "selectedShippingIndex",
+                  newIndex.toString()
+                );
               }}
             >
               {shippingOptions.map((option, idx) => (
@@ -257,7 +265,7 @@ const Cart = () => {
                   <input
                     id="telefono"
                     type="tel"
-                    value={phoneNumber}
+                    value={phoneNumber || ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       // Only update if value contains only digits
@@ -278,7 +286,7 @@ const Cart = () => {
                     customerName={user.user_metadata.full_name}
                     customerPhone={phoneNumber}
                     clientEmail={user.email}
-                    products={products}
+                    products={products as Product[]}
                   />
                 </>
               ) : (

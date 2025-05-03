@@ -1,24 +1,39 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { AuthUser } from "@supabase/supabase-js";
+import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../common/supabaseClient";
 import {
   getUserFromLocalStorage,
   saveUserToLocalStorage,
 } from "../common/utils";
+import { type UserContextType } from "./contextTypes";
+
+const userContextDefaultValue: UserContextType = {
+  user: null,
+  loading: true,
+  handleLogin: () => {},
+  handleSignOut: () => {},
+  role: null,
+  error: null,
+  phoneNumber: null,
+};
 
 // Create the context
-const UserContext = createContext();
+const UserContext = createContext(userContextDefaultValue);
 
 // Custom hook for easy access
 // eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => useContext(UserContext);
 
+type UserProviderProps = {
+  children: React.ReactNode;
+};
 // Provider component
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState(null);
-  const [error, setError] = useState(null);
+  const [role, setRole] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Load user from localStorage on initial render
   useEffect(() => {
@@ -36,7 +51,7 @@ export const UserProvider = ({ children }) => {
     const fetchUser = async () => {
       const { data, error } = await supabase.auth.getUser();
       if (data?.user) {
-        setUser(data.user);
+        setUser(data.user as AuthUser);
         saveUserToLocalStorage(data.user);
 
         // Fetch the user's role from the profiles table

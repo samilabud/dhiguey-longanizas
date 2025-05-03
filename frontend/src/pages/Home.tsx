@@ -1,7 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import QuickBuy from "../components/QuickBuy";
+import { FC, JSX } from "react";
 
-function Home() {
+const Home: FC = (): JSX.Element => {
   return (
     <>
       <Helmet>
@@ -27,6 +28,6 @@ function Home() {
       </section>
     </>
   );
-}
+};
 
 export default Home;

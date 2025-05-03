@@ -1,21 +1,27 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { supabase } from "../../common/supabaseClient";
-import { BACKEND_URL } from "../../config";
 import { clearCache } from "../../common/utils";
+import { BACKEND_URL } from "../../config";
 
-const AddProduct = ({ onProductAdded }) => {
+type AddProductProps = {
+  onProductAdded?: () => void;
+};
+
+const AddProduct = ({ onProductAdded }: AddProductProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [priceDOP, setPriceDOP] = useState("");
   const [priceUSD, setPriceUSD] = useState("");
   const [priceCash, setPriceCash] = useState("");
   const [sellingBy, setSellingBy] = useState("");
-  const [imageFiles, setImageFiles] = useState([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
-  const handleImageChange = (e) => {
-    setImageFiles([...e.target.files]);
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImageFiles([...e.target.files]);
+    }
   };
 
   const uploadFiles = async () => {
@@ -31,15 +37,14 @@ const AddProduct = ({ onProductAdded }) => {
         continue;
       }
       // Get public URL for the uploaded file
-      const { publicURL } = supabase.storage
-        .from("products")
-        .getPublicUrl(filePath);
-      urls.push(publicURL);
+      const { data } = supabase.storage.from("products").getPublicUrl(filePath);
+      const publicUrl = data?.publicUrl;
+      urls.push(publicUrl);
     }
     return urls;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const imageUrls = await uploadFiles();
@@ -69,7 +74,9 @@ const AddProduct = ({ onProductAdded }) => {
       setPriceCash("");
       setImageFiles([]);
       setSellingBy("");
-      onProductAdded();
+      if (onProductAdded) {
+        onProductAdded();
+      }
       toast.success("Producto agregado correctamente");
     }
     clearCache("productsCache");

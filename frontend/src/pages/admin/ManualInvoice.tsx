@@ -1,26 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC, JSX, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { BACKEND_URL } from "../../config";
 import useCachedFetch from "../../hooks/useCachedFetch";
+import { Product, Invoice, ShippingOption } from "../../common/types";
 
-const ManualInvoice = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("dhigueylonganizas@gmail.com");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedShippingIndex, setSelectedShippingIndex] = useState(-1);
-  const [shippingCost, setShippingCost] = useState(0);
-  const [invoiceUrl, setInvoiceUrl] = useState("");
-  const [loading, setLoading] = useState(true);
+const DEFAULT_CLIENT_EMAIL = "dhigueylonganizas@gmail.com";
+
+const ManualInvoice: FC = (): JSX.Element => {
+  const [name, setName] = useState<Invoice["client_name"]>("");
+  const [email, setEmail] =
+    useState<Invoice["client_email"]>(DEFAULT_CLIENT_EMAIL);
+  const [phoneNumber, setPhoneNumber] = useState<Invoice["client_phone"]>("");
+  const [selectedShippingIndex, setSelectedShippingIndex] =
+    useState<number>(-1);
+  const [shippingCost, setShippingCost] = useState<number>(0);
+  const [invoiceUrl, setInvoiceUrl] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const [generatingInvoiceLoading, setGeneratingInvoiceLoading] =
-    useState(false);
-  const [products, setProducts] = useState([]);
+    useState<boolean>(false);
+  const [products, setProducts] = useState<Product[]>([]);
   // This state stores the quantity for each product keyed by product id
-  const [quantities, setQuantities] = useState({});
+  const [quantities, setQuantities] = useState<Record<number, number>>({});
 
   // Fetch all products
-  const fetchProducts = () => {
+  const fetchProducts: () => void = (): void => {
     setLoading(true);
     fetch(`${BACKEND_URL}/api/products`)
       .then((res) => res.json())
@@ -39,20 +44,26 @@ const ManualInvoice = () => {
     data: shippingOptions,
     loading: loadingShippingOptions,
     error: errorShippingOptions,
-  } = useCachedFetch(
+  } = useCachedFetch<ShippingOption>(
     "shippingOptionsCache",
     `${BACKEND_URL}/api/products/shipping_options`
   );
 
   // Update the quantity for a specific product
-  const handleQuantityChange = (productId, value) => {
+  const handleQuantityChange = (productId: Product["id"], value: string) => {
+    const parsedValue = Number(value);
+    if (isNaN(parsedValue) || parsedValue < 0) {
+      toast.error("Cantidad inválida");
+      return;
+    }
+    // Update the quantity in the state
     setQuantities((prev) => ({
       ...prev,
-      [productId]: value,
+      [productId]: parsedValue,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (selectedShippingIndex === -1) {
@@ -111,9 +122,7 @@ const ManualInvoice = () => {
   }
 
   if (errorShippingOptions) {
-    return (
-      <div>Error loading shipping options: {errorShippingOptions.message}</div>
-    );
+    return <div>Error loading shipping options: {errorShippingOptions}</div>;
   }
 
   // Calculate total for products and the overall total including shipping
@@ -176,7 +185,7 @@ const ManualInvoice = () => {
                   className="border p-2 w-28"
                   placeholder="Cantidad"
                   value={quantities[product.id] || 0}
-                  onChange={(e) =>
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     handleQuantityChange(product.id, e.target.value)
                   }
                 />

@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, FC, JSX } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { toast } from "react-toastify";
 import { FaPaypal } from "react-icons/fa";
+import { Product } from "../common/types";
 
-const PayPalButton = ({
+type PayPalButtonProps = {
+  totalDOP: number;
+  totalUSD: number;
+  description: string;
+  customerName: string;
+  customerPhone: string | null;
+  clientEmail: string | undefined;
+  products: Product[];
+};
+const PayPalButton: FC<PayPalButtonProps> = ({
   totalDOP,
   totalUSD,
   description,
@@ -12,9 +22,9 @@ const PayPalButton = ({
   customerPhone,
   clientEmail,
   products,
-}) => {
+}: PayPalButtonProps): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handlePayment = async () => {
     if (!customerPhone || !customerPhone.trim()) {

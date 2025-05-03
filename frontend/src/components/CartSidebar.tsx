@@ -1,11 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext, useState, FC, JSX } from "react";
 import { CartContext } from "../context/CartContext";
 import { useLocation, Link } from "react-router-dom";
 import { MdOutlineShoppingCart, MdMinimize } from "react-icons/md";
+import { Product } from "../common/types";
 
-const CartSidebar = () => {
+const CartSidebar: FC = (): JSX.Element | null => {
   const { cart, removeFromCart } = useContext(CartContext);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const location = useLocation();
 
   // Hide the sidebar if the cart is empty or if the user is on the cart page
@@ -14,13 +15,16 @@ const CartSidebar = () => {
   }
 
   // Group products by ID and sum their quantities
-  const groupedCart = cart.reduce((acc, item) => {
-    if (!acc[item.id]) {
-      acc[item.id] = { ...item, quantity: 0 };
-    }
-    acc[item.id].quantity += item.quantity || 1; // If no quantity exists, assume 1
-    return acc;
-  }, {});
+  const groupedCart = cart.reduce(
+    (acc: { [key: string]: Product }, item: Product) => {
+      if (!acc[item.id]) {
+        acc[item.id] = { ...item, quantity: 0 };
+      }
+      acc[item.id].quantity += item.quantity || 1; // If no quantity exists, assume 1
+      return acc;
+    },
+    {}
+  );
 
   // Convert object to array for rendering
   const groupedCartArray = Object.values(groupedCart);
@@ -36,7 +40,7 @@ const CartSidebar = () => {
   );
 
   // Format prices with commas
-  const formatPrice = (price) =>
+  const formatPrice = (price: number) =>
     price.toLocaleString("es-DO", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,

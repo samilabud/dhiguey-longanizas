@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { faqs } from "../common/data";
+import { FAQsData } from "../common/data";
 
+type Faq = {
+  question: string;
+  answer: string;
+};
+const faqs: Faq[] = FAQsData;
 const FAQAccordion = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const toggleFAQ = (index) => {
+  const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
@@ -13,7 +18,7 @@ const FAQAccordion = () => {
       <h1 className="text-5xl lg:text-3xl font-bold mb-6 text-primary">
         Preguntas Frecuentes
       </h1>
-      {faqs.map((faq, index) => (
+      {faqs.map((faq: Faq, index: number) => (
         <div key={index} className="border-b py-4 mt-4 lg:mt-0">
           <button
             onClick={() => toggleFAQ(index)}

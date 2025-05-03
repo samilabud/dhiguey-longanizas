@@ -2,10 +2,16 @@ import { useState, useEffect } from "react";
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-const useCachedFetch = (key, url) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+type CachedData<T> = {
+  data: T[];
+  loading: boolean;
+  error: string;
+};
+
+const useCachedFetch = <T>(key: string, url: string): CachedData<T> => {
+  const [data, setData] = useState<T[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +20,7 @@ const useCachedFetch = (key, url) => {
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        const fetchedData = await response.json();
+        const fetchedData: T[] = await response.json();
 
         setData(fetchedData);
         setLoading(false);
@@ -24,8 +30,12 @@ const useCachedFetch = (key, url) => {
           key,
           JSON.stringify({ data: fetchedData, timestamp: Date.now() })
         );
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Failed to fetch data");
+        }
         setLoading(false);
       }
     };
@@ -38,7 +48,7 @@ const useCachedFetch = (key, url) => {
 
       // If cache is valid, use it
       if (now - timestamp < CACHE_DURATION) {
-        setData(data);
+        setData(data as T[]);
         setLoading(false);
         return;
       }

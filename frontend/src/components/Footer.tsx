@@ -1,8 +1,9 @@
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { getNavLinkClass } from "../common/utils";
 import { NavLink } from "react-router-dom";
+import { FC, JSX } from "react";
 
-const Footer = () => {
+const Footer: FC = (): JSX.Element => {
   return (
     <footer className="bg-primary text-white text-center p-4 gap-4 lg:gap-0 flex flex-col">
       {/* Social Media Icons */}

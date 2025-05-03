@@ -1,4 +1,6 @@
-const LoadingIndicator = () => {
+import { FC, JSX } from "react";
+
+const LoadingIndicator: FC = (): JSX.Element => {
   return (
     <div className="p-6 text-center flex flex-col items-center">
       <span className="text-primary">Cargando...</span>

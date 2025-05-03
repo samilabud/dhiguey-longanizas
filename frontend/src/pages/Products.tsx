@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import Slider from "react-slick";
+import { Product } from "../common/types";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
@@ -10,6 +11,10 @@ import useCachedFetch from "../hooks/useCachedFetch";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
+// Maximum length for product description
+// This is used to truncate the description in the product card
+// to a more manageable size for display purposes
+// before the user clicks "Ver más" or "Ver menos"
 const MAX_LENGTH = 90;
 
 const Products = () => {
@@ -17,7 +22,7 @@ const Products = () => {
     data: products,
     loading,
     error,
-  } = useCachedFetch("productsCache", `${BACKEND_URL}/api/products`);
+  } = useCachedFetch<Product>("productsCache", `${BACKEND_URL}/api/products`);
 
   return (
     <>
@@ -61,7 +66,12 @@ const sliderSettings = {
   autoplaySpeed: 3000,
   pauseOnHover: true,
 };
-const ProductCard = ({ product }) => {
+
+type ProductCardProps = {
+  product: Product;
+};
+
+const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -81,7 +91,7 @@ const ProductCard = ({ product }) => {
     }
   };
 
-  const handleQuantityChange = (e) => {
+  const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     setQuantity(value > 0 ? value : 1);
   };
