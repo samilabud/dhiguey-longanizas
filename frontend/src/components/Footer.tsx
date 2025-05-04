@@ -38,7 +38,7 @@ const Footer: FC = (): JSX.Element => {
           </li>
           <li>
             <NavLink to="/faqs" className={getNavLinkClass}>
-              FAQs
+              Preguntas Frecuentes
             </NavLink>
           </li>
         </ul>
