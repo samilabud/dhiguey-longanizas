@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { CartContext } from "./CartContext";
+import { type ProductWithQuantity } from "../common/types";
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+type CartProviderProps = {
+  children: React.ReactNode;
+};
+
+export function CartProvider({ children }: CartProviderProps) {
+  const [cart, setCart] = useState<ProductWithQuantity[]>([]);
 
   // Load cart from local storage on mount
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart"));
+    const storedCart: string | null = localStorage.getItem("cart");
     if (storedCart) {
-      setCart(storedCart);
+      setCart(JSON.parse(storedCart));
     }
   }, []);
 
@@ -18,12 +23,12 @@ export function CartProvider({ children }) {
   }, [cart]);
 
   // Add item to cart
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+  const addToCart = (product: ProductWithQuantity) => {
+    setCart((prevCart: ProductWithQuantity[]) => [...prevCart, product]);
   };
 
   // Remove item from cart
-  const removeFromCart = (productId) => {
+  const removeFromCart = (productId: ProductWithQuantity["id"]) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
@@ -31,7 +36,8 @@ export function CartProvider({ children }) {
   const clearCart = () => {
     setCart([]);
   };
-  const updateQuantity = (id, quantity) => {
+
+  const updateQuantity = (id: ProductWithQuantity["id"], quantity: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.id === id ? { ...item, quantity: Math.max(quantity, 1) } : item

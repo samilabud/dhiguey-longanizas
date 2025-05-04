@@ -1,4 +1,4 @@
-export const faqs = [
+export const FAQsData = [
   {
     question: "¿Ofrecen envíos a todo el país?",
     answer:

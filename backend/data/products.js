@@ -36,11 +36,11 @@ const products = [
 ];
 
 export const shippingOptions = [
-  { label: "Distrito Nacional", costDOP: 300, costUSD: 5 },
-  { label: "Santo Domingo Este", costDOP: 200, costUSD: 3.5 },
-  { label: "Santo Domingo Norte", costDOP: 300, costUSD: 5 },
-  { label: "Santo Domingo Oeste", costDOP: 340, costUSD: 5.7 },
-  { label: "Interior del País", costDOP: 380, costUSD: 6.3 },
-  { label: "Resto de Santo Domingo check", costDOP: 440, costUSD: 7.3 },
+  { label: "Distrito Nacional", costDOP: 350, costUSD: 5.9 },
+  { label: "Santo Domingo Este", costDOP: 220, costUSD: 3.7 },
+  { label: "Santo Domingo Norte", costDOP: 350, costUSD: 5.9 },
+  { label: "Santo Domingo Oeste", costDOP: 350, costUSD: 5.9 },
+  { label: "Interior del País", costDOP: 450, costUSD: 7.5 },
+  { label: "Resto de Santo Domingo check", costDOP: 500, costUSD: 8.3 },
 ];
 export default products;

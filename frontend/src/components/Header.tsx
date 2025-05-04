@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, FC, JSX } from "react";
 import { FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { getNavLinkClass } from "../common/utils";
 import { useUser } from "../context/UserContext";
+import { UserContextType } from "../context/contextTypes";
 
-const HeaderTitle = () => {
+const HeaderTitle: FC = (): JSX.Element => {
   return (
     <Link to="/" className="flex items-center space-x-3">
       <img
@@ -22,20 +23,22 @@ const HeaderTitle = () => {
   );
 };
 
-const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false); // Dropdown de Mi Cuenta
-  const [adminMenuOpen, setAdminMenuOpen] = useState(false); // Dropdown de Administración
-  const { role, loading, user, handleSignOut } = useUser();
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+const Header: FC = (): JSX.Element => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState<boolean>(false); // Dropdown de Mi Cuenta
+  const [adminMenuOpen, setAdminMenuOpen] = useState<boolean>(false); // Dropdown de Administración
+  const { role, loading, user, handleSignOut }: UserContextType = useUser();
+  const isTabletOrMobile: boolean = useMediaQuery({
+    query: "(max-width: 1224px)",
+  });
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleAccountMenu = () => setAccountMenuOpen(!accountMenuOpen);
   const toggleAdminMenu = () => setAdminMenuOpen(!adminMenuOpen);
 
-  const handleLogout = async () => {
-    await handleSignOut();
+  const handleLogout = async (): Promise<void> => {
+    handleSignOut();
     setAccountMenuOpen(false);
     navigate("/my-account");
   };

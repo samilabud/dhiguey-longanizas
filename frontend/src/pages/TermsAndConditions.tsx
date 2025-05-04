@@ -1,4 +1,6 @@
-const TermsAndConditions = () => {
+import { FC, JSX } from "react";
+
+const TermsAndConditions: FC = (): JSX.Element => {
   return (
     <div className="py-8 px-4">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">

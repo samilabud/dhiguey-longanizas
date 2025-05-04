@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { FC, JSX, useEffect, useState } from "react";
 import { supabase } from "../common/supabaseClient";
 import { useUser } from "../context/UserContext";
 import LoadingIndicator from "./LoadingIndicator";
+import { type Invoice } from "../common/types";
 
-const OrderList = () => {
-  const [orders, setOrders] = useState([]);
+const OrderList: FC = (): JSX.Element => {
+  const [orders, setOrders] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
   const { user } = useUser();
 
   useEffect(() => {

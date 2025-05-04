@@ -1,4 +1,5 @@
-const Cancel = () => {
+import { FC, JSX } from "react";
+const Cancel: FC = (): JSX.Element => {
   return (
     <div className="flex flex-col items-center mt-24">
       <h1 className="text-red-600 text-center text-4xl lg:text-2xl mt-6">

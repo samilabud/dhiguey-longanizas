@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC, JSX, ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../common/supabaseClient";
 import { getUserFromLocalStorage, clearCache } from "../../common/utils";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { BACKEND_URL } from "../../config";
+import { Product } from "../../common/types";
+import { AuthUser } from "@supabase/supabase-js";
+import { toast } from "react-toastify";
 
-const ProductManagement = () => {
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [newImageFiles, setNewImageFiles] = useState([]);
+const ProductManagement: FC = (): JSX.Element => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = getUserFromLocalStorage();
+    const storedUser: AuthUser = getUserFromLocalStorage();
     if (!storedUser) {
       navigate("/my-account");
     }
@@ -37,7 +40,7 @@ const ProductManagement = () => {
   };
 
   // Delete a product
-  const deleteProduct = async (id) => {
+  const deleteProduct = async (id: Product["id"]) => {
     if (window.confirm("¿Estás seguro de eliminar este producto?")) {
       await fetch(`${BACKEND_URL}/api/products/${id}`, {
         method: "DELETE",
@@ -47,22 +50,29 @@ const ProductManagement = () => {
   };
 
   // Open modal and set the product to edit
-  const handleEditClick = (product) => {
+  const handleEditClick = (product: Product) => {
     setEditingProduct(product);
     setShowModal(true);
   };
 
   // Handle field changes in the modal
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setEditingProduct((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target as HTMLInputElement;
+    const checked = (e.target as HTMLInputElement).checked || false;
+    setEditingProduct((prev) => {
+      if (!prev) return prev; // Handle null case
+      return {
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      };
+    });
   };
 
-  const handleRemoveImage = (index) => {
+  const handleRemoveImage = (index: number) => {
     setEditingProduct((prev) => {
+      if (!prev) return prev; // Handle null case
       const updatedImages = prev.images.filter((_, i) => i !== index);
       return { ...prev, images: updatedImages };
     });
@@ -112,8 +122,16 @@ const ProductManagement = () => {
       setShowModal(false);
       // Clear new images state for next time
       setNewImageFiles([]);
+      toast.success("Producto actualizado con éxito");
     } catch (error) {
+      toast.error("Error updating product");
       console.error("Error updating product:", error);
+    }
+  };
+  const handleChangeNewImages = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setNewImageFiles([...files]);
     }
   };
 
@@ -134,11 +152,6 @@ const ProductManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-11/12">
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded shadow">
-            {/* <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-40 object-cover"
-            /> */}
             <img
               src={product.images && product.images[0]}
               alt={product.name}
@@ -224,7 +237,7 @@ const ProductManagement = () => {
                 name="newImages"
                 id="newImages"
                 multiple
-                onChange={(e) => setNewImageFiles([...e.target.files])}
+                onChange={handleChangeNewImages}
                 className="w-full border p-2 rounded"
               />
             </div>
@@ -237,7 +250,7 @@ const ProductManagement = () => {
               <textarea
                 name="description"
                 id="description"
-                rows="3"
+                rows={3}
                 value={editingProduct.description}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"

@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { FC, JSX, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import { Product } from "../common/types";
 import { BACKEND_URL } from "../config";
 import { CartContext } from "../context/CartContext";
 import useCachedFetch from "../hooks/useCachedFetch";
@@ -20,22 +21,22 @@ const sliderSettings = {
   autoplaySpeed: 3000,
   pauseOnHover: true,
   initialSlide: 1,
-  lazyLoad: true,
+  lazyLoad: "ondemand" as const,
 };
 
-const QuickBuy = () => {
+const QuickBuy: FC = (): JSX.Element => {
   const {
     data: products,
     loading,
     error,
-  } = useCachedFetch("productsCache", `${BACKEND_URL}/api/products`);
+  } = useCachedFetch<Product>("productsCache", `${BACKEND_URL}/api/products`);
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const { addToCart } = useContext(CartContext);
-  const handleAddToCart = () => {
+  const handleAddToCart = (productToAdd: Product) => {
     if (quantity > 0) {
-      addToCart({ ...product, quantity });
+      addToCart({ ...productToAdd, quantity });
     }
   };
 
@@ -114,7 +115,7 @@ const QuickBuy = () => {
 
               <div className="w-full md:w-auto">
                 <button
-                  onClick={handleAddToCart}
+                  onClick={() => handleAddToCart(product)}
                   className="add-to-cart-button"
                 >
                   Agregar al carrito

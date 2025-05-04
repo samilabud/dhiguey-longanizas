@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, FC, JSX, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { supabase } from "../../common/supabaseClient";
+import { Invoice } from "../../common/types";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import { PostgrestError } from "@supabase/supabase-js";
 
-const GeneratedInvoices = () => {
-  const [searchByClient, setSearchByClient] = useState("");
-  const [searchByPhone, setSearchByPhone] = useState("");
-  const [searchByInvoice, setSearchByInvoice] = useState("");
-  const [searchByEmail, setSearchByEmail] = useState("");
-  const [searchByStatus, setSearchByStatus] = useState("");
-  const [invoices, setInvoices] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const GeneratedInvoices: FC = (): JSX.Element => {
+  const [searchByClient, setSearchByClient] = useState<string>("");
+  const [searchByPhone, setSearchByPhone] = useState<string>("");
+  const [searchByInvoice, setSearchByInvoice] = useState<string>("");
+  const [searchByEmail, setSearchByEmail] = useState<string>("");
+  const [searchByStatus, setSearchByStatus] = useState<string>("");
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchInvoices = async () => {
+  const fetchInvoices: () => Promise<void> = async () => {
     setLoading(true);
     setError(null);
 
@@ -58,16 +60,24 @@ const GeneratedInvoices = () => {
       if (queryError) {
         console.error("Error fetching invoices:", queryError);
         toast.error("Error fetching invoices");
-        setError(queryError);
+        const postgrestError: PostgrestError = queryError;
+        setError(postgrestError.message);
       } else {
         setInvoices(data);
       }
-    } catch (err) {
-      console.error("Error fetching invoices:", err);
-      setError(err);
-      toast.error("Error fetching invoices");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error fetching invoices:", err.message);
+        setError(err.message);
+        toast.error("Error fetching invoices");
+      } else {
+        console.error("Error fetching invoices:", err);
+        setError("Error fetching invoices");
+        toast.error("Error fetching invoices");
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // Fetch invoices on initial mount.
@@ -76,12 +86,14 @@ const GeneratedInvoices = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit: (e: ChangeEvent<HTMLFormElement>) => void = (
+    e: ChangeEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     fetchInvoices();
   };
 
-  const handleReset = () => {
+  const handleReset: () => void = () => {
     setSearchByClient("");
     setSearchByPhone("");
     setSearchByInvoice("");
@@ -91,8 +103,7 @@ const GeneratedInvoices = () => {
   };
 
   if (loading) return <LoadingIndicator />;
-  if (error)
-    return <div>Error cargando los pedidos realizados: {error.message}</div>;
+  if (error) return <div>Error cargando los pedidos realizados: {error}</div>;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -226,7 +237,7 @@ const GeneratedInvoices = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan={7}
                     className="p-3 border border-primary text-center"
                   >
                     No se encontraron facturas.
