@@ -114,7 +114,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 <img
                   src={imgUrl}
                   alt={`Imagen ${index + 1} de ${product.name}`}
-                  className="product-image-slider "
+                  className="product-image-slider max-w-full h-auto lg:h-64 object-cover mx-auto"
                 />
               </div>
             ))}

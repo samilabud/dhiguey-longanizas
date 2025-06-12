@@ -46,14 +46,14 @@ router.get("/shipping_options", async (req, res) => {
       console.error("Supabase error fetching shipping options:", error.message);
       return res.status(200).json(shippingOptionsContingence);
     }
-    if (!options || options.length === 0) {
+    if (!shipping_options || shipping_options.length === 0) {
       console.warn(
-        "No shipping options found in Supabase, using contingence data."
+        "No shipping shipping_options found in Supabase, using contingence data."
       );
       return res.status(200).json(shippingOptionsContingence);
     }
 
-    return res.status(200).json(options);
+    return res.status(200).json(shipping_options);
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error" });
   }
