@@ -15,15 +15,20 @@ router.get("/", async (req, res) => {
       .select("*")
       .order("id");
 
+    // Supabase error or no rows → return fallback
     if (error) {
-      return res.status(500).json({ error: error.message });
+      console.error("Supabase error fetching products:", error.message);
+      return res.status(200).json(productsContingence);
     }
-    if (products.length === 0) {
-      res.json(productsContingence);
-      return;
+    if (!products || products.length === 0) {
+      console.warn("No products found in Supabase, using contingence data.");
+      return res.status(200).json(productsContingence);
     }
-    res.json(products);
+
+    // All good → return live data
+    return res.status(200).json(products);
   } catch (err) {
+    console.error("Unexpected error in /api/products:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -38,13 +43,17 @@ router.get("/shipping_options", async (req, res) => {
       .order("id");
 
     if (error) {
-      return res.status(500).json({ error: error.message });
+      console.error("Supabase error fetching shipping options:", error.message);
+      return res.status(200).json(shippingOptionsContingence);
     }
-    if (shipping_options.length === 0) {
-      res.json(shippingOptionsContingence);
-      return;
+    if (!options || options.length === 0) {
+      console.warn(
+        "No shipping options found in Supabase, using contingence data."
+      );
+      return res.status(200).json(shippingOptionsContingence);
     }
-    res.json(shipping_options);
+
+    return res.status(200).json(options);
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error" });
   }
